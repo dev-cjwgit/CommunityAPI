@@ -1,5 +1,6 @@
 package service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.AccountDTO;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,20 @@ public class AccountService implements IAccountService {
             Map<String, String> token = new HashMap<>();
             token.put("access_token", new Jwt().createToken(accountDTO));
             return token;
-
         }
+    }
+
+    @Override
+    public Map<String, String> refresh(String token) throws Exception {
+        Map<String, Object> data = new Jwt().verifyJWT(token);
+        if (data == null)
+            throw new Exception("토큰이 잘못되었습니다.");
+
+        AccountDTO account = new ObjectMapper().readValue(data.toString(), AccountDTO.class);
+        account.setSalt(accountMapper.getSaltToUid(account.getUid()));
+
+        Map<String, String> refresh_token = new HashMap<>();
+        refresh_token.put("access_token", new Jwt().createToken(account));
+        return refresh_token;
     }
 }

@@ -13,4 +13,6 @@ public interface IAccountService {
     Map<String, Object> checkKey(String key) throws Exception;
 
     Map<String, String> login(AccountDTO account) throws Exception;
+
+    Map<String, String> refresh(String token) throws Exception;
 }

@@ -65,7 +65,7 @@ public class Jwt {
         return claimMap;
     }
 
-    public Long getUid(String jwt) throws Exception {
+    private Long getUid(String jwt) throws Exception {
         if (jwt.chars().filter(c -> c == '.').count() != 2)
             throw new Exception("유효하지 않은 토큰입니다.");
 
