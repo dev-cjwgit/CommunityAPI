@@ -4,25 +4,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.internal.messaging.saaj.util.Base64;
 import domain.AccountDTO;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import repository.AccountMapper;
-import service.interfaces.IAccountService;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+@Component
 public class Jwt {
     private static final String SECRET_KEY = "PRIVATE_KEY";  //TODO Key는 하드코딩 하지말고 외부에서 가져오는것을 권장
 
     @Autowired
-    private IAccountService accountService;
+    private AccountMapper accountMapper;
 
     //토큰 생성
     public String createToken(AccountDTO account) {
@@ -57,7 +54,7 @@ public class Jwt {
     public Map<String, Object> verifyJWT(String jwt) throws Exception {
         Map<String, Object> claimMap = null;
         long uid = getUid(jwt);
-        String salt = accountService.getSalt(uid);
+        String salt = accountMapper.getSaltToUid(uid);
 
         Claims claims = Jwts.parser()
                 .setSigningKey((SECRET_KEY + salt).getBytes("UTF-8")) // Set Key

@@ -22,11 +22,6 @@ public class AccountService implements IAccountService {
 
 
     @Override
-    public String getSalt(long uid) throws Exception {
-        return accountMapper.getSaltToUid(uid);
-    }
-
-    @Override
     public BaseResponse signUp(AccountDTO account) throws Exception {
         // 이메일 중복체크
         if (accountMapper.isAccountToEmail(account.getEmail()) != 0)
