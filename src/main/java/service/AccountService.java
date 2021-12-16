@@ -20,6 +20,12 @@ public class AccountService implements IAccountService {
     @Autowired
     private AccountMapper accountMapper;
 
+
+    @Override
+    public String getSalt(long uid) throws Exception {
+        return accountMapper.getSaltToUid(uid);
+    }
+
     @Override
     public BaseResponse signUp(AccountDTO account) throws Exception {
         // 이메일 중복체크
@@ -52,8 +58,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public BaseResponse checkKey(String token) throws Exception {
-        return new BaseResponse(new Jwt().verifyJWT(token).toString(), HttpStatus.OK);
+    public Map<String, Object> checkKey(String token) throws Exception {
+        return new Jwt().verifyJWT(token);
     }
 
     @Override

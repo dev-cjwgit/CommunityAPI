@@ -8,13 +8,11 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.AccountMapper;
+import service.interfaces.IAccountService;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +20,9 @@ import java.util.Map;
 @Service
 public class Jwt {
     private static final String SECRET_KEY = "PRIVATE_KEY";  //TODO Key는 하드코딩 하지말고 외부에서 가져오는것을 권장
+
+    @Autowired
+    private IAccountService accountService;
 
     //토큰 생성
     public String createToken(AccountDTO account) {
@@ -34,9 +35,8 @@ public class Jwt {
         Map<String, Object> payloads = new HashMap<>();
         payloads.put("uid", account.getUid());
         payloads.put("nickname", account.getNickname());
-        payloads.put("salt", account.getSalt());
 
-        Long expiredTime = 1000L * 60 * 5; // 토큰 유효 시간 (5분)
+        Long expiredTime = 1000L * 25; // 토큰 유효 시간 (25초)
 
         Date ext = new Date(); // 토큰 만료 시간
         ext.setTime(ext.getTime() + expiredTime);
@@ -56,7 +56,8 @@ public class Jwt {
     //토큰 검증
     public Map<String, Object> verifyJWT(String jwt) throws Exception {
         Map<String, Object> claimMap = null;
-        String salt = getSalt(jwt);
+        long uid = getUid(jwt);
+        String salt = accountService.getSalt(uid);
 
         Claims claims = Jwts.parser()
                 .setSigningKey((SECRET_KEY + salt).getBytes("UTF-8")) // Set Key
@@ -67,15 +68,15 @@ public class Jwt {
         return claimMap;
     }
 
-    public String getSalt(String jwt) throws Exception {
+    public Long getUid(String jwt) throws Exception {
         if (jwt.chars().filter(c -> c == '.').count() != 2)
             throw new Exception("유효하지 않은 토큰입니다.");
 
         Map<String, Object> map;
         map = new ObjectMapper().readValue(Base64.base64Decode(jwt.split("\\.")[1]), Map.class);
-        if (map.get("uid") == null || map.get("nickname") == null || map.get("salt") == null)
+        if (map.get("uid") == null || map.get("nickname") == null)
             throw new Exception("유효하지 않은 토큰입니다.");
 
-        return map.get("salt").toString();
+        return Long.parseLong(map.get("uid").toString());
     }
 }
