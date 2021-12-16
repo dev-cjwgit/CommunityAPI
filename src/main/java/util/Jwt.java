@@ -8,13 +8,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import repository.AccountMapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Service
 public class Jwt {
     private static final String SECRET_KEY = "PRIVATE_KEY";  //TODO Key는 하드코딩 하지말고 외부에서 가져오는것을 권장
 
@@ -33,7 +34,7 @@ public class Jwt {
         payloads.put("uid", account.getUid());
         payloads.put("nickname", account.getNickname());
 
-        Long expiredTime = 1000L * 25; // 토큰 유효 시간 (25초)
+        long expiredTime = 1000L * 60; // 토큰 유효 시간 (1분)
 
         Date ext = new Date(); // 토큰 만료 시간
         ext.setTime(ext.getTime() + expiredTime);

@@ -21,6 +21,9 @@ public class AccountService implements IAccountService {
     @Autowired
     private AccountMapper accountMapper;
 
+    @Autowired
+    private Jwt jwt;
+
     @Override
     public BaseResponse signUp(AccountDTO account) throws Exception {
         // 이메일 중복체크
@@ -54,7 +57,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public Map<String, Object> checkKey(String token) throws Exception {
-        return new Jwt().verifyJWT(token);
+        return jwt.verifyJWT(token);
     }
 
     @Override
@@ -67,18 +70,21 @@ public class AccountService implements IAccountService {
             throw new Exception("비밀번호가 잘못되었습니다.");
         } else {
             Map<String, String> token = new HashMap<>();
-            token.put("access_token", new Jwt().createToken(accountDTO));
+            token.put("access_token", jwt.createToken(accountDTO));
             return token;
         }
     }
 
     @Override
     public Map<String, String> refresh(String token) throws Exception {
-        Map<String, Object> data = new Jwt().verifyJWT(token);
+        Map<String, Object> data = jwt.verifyJWT(token);
         if (data == null)
             throw new Exception("토큰이 잘못되었습니다.");
 
-        AccountDTO account = new ObjectMapper().readValue(data.toString(), AccountDTO.class);
+        AccountDTO account = new AccountDTO();
+        account.setUid(Long.parseLong(data.get("uid").toString()));
+        account.setNickname(data.get("nickname").toString());
+
         account.setSalt(accountMapper.getSaltToUid(account.getUid()));
 
         Map<String, String> refresh_token = new HashMap<>();
