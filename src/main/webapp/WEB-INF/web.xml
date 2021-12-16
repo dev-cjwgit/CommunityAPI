@@ -20,7 +20,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/</url-pattern> <!-- TODO: Change Value -->
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <!-- UTF8 Filter -->

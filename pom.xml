@@ -12,18 +12,18 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <org.springframework-version>3.2.18.RELEASE</org.springframework-version> <!-- TODO: Normal Setting -->
+        <org.springframework-version>3.2.18.RELEASE</org.springframework-version>
 
         <sqlconnector-version>8.0.21</sqlconnector-version>
     </properties>
     <dependencies>
-        <dependency> <!-- TODO: Normal Setting -->
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
 
-        <dependency> <!-- TODO: Normal Setting -->
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${org.springframework-version}</version>
