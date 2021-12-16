@@ -21,7 +21,6 @@ public class AccountService implements IAccountService {
     @Autowired
     private AccountMapper accountMapper;
 
-
     @Override
     public BaseResponse signUp(AccountDTO account) throws Exception {
         // 이메일 중복체크
