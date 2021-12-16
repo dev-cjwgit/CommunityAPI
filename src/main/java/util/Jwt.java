@@ -24,8 +24,7 @@ public class Jwt {
     private static final String SECRET_KEY = "PRIVATE_KEY";  //TODO Key는 하드코딩 하지말고 외부에서 가져오는것을 권장
 
     //토큰 생성
-    public String createToken() {
-
+    public String createToken(AccountDTO account) {
         //Header 부분 설정
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
@@ -33,9 +32,11 @@ public class Jwt {
 
         //payload 부분 설정
         Map<String, Object> payloads = new HashMap<>();
-        payloads.put("data", "My First JWT !!");
+        payloads.put("uid", account.getUid());
+        payloads.put("nickname", account.getNickname());
+        payloads.put("salt", account.getSalt());
 
-        Long expiredTime = 1000 * 60L * 60L * 2L; // 토큰 유효 시간 (2시간)
+        Long expiredTime = 1000L * 60 * 5; // 토큰 유효 시간 (5분)
 
         Date ext = new Date(); // 토큰 만료 시간
         ext.setTime(ext.getTime() + expiredTime);
@@ -44,33 +45,37 @@ public class Jwt {
         String jwt = Jwts.builder()
                 .setHeader(headers) // Headers 설정
                 .setClaims(payloads) // Claims 설정
-                .setSubject("user") // 토큰 용도
+                .setSubject("auth-user") // 토큰 용도
                 .setExpiration(ext) // 토큰 만료 시간 설정
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes()) // HS256과 Key로 Sign
+                .signWith(SignatureAlgorithm.HS256, (SECRET_KEY + account.getSalt()).getBytes()) // HS256과 Key로 Sign
                 .compact(); // 토큰 생성
 
         return jwt;
     }
 
     //토큰 검증
-    public Map<String, Object> verifyJWT(String jwt) throws UnsupportedEncodingException {
+    public Map<String, Object> verifyJWT(String jwt) throws Exception {
         Map<String, Object> claimMap = null;
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(SECRET_KEY.getBytes("UTF-8")) // Set Key
-                    .parseClaimsJws(jwt) // 파싱 및 검증, 실패 시 에러
-                    .getBody();
+        String salt = getSalt(jwt);
 
-            claimMap = claims;
+        Claims claims = Jwts.parser()
+                .setSigningKey((SECRET_KEY + salt).getBytes("UTF-8")) // Set Key
+                .parseClaimsJws(jwt) // 파싱 및 검증, 실패 시 에러
+                .getBody();
 
-            //Date expiration = claims.get("exp", Date.class);
-            //String data = claims.get("data", String.class);
-
-        } catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
-            System.out.println(e);
-        } catch (Exception e) { // 그외 에러났을 경우
-            System.out.println(e);
-        }
+        claimMap = claims;
         return claimMap;
+    }
+
+    public String getSalt(String jwt) throws Exception {
+        if (jwt.chars().filter(c -> c == '.').count() != 2)
+            throw new Exception("유효하지 않은 토큰입니다.");
+
+        Map<String, Object> map;
+        map = new ObjectMapper().readValue(Base64.base64Decode(jwt.split("\\.")[1]), Map.class);
+        if (map.get("uid") == null || map.get("nickname") == null || map.get("salt") == null)
+            throw new Exception("유효하지 않은 토큰입니다.");
+
+        return map.get("salt").toString();
     }
 }

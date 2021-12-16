@@ -66,8 +66,7 @@ public class AccountService implements IAccountService {
             throw new Exception("비밀번호가 잘못되었습니다.");
         } else {
             Map<String, String> token = new HashMap<>();
-//            token.put("access_token", accountDTO.getSalt());
-            token.put("access_token", new Jwt().createToken());
+            token.put("access_token", new Jwt().createToken(accountDTO));
             return token;
 
         }
