@@ -11,6 +11,4 @@
             <if test="model.sortType != null">ORDER BY `date` ${model.sortType}</if>
         </where>
     </select>
-
-    <!-- TODO: 추가 (함수명과 id 동일), return type DTO 반환 값 -->
 </mapper>

@@ -44,8 +44,6 @@ public class AccountService implements IAccountService {
 
         // salt를 설정해주기위해 uid를 가져옴
         Long uid = accountMapper.getUidToEmail(account.getEmail());
-        // TODO: 이걸 왜 하는지 모름 (한강에 있길래)
-        account.setUid(uid);
 
         // salt 생성을 위한 날짜
         Calendar calendar = Calendar.getInstance();
