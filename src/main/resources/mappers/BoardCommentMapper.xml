@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="repository.BoardMapper">
+    <!--    CRUD    -->
+    <insert id="createBoard">
+        <!-- db 구조 -->
+        INSERT INTO board(`title`, `body`, `account_uid`)
+        VALUES (#{board.title}, #{board.body}, #{uid});
+    </insert>
+
+    <select id="getSummaryBoardList" resultType="domain.dto.BoardDTO">
+        SELECT uid, title, account_uid, create_at, update_at
+        FROM board;
+    </select>
+
+    <select id="getBoardInfo" resultType="domain.dto.BoardDTO">
+        SELECT *
+        FROM board
+        WHERE uid = #{board_uid};
+    </select>
+
+    <update id="updateBoard">
+        UPDATE board
+        SET title     = #{board.title},
+            body      = #{board.body},
+            update_at = current_timestamp
+        WHERE uid = #{board.uid}
+    </update>
+
+    <delete id="deleteBoard">
+        DELETE
+        FROM board
+        WHERE uid = ${board_uid};
+    </delete>
+
+    <!--    func    -->
+
+    <select id="getAccountUid" resultType="Long">
+        SELECT account_uid
+        FROM board
+        WHERE uid = #{board_uid};
+    </select>
+
+</mapper>

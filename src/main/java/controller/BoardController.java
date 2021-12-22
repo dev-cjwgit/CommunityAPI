@@ -51,9 +51,4 @@ public class BoardController {
     }
     //endregion
 
-    //region Board Comment CRUD
-
-
-    //endregion
-
 }
