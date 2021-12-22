@@ -19,6 +19,7 @@ public class BoardController {
     @Autowired
     private IBoardService boardService;
 
+    //region Board CRUD
     @RequestMapping(value = "/create-board", method = RequestMethod.POST)
     @ApiOperation(value = "게시글 생성", notes = "게시글을 생성하기 위한 API입니다. {제목, 내용}")
     public ResponseEntity signUp(@RequestBody @Validated(BoardVO.class) BoardVO board) throws Exception {
@@ -48,4 +49,11 @@ public class BoardController {
     public ResponseEntity deleteBoard(@RequestBody Long board_uid) throws Exception {
         return new ResponseEntity(boardService.deleteBoard(board_uid), HttpStatus.OK);
     }
+    //endregion
+
+    //region Board Comment CRUD
+
+
+    //endregion
+
 }
