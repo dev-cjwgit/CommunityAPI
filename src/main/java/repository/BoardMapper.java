@@ -14,10 +14,12 @@ public interface BoardMapper {
 
     List<BoardDTO> getSummaryBoardList();
 
-    BoardDTO getBoardList(@Param(value = "board_uid") int board_uid);
+    BoardDTO getBoardInfo(@Param(value = "board_uid") Long board_uid);
 
-    void updateBoard(@Param(value = "uid") Long uid, @Param(value = "board") BoardVO board);
+    void updateBoard(@Param(value = "board") BoardVO board);
 
-    void deleteBoard(@Param(value = "board_uid") int board_uid);
+    void deleteBoard(@Param(value = "board_uid") Long board_uid);
 
+
+    Long getAccountUid(@Param(value = "board_uid") Long board_uid);
 }

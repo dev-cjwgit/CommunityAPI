@@ -33,7 +33,7 @@ public class Jwt {
         payloads.put("uid", account.getUid());
         payloads.put("nickname", account.getNickname());
 
-        long expiredTime = 1000L * 60 * 30; // 토큰 유효 시간 (30분)
+        long expiredTime = 1000L * 60 * 60 * 5; // TODO: 토큰 유효 시간 (24시간)
 
         Date ext = new Date(); // 토큰 만료 시간
         ext.setTime(ext.getTime() + expiredTime);
