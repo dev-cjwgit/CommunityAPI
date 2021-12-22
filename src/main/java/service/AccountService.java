@@ -7,11 +7,14 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.AccountMapper;
 import response.BaseResponse;
 import service.interfaces.IAccountService;
 import util.Jwt;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -75,7 +78,9 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Map<String, String> refresh(String token) throws Exception {
+    public Map<String, String> refresh() throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("Authorization");
         Map<String, Object> data = jwt.verifyJWT(token);
         if (data == null)
             throw new Exception("토큰이 잘못되었습니다.");

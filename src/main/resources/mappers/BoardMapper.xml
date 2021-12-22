@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="repository.StockMapper">
-    <select id="getStockList" resultType="domain.dto.StockDTO">
+<mapper namespace="repository.BoardMapper">
+    <insert id="createBoard">
+        <!-- db 구조 -->
+        INSERT INTO board(`title`, `body`, `account_uid`)
+        VALUES (#{board.title}, #{board.body}, #{uid});
+    </insert>
 
-        SELECT * FROM stock
-        <where>
-            <if test="model.name != null">AND `name` = #{model.name}</if>
-            <if test="model.startDate != null">AND `date` >= #{model.startDate}</if>
-            <if test="model.endDate != null">AND `date`&lt;= #{model.endDate}</if>
-            <if test="model.sortType != null">ORDER BY `date` ${model.sortType}</if>
-        </where>
+    <select id="getSummaryBoardList" resultType="domain.dto.BoardDTO">
+        SELECT uid, title, account_uid, create_at, update_at
+        FROM board;
     </select>
+
+    <select id="getBoardList" resultType="domain.dto.BoardDTO">
+        SELECT uid, title, account_uid, create_at, update_at
+        FROM board
+        WHERE board_uid = #{board_uid};
+    </select>
+
+    <update id="updateBoard">
+        UPDATE board
+        SET title     = #{board.title},
+            body      = #{board.body},
+            update_at = current_timestamp
+        WHERE uid = #{uid}
+    </update>
+
+    <delete id="deleteBoard">
+        DELETE
+        FROM board
+        WHERE uid = ${uid};
+    </delete>
 </mapper>

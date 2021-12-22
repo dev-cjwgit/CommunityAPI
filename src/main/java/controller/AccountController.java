@@ -31,8 +31,8 @@ public class AccountController {
 
     @RequestMapping(value = "/refresh", method = RequestMethod.POST)
     @ApiOperation(value = "토근 재발행", notes = "토큰 재발행을 위한 API입니다. {토큰}")
-    public ResponseEntity refresh(@RequestBody String token) throws Exception {
-        return new ResponseEntity(accountService.refresh(token), HttpStatus.OK);
+    public ResponseEntity refresh() throws Exception {
+        return new ResponseEntity(accountService.refresh(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/key-check", method = RequestMethod.GET)

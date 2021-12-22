@@ -14,5 +14,5 @@ public interface IAccountService {
 
     Map<String, String> login(LoginVO account) throws Exception;
 
-    Map<String, String> refresh(String token) throws Exception;
+    Map<String, String> refresh() throws Exception;
 }
