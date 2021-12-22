@@ -11,7 +11,8 @@
     <select id="getComment" resultType="domain.dto.BoardCommentDTO">
         SELECT *
         FROM board_comment
-        WHERE board_uid = #{board_uid};
+        WHERE board_uid = #{board_uid}
+        ORDER BY `create_at` ASC;
     </select>
 
     <update id="updateComment">

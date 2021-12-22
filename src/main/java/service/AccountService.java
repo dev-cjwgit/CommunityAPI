@@ -72,6 +72,7 @@ public class AccountService implements IAccountService {
             throw new Exception("비밀번호가 잘못되었습니다.");
         } else {
             Map<String, String> token = new HashMap<>();
+            // 토큰 발급
             token.put("access_token", jwt.createToken(accountDTO));
             return token;
         }
@@ -92,6 +93,7 @@ public class AccountService implements IAccountService {
         account.setSalt(accountMapper.getSaltToUid(account.getUid()));
 
         Map<String, String> refresh_token = new HashMap<>();
+        // 토큰 재발급
         refresh_token.put("access_token", new Jwt().createToken(account));
         return refresh_token;
     }

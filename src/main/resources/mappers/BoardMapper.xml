@@ -10,7 +10,7 @@
 
     <select id="getSummaryBoardList" resultType="domain.dto.BoardDTO">
         SELECT uid, title, account_uid, create_at, update_at
-        FROM board;
+        FROM board ORDER BY `create_at` DESC;
     </select>
 
     <select id="getBoardInfo" resultType="domain.dto.BoardDTO">
