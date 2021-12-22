@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import service.interfaces.IStockService;
 
 import java.util.List;
@@ -23,7 +21,7 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/stock", method = RequestMethod.GET)
     @ApiOperation(value = "주식 정보", notes = "주식 정보를 가져옵니다. {종목이름, 정렬타입, 시작날짜, 마지막날짜}")
-    public ResponseEntity stock(@ModelAttribute StockRequestModel model) throws Exception {
+    public ResponseEntity stock(@RequestBody @Validated(domain.param.StockRequestModel.class) StockRequestModel model) throws Exception {
         return new ResponseEntity(stockService.getStockList(model), HttpStatus.OK);
     }
 }

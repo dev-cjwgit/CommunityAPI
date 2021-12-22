@@ -19,21 +19,21 @@ public class AccountController {
     @Autowired
     private IAccountService accountService;
 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ApiOperation(value = "회원가입", notes = "회원가입을 위한 API입니다. {이메일, 비밀번호, 실명, 닉네임}")
-    public ResponseEntity signUp(@ModelAttribute AccountDTO account) throws Exception {
+    public ResponseEntity signUp(@RequestBody @Validated(domain.AccountDTO.class) AccountDTO account) throws Exception {
         return new ResponseEntity(accountService.signUp(account), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation(value = "로그인", notes = "로그인을 위한 API입니다. {이메일, 비밀번호}")
-    public ResponseEntity login(@ModelAttribute AccountDTO account) throws Exception {
+    public ResponseEntity login(@RequestBody @Validated(domain.AccountDTO.class) AccountDTO account) throws Exception {
         return new ResponseEntity(accountService.login(account), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.POST)
     @ApiOperation(value = "토근 재발행", notes = "토큰 재발행을 위한 API입니다. {토큰}")
-    public ResponseEntity refresh(String token) throws Exception {
+    public ResponseEntity refresh(@RequestBody String token) throws Exception {
         return new ResponseEntity(accountService.refresh(token), HttpStatus.OK);
     }
 
