@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="repository.BoardMapper">
+<mapper namespace="repository.BoardCommentMapper">
     <!--    CRUD    -->
-    <insert id="createBoard">
+    <insert id="createComment">
         <!-- db 구조 -->
-        INSERT INTO board(`title`, `body`, `account_uid`)
-        VALUES (#{board.title}, #{board.body}, #{uid});
+        INSERT INTO board_comment(`board_uid`, `account_uid`, `body`)
+        VALUES (#{comment.board_uid}, #{comment.account_uid}, #{comment.body});
     </insert>
 
-    <select id="getSummaryBoardList" resultType="domain.dto.BoardDTO">
-        SELECT uid, title, account_uid, create_at, update_at
-        FROM board;
-    </select>
-
-    <select id="getBoardInfo" resultType="domain.dto.BoardDTO">
+    <select id="getComment" resultType="domain.dto.BoardCommentDTO">
         SELECT *
-        FROM board
-        WHERE uid = #{board_uid};
+        FROM board_comment
+        WHERE board_uid = #{board_uid};
     </select>
 
-    <update id="updateBoard">
-        UPDATE board
-        SET title     = #{board.title},
-            body      = #{board.body},
+    <update id="updateComment">
+        UPDATE board_comment
+        SET body      = #{comment.body},
             update_at = current_timestamp
-        WHERE uid = #{board.uid}
+        WHERE uid = #{comment.uid}
     </update>
 
-    <delete id="deleteBoard">
+    <delete id="deleteComment">
         DELETE
-        FROM board
-        WHERE uid = ${board_uid};
+        FROM board_comment
+        WHERE uid = ${comment_uid};
     </delete>
 
     <!--    func    -->
 
     <select id="getAccountUid" resultType="Long">
         SELECT account_uid
-        FROM board
-        WHERE uid = #{board_uid};
+        FROM board_comment
+        WHERE uid = #{comment_uid};
     </select>
 
 </mapper>
