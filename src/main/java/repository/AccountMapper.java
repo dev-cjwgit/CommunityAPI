@@ -1,16 +1,13 @@
 package repository;
 
-import domain.AccountDTO;
+import domain.dto.AccountDTO;
+import domain.vo.AccountRegisterVO;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import response.BaseResponse;
-
-import java.util.List;
 
 @Repository
 public interface AccountMapper {
-    void signUp(@Param(value = "account") AccountDTO account);
+    void signUp(@Param(value = "account") AccountRegisterVO account);
 
     short isAccountToEmail(@Param(value = "email") String email);
 

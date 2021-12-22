@@ -42,7 +42,7 @@
         WHERE uid = #{uid}
     </select>
 
-    <select id="getAccountToEmail" resultType="domain.AccountDTO">
+    <select id="getAccountToEmail" resultType="domain.dto.AccountDTO">
         SELECT *
         FROM account
         WHERE email = #{email}

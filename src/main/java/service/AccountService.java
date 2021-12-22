@@ -1,19 +1,17 @@
 package service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import domain.AccountDTO;
+import domain.dto.AccountDTO;
+import domain.vo.AccountRegisterVO;
+import domain.vo.LoginVO;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import repository.AccountMapper;
 import response.BaseResponse;
 import service.interfaces.IAccountService;
 import util.Jwt;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 @Service
@@ -25,7 +23,7 @@ public class AccountService implements IAccountService {
     private Jwt jwt;
 
     @Override
-    public BaseResponse signUp(AccountDTO account) throws Exception {
+    public BaseResponse signUp(AccountRegisterVO account) throws Exception {
         // 이메일 중복체크
         if (accountMapper.isAccountToEmail(account.getEmail()) != 0)
             return new BaseResponse("이미 존재하는 이메일입니다.", HttpStatus.OK);
@@ -62,7 +60,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Map<String, String> login(AccountDTO account) throws Exception {
+    public Map<String, String> login(LoginVO account) throws Exception {
         AccountDTO accountDTO = accountMapper.getAccountToEmail(account.getEmail());
         if (account.getEmail() == null)
             throw new Exception("이메일이 잘못되었습니다.");

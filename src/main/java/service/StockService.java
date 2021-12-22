@@ -1,12 +1,11 @@
 package service;
 
-import domain.StockDTO;
+import domain.dto.StockDTO;
 import domain.param.StockRequestModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import repository.AccountMapper;
 import repository.StockMapper;
 import service.interfaces.IStockService;
 
