@@ -1,6 +1,7 @@
 package service;
 
 import domain.dto.BoardCommentDTO;
+import domain.dto.BoardDTO;
 import domain.vo.BoardCommentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,16 +9,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.BoardCommentMapper;
+import repository.BoardMapper;
 import response.BaseResponse;
 import service.interfaces.IBoardCommentService;
 import util.Jwt;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class BoardCommentService implements IBoardCommentService {
+    @Autowired
+    private BoardMapper boardMapper;
+
     @Autowired
     private BoardCommentMapper boardCommentMapper;
 
@@ -32,9 +38,16 @@ public class BoardCommentService implements IBoardCommentService {
         Map<String, Object> data = jwt.verifyJWT(token);
         if (data == null)
             throw new Exception("토큰이 잘못되었습니다.");
+
+        BoardDTO board = boardMapper.getBoardInfo(comment.getBoard_uid());
+
+        if (board == null)
+            throw new Exception("존재하지 않는 게시글입니다.");
+
         long user_uid = Long.parseLong(data.get("uid").toString());
 
         comment.setAccount_uid(user_uid);
+
         boardCommentMapper.createComment(comment);
 
         return new BaseResponse("댓글 등록에 성공했습니다.", HttpStatus.OK);
@@ -49,6 +62,11 @@ public class BoardCommentService implements IBoardCommentService {
         if (data == null)
             throw new Exception("토큰이 잘못되었습니다.");
 
+        BoardDTO board = boardMapper.getBoardInfo(comment.getBoard_uid());
+
+        if (board == null)
+            throw new Exception("존재하지 않는 게시글입니다.");
+
         return boardCommentMapper.getComment(comment.getBoard_uid());
     }
 
@@ -59,6 +77,11 @@ public class BoardCommentService implements IBoardCommentService {
         Map<String, Object> data = jwt.verifyJWT(token);
         if (data == null)
             throw new Exception("토큰이 잘못되었습니다.");
+
+        BoardDTO board = boardMapper.getBoardInfo(comment.getBoard_uid());
+
+        if (board == null)
+            throw new Exception("존재하지 않는 게시글입니다.");
 
         long user_uid = Long.parseLong(data.get("uid").toString());
         Long comment_onwer = boardCommentMapper.getAccountUid(comment.getUid());
@@ -83,6 +106,11 @@ public class BoardCommentService implements IBoardCommentService {
         Map<String, Object> data = jwt.verifyJWT(token);
         if (data == null)
             throw new Exception("토큰이 잘못되었습니다.");
+
+        BoardDTO board = boardMapper.getBoardInfo(comment.getBoard_uid());
+
+        if (board == null)
+            throw new Exception("존재하지 않는 게시글입니다.");
 
         long user_uid = Long.parseLong(data.get("uid").toString());
         Long comment_onwer = boardCommentMapper.getAccountUid(comment.getUid());
