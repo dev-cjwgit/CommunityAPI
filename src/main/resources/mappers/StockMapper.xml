@@ -5,7 +5,7 @@
 
         SELECT * FROM stock
         <where>
-            <if test="model.name != null">AND `name` = #{model.name}</if>
+            <if test="model.name != null">AND `name` LIKE "%${model.name}%"</if>
             <if test="model.startDate != null">AND `date` >= #{model.startDate}</if>
             <if test="model.endDate != null">AND `date`&lt;= #{model.endDate}</if>
             <if test="model.sortType != null">ORDER BY `date` ${model.sortType}</if>
