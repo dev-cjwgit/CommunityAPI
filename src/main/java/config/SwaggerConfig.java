@@ -1,5 +1,6 @@
-package swagger;
+package config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -18,6 +19,9 @@ import java.util.Arrays;
 @EnableSwagger2 // Swagger2 버전을 활성화하는 어노테이션
 @Configuration
 public class SwaggerConfig extends WebMvcConfigurerAdapter {
+    @Value("${token.headerName}")
+    private String headerName;
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -30,7 +34,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("Authorization", "Authorization", "header");
+        return new ApiKey(headerName, headerName, "header");
     }
 
     private ApiInfo apiInfo() {

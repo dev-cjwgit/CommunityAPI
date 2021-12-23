@@ -3,6 +3,7 @@ package service;
 import domain.dto.StockDTO;
 import domain.param.StockRequestModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -21,10 +22,13 @@ public class StockService implements IStockService {
     @Autowired
     private StockMapper stockMapper;
 
+    @Value("${token.headerName}")
+    private String headerName;
+
     @Override
     public List<StockDTO> getStockList(StockRequestModel model) throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(headerName);
         Map<String, Object> user_data = accountService.checkKey(token);
         if (user_data != null) {
             return stockMapper.getStockList(model);

@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import repository.AccountMapper;
 
@@ -16,7 +17,8 @@ import java.util.Map;
 
 @Service
 public class Jwt {
-    private static final String SECRET_KEY = "PRIVATE_KEY";  // TODO: Key는 하드코딩 하지말고 외부에서 가져오는것을 권장
+    @Value("${token.key}")
+    private String SECRET_KEY;  // TODO: Key는 하드코딩 하지말고 외부에서 가져오는것을 권장
 
     @Autowired
     private AccountMapper accountMapper;
