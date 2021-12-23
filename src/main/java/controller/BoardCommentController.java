@@ -25,10 +25,10 @@ public class BoardCommentController {
         return new ResponseEntity(boardCommentService.createComment(boardComment), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/read-board-comment", method = RequestMethod.POST)
+    @RequestMapping(value = "/read-board-comment", method = RequestMethod.GET)
     @ApiOperation(value = "댓글 불러오기", notes = "게시글에 댓글을 불러오기 위한 API입니다. {게시글 고유번호}")
-    public ResponseEntity getComment(@RequestBody @Validated(BoardCommentVO.class) BoardCommentVO boardComment) throws Exception {
-        return new ResponseEntity(boardCommentService.getComment(boardComment), HttpStatus.OK);
+    public ResponseEntity getComment(@RequestBody Long board_uid) throws Exception {
+        return new ResponseEntity(boardCommentService.getComment(board_uid), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/update-board-comment", method = RequestMethod.POST)

@@ -55,19 +55,19 @@ public class BoardCommentService implements IBoardCommentService {
     }
 
     @Override
-    public List<BoardCommentDTO> getComment(BoardCommentVO comment) throws Exception {
+    public List<BoardCommentDTO> getComment(Long board_uid) throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("Authorization");
         Map<String, Object> data = jwt.verifyJWT(token);
         if (data == null)
             throw new Exception("토큰이 잘못되었습니다.");
 
-        BoardDTO board = boardMapper.getBoardInfo(comment.getBoard_uid());
+        BoardDTO board = boardMapper.getBoardInfo(board_uid);
 
         if (board == null)
             throw new Exception("존재하지 않는 게시글입니다.");
 
-        return boardCommentMapper.getComment(comment.getBoard_uid());
+        return boardCommentMapper.getComment(board_uid);
     }
 
     @Override
