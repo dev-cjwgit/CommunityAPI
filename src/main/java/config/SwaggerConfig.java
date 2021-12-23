@@ -34,7 +34,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey(headerName, headerName, "header");
+        return new ApiKey("Authorization", "Authorization", "header");
     }
 
     private ApiInfo apiInfo() {

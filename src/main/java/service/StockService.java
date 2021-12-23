@@ -22,13 +22,10 @@ public class StockService implements IStockService {
     @Autowired
     private StockMapper stockMapper;
 
-    @Value("${token.headerName}")
-    private String headerName;
-
     @Override
     public List<StockDTO> getStockList(StockRequestModel model) throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader(headerName);
+        String token = request.getHeader("Authorization");
         Map<String, Object> user_data = accountService.checkKey(token);
         if (user_data != null) {
             return stockMapper.getStockList(model);
