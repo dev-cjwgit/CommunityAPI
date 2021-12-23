@@ -55,6 +55,11 @@ public class BoardService implements IBoardService {
         if (data == null)
             throw new Exception("토큰이 잘못되었습니다.");
 
+//        long user_uid = Long.parseLong(data.get("uid").toString());
+        Long board_onwer = boardMapper.getAccountUid(board_uid);
+
+        if (board_onwer == null)
+            throw new Exception("게시글 고유번호가 잘못되었습니다.");
 
         return boardMapper.getBoardInfo(board_uid);
     }

@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import service.interfaces.IAccountService;
 import service.interfaces.IBoardService;
 
@@ -32,9 +30,9 @@ public class BoardController {
         return new ResponseEntity(boardService.getSummaryBoardList(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/read-boardinfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/read-boardinfo", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 상세 보기", notes = "게시글을 상세하게 보기 위한 API입니다. {게시글 고유번호}")
-    public ResponseEntity getBoardInfo(@RequestBody Long board_uid) throws Exception {
+    public ResponseEntity getBoardInfo(Long board_uid) throws Exception {
         return new ResponseEntity(boardService.getBoardInfo(board_uid), HttpStatus.OK);
     }
 
@@ -44,7 +42,7 @@ public class BoardController {
         return new ResponseEntity(boardService.updateBoard(board), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete-board", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete-board", method = RequestMethod.DELETE)
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제하기 위한 API입니다. {게시글 고유번호}")
     public ResponseEntity deleteBoard(@RequestBody Long board_uid) throws Exception {
         return new ResponseEntity(boardService.deleteBoard(board_uid), HttpStatus.OK);

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +28,7 @@ public class BoardCommentController {
 
     @RequestMapping(value = "/read-board-comment", method = RequestMethod.GET)
     @ApiOperation(value = "댓글 불러오기", notes = "게시글에 댓글을 불러오기 위한 API입니다. {게시글 고유번호}")
-    public ResponseEntity getComment(@RequestBody Long board_uid) throws Exception {
+    public ResponseEntity getComment(Long board_uid) throws Exception {
         return new ResponseEntity(boardCommentService.getComment(board_uid), HttpStatus.OK);
     }
 
@@ -37,9 +38,9 @@ public class BoardCommentController {
         return new ResponseEntity(boardCommentService.updateComment(boardComment), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete-board-comment", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete-board-comment", method = RequestMethod.DELETE)
     @ApiOperation(value = "댓글 삭제", notes = "게시글에 댓글을 삭제하기 위한 API입니다. {게시글 고유번호}")
-    public ResponseEntity signUp(@RequestBody @Validated(BoardCommentVO.class) BoardCommentVO boardComment) throws Exception {
-        return new ResponseEntity(boardCommentService.deleteComment(boardComment), HttpStatus.OK);
+    public ResponseEntity deleteComment(Long board_comment_uid) throws Exception {
+        return new ResponseEntity(boardCommentService.deleteComment(board_comment_uid), HttpStatus.OK);
     }
 }
