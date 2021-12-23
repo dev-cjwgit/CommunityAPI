@@ -35,7 +35,7 @@ public class AccountController {
         return new ResponseEntity(accountService.refresh(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/key-check", method = RequestMethod.GET)
+    @RequestMapping(value = "/key-check", method = RequestMethod.POST)
     @ApiOperation(value = "토큰 확인", notes = "토큰을 확인하는 API입니다. {토큰}")
     public ResponseEntity checkKey(String key) throws Exception {
         return new ResponseEntity(accountService.checkKey(key), HttpStatus.OK);
