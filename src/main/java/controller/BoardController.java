@@ -36,7 +36,7 @@ public class BoardController {
         return new ResponseEntity(boardService.getBoardInfo(board_uid), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/update-board", method = RequestMethod.POST)
+    @RequestMapping(value = "/update-board", method = RequestMethod.PUT)
     @ApiOperation(value = "게시글 수정", notes = "게시글을 수정하기 위한 API입니다. {게시글 고유번호, 제목, 내용}")
     public ResponseEntity updateBoard(@RequestBody @Validated(BoardVO.class) BoardVO board) throws Exception {
         return new ResponseEntity(boardService.updateBoard(board), HttpStatus.OK);

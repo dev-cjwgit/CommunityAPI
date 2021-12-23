@@ -32,7 +32,7 @@ public class BoardCommentController {
         return new ResponseEntity(boardCommentService.getComment(board_uid), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/update-board-comment", method = RequestMethod.POST)
+    @RequestMapping(value = "/update-board-comment", method = RequestMethod.PUT)
     @ApiOperation(value = "댓글 수정", notes = "게시글에 댓글을 수정하기 위한 API입니다. {게시글 고유번호, 내용}")
     public ResponseEntity updateComment(@RequestBody @Validated(BoardCommentVO.class) BoardCommentVO boardComment) throws Exception {
         return new ResponseEntity(boardCommentService.updateComment(boardComment), HttpStatus.OK);
