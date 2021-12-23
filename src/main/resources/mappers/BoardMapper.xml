@@ -22,8 +22,7 @@
     <update id="updateBoard">
         UPDATE board
         SET title     = #{board.title},
-            body      = #{board.body},
-            update_at = current_timestamp
+            body      = #{board.body}
         WHERE uid = #{board.uid}
     </update>
 

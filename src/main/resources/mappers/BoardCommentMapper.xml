@@ -17,8 +17,7 @@
 
     <update id="updateComment">
         UPDATE board_comment
-        SET body      = #{comment.body},
-            update_at = current_timestamp
+        SET body      = #{comment.body}
         WHERE uid = #{comment.uid}
     </update>
 
