@@ -18,7 +18,7 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/stock", method = RequestMethod.GET)
     @ApiOperation(value = "주식 정보", notes = "주식 정보를 가져옵니다. {종목이름, 정렬타입, 시작날짜, 마지막날짜}")
-    public ResponseEntity stock(@RequestBody @Validated(domain.param.StockRequestModel.class) StockRequestModel model) throws Exception {
+    public ResponseEntity stock(StockRequestModel model) throws Exception {
         return new ResponseEntity(stockService.getStockList(model), HttpStatus.OK);
     }
 }

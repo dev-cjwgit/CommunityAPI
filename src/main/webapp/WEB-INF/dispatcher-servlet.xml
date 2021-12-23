@@ -13,7 +13,7 @@
     <mvc:annotation-driven/> <!-- schema/mvc -->
     <context:component-scan base-package="controller"/> <!-- schema/context -->
     <context:component-scan base-package="domain"/>
-    <context:component-scan base-package="swagger"/>
+    <context:component-scan base-package="config"/>
 
     <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
     <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>

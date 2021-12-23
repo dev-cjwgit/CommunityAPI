@@ -19,8 +19,6 @@ import java.util.Arrays;
 @EnableSwagger2 // Swagger2 버전을 활성화하는 어노테이션
 @Configuration
 public class SwaggerConfig extends WebMvcConfigurerAdapter {
-    @Value("${token.headerName}")
-    private String headerName;
 
     @Bean
     public Docket api() {
