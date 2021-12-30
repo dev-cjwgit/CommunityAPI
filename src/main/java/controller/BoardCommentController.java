@@ -25,7 +25,7 @@ public class BoardCommentController {
 
     @RequestMapping(value = "/read-board-comment", method = RequestMethod.GET)
     @ApiOperation(value = "댓글 불러오기", notes = "게시글에 댓글을 불러오기 위한 API입니다. {게시글 고유번호}")
-    public ResponseEntity getComment(Long board_uid, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+    public ResponseEntity getComment(Long board_uid, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
         return new ResponseEntity(boardCommentService.getComment(board_uid, page, range), HttpStatus.OK);
     }
 

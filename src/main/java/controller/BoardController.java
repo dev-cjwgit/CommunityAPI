@@ -26,7 +26,7 @@ public class BoardController {
 
     @RequestMapping(value = "/read-summaryboardlist", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 목록 요약 보기", notes = "게시글 요약 목록을 보기 위한 API입니다.")
-    public ResponseEntity getSummaryBoardList(@RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+    public ResponseEntity getSummaryBoardList(@RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
         return new ResponseEntity(boardService.getSummaryBoardList(page, range), HttpStatus.OK);
     }
 
