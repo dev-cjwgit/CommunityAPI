@@ -12,12 +12,13 @@
         SELECT *
         FROM board_comment
         WHERE board_uid = #{board_uid}
-        ORDER BY `create_at` ASC;
+        ORDER BY `create_at` ASC
+            LIMIT ${page}, ${range};
     </select>
 
     <update id="updateComment">
         UPDATE board_comment
-        SET body      = #{comment.body}
+        SET body = #{comment.body}
         WHERE uid = #{comment.uid}
     </update>
 

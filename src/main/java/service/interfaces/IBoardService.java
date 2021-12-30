@@ -10,7 +10,7 @@ import java.util.List;
 public interface IBoardService {
     BaseResponse createBoard(BoardVO board) throws Exception;
 
-    List<BoardDTO> getSummaryBoardList() throws Exception;
+    List<BoardDTO> getSummaryBoardList(int page, int range) throws Exception;
 
     BoardDTO getBoardInfo(Long board_uid) throws Exception;
 
@@ -18,4 +18,5 @@ public interface IBoardService {
 
     BaseResponse deleteBoard(Long uid) throws Exception;
 
+    Long getBoardListCnt() throws Exception;
 }

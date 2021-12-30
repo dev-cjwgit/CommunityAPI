@@ -12,7 +12,7 @@ import java.util.List;
 public interface BoardMapper {
     void createBoard(@Param(value = "uid") Long uid, @Param(value = "board") BoardVO board);
 
-    List<BoardDTO> getSummaryBoardList();
+    List<BoardDTO> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
 
     BoardDTO getBoardInfo(@Param(value = "board_uid") Long board_uid);
 
@@ -20,6 +20,7 @@ public interface BoardMapper {
 
     void deleteBoard(@Param(value = "board_uid") Long board_uid);
 
-
     Long getAccountUid(@Param(value = "board_uid") Long board_uid);
+
+    Long getBoardListCnt();
 }

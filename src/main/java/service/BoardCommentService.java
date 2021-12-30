@@ -55,7 +55,7 @@ public class BoardCommentService implements IBoardCommentService {
     }
 
     @Override
-    public List<BoardCommentDTO> getComment(Long board_uid) throws Exception {
+    public List<BoardCommentDTO> getComment(Long board_uid, int page, int range) throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("Authorization");
         Map<String, Object> data = jwt.verifyJWT(token);
@@ -67,7 +67,8 @@ public class BoardCommentService implements IBoardCommentService {
         if (board == null)
             throw new Exception("존재하지 않는 게시글입니다.");
 
-        return boardCommentMapper.getComment(board_uid);
+        page = (page - 1) * range;
+        return boardCommentMapper.getComment(board_uid, page, range);
     }
 
     @Override

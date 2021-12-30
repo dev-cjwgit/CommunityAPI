@@ -10,9 +10,14 @@
 
     <select id="getSummaryBoardList" resultType="domain.dto.BoardDTO">
         SELECT uid, title, account_uid, create_at, update_at
-        FROM board ORDER BY `create_at` DESC;
+        FROM board
+        ORDER BY `create_at` DESC
+            LIMIT ${page}, ${range};
     </select>
-
+    <select id="getBoardListCnt" resultType="Long">
+        SELECT count(*)
+        FROM board;
+    </select>
     <select id="getBoardInfo" resultType="domain.dto.BoardDTO">
         SELECT *
         FROM board
@@ -21,8 +26,8 @@
 
     <update id="updateBoard">
         UPDATE board
-        SET title     = #{board.title},
-            body      = #{board.body}
+        SET title = #{board.title},
+            body  = #{board.body}
         WHERE uid = #{board.uid}
     </update>
 

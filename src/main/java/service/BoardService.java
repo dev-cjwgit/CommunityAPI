@@ -44,8 +44,9 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardDTO> getSummaryBoardList() throws Exception {
-        return boardMapper.getSummaryBoardList();
+    public List<BoardDTO> getSummaryBoardList(int page, int range) throws Exception {
+        page = (page - 1) * range;
+        return boardMapper.getSummaryBoardList(page, range);
     }
 
     @Override
@@ -109,5 +110,16 @@ public class BoardService implements IBoardService {
 
         return new BaseResponse("게시글 삭제에 성공했습니다.", HttpStatus.OK);
 
+    }
+
+    @Override
+    public Long getBoardListCnt() throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("Authorization");
+        Map<String, Object> data = jwt.verifyJWT(token);
+        if (data == null)
+            throw new Exception("토큰이 잘못되었습니다.");
+
+        return boardMapper.getBoardListCnt();
     }
 }
