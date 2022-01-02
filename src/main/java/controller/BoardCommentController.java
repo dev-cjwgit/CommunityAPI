@@ -14,6 +14,9 @@ import service.interfaces.IBoardCommentService;
 
 @Controller
 public class BoardCommentController {
+    /**
+     * TODO MEMO: 댓글 불러 올 때 공감 수도 같이 불러와야 하는가
+     */
     @Autowired
     private IBoardCommentService boardCommentService;
 

@@ -94,7 +94,7 @@ public class AccountService implements IAccountService {
 
         Map<String, String> refresh_token = new HashMap<>();
         // 토큰 재발급
-        refresh_token.put("access_token", new Jwt().createToken(account));
+        refresh_token.put("access_token", jwt.createToken(account));
         return refresh_token;
     }
 }
