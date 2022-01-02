@@ -23,4 +23,10 @@ public interface BoardMapper {
     Long getAccountUid(@Param(value = "board_uid") Long board_uid);
 
     Long getBoardListCnt();
+
+    void createBoardEmotion(@Param(value = "board_uid") Long board_uid, @Param(value = "account_uid") Long account_uid, @Param(value = "status") Integer status);
+
+    void deleteBoardEmotion(@Param(value = "board_uid") Long board_uid, @Param(value = "account_uid") Long account_uid);
+
+    Integer getBoardEmotion(@Param(value = "board_uid") Long board_uid);
 }

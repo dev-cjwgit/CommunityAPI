@@ -45,4 +45,22 @@
         WHERE uid = #{board_uid};
     </select>
 
+    <insert id="createBoardEmotion">
+        <!-- db 구조 -->
+        INSERT INTO board_emotion(`board_uid`, `account_uid`, `status`)
+        VALUES (#{board_uid}, #{account_uid}, #{status});
+    </insert>
+
+    <delete id="deleteBoardEmotion">
+        DELETE
+        FROM board_emotion
+        WHERE board_uid = ${board_uid}
+        AND account_uid = ${account_uid};
+    </delete>
+
+    <select id="getBoardEmotion" resultType="Integer">
+        SELECT count(*)
+        FROM board_emotion
+        WHERE board_uid = #{board_uid};
+    </select>
 </mapper>

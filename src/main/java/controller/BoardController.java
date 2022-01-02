@@ -49,4 +49,21 @@ public class BoardController {
     }
     //endregion
 
+    @RequestMapping(value = "/create-board-emotion", method = RequestMethod.POST)
+    @ApiOperation(value = "게시글 감정표현", notes = "게시글에 감정표현을 달기 위한 API입니다. {게시판 고유번호, 공감상태}")
+    public ResponseEntity createBoardEmotion(@RequestBody Long board_uid, Integer status) throws Exception {
+        return new ResponseEntity(boardService.createBoardEmotion(board_uid, status), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete-board-emotion", method = RequestMethod.DELETE)
+    @ApiOperation(value = "게시글 감정표현 취소", notes = "게시글에 감정표현을 취소 위한 API입니다. {게시판 고유번호}")
+    public ResponseEntity deleteBoardEmotion(@RequestBody Long board_uid) throws Exception {
+        return new ResponseEntity(boardService.deleteBoardEmotion(board_uid), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/read-board-emotion", method = RequestMethod.GET)
+    @ApiOperation(value = "게시글 감정표현 개수", notes = "게시글에 감정표현의 개수를 보기 위한 API입니다. {게시판 고유번호}")
+    public ResponseEntity getBoardEmotion(Long board_uid) throws Exception {
+        return new ResponseEntity(boardService.getBoardEmotion(board_uid), HttpStatus.OK);
+    }
 }
