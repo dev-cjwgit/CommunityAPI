@@ -18,4 +18,10 @@ public interface BoardCommentMapper {
     void deleteComment(@Param(value = "comment_uid") Long comment_uid);
 
     Long getAccountUid(@Param(value = "comment_uid") Long comment_uid);
+
+    void createBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_uid, @Param(value = "account_uid") Long account_uid, @Param(value = "status") Integer status);
+
+    void deleteBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_uid, @Param(value = "account_uid") Long account_uid);
+
+    Integer getBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_uid);
 }

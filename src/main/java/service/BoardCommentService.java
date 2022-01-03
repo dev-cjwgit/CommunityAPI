@@ -115,4 +115,52 @@ public class BoardCommentService implements IBoardCommentService {
         boardCommentMapper.deleteComment(board_comment_uid);
         return new BaseResponse("댓글 삭제에 성공했습니다.", HttpStatus.OK);
     }
+
+    @Override
+    public BaseResponse createBoardCommentEmotion(Long board_comment_uid, Integer status) throws Exception {
+        /**
+         * TODO: 게시판 고유번호 확인 필요
+         * TODO: 중복 예외 처리 필요
+         * TODO: 공감 상태 enum 확인 필요
+         */
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("Authorization");
+        Map<String, Object> data = jwt.verifyJWT(token);
+        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+
+        long user_uid = Long.parseLong(data.get("uid").toString());
+        boardCommentMapper.createBoardCommentEmotion(board_comment_uid, user_uid, status);
+
+        return new BaseResponse("공감에 성공하였습니다.", HttpStatus.OK);
+    }
+
+    @Override
+    public BaseResponse deleteBoardCommentEmotion(Long board_comment_uid) throws Exception {
+        /**
+         * TODO: 게시판 고유번호 확인 필요
+         * TODO: 없는 것에 대한 취소 시 예외 처리 필요
+         */
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("Authorization");
+        Map<String, Object> data = jwt.verifyJWT(token);
+        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+
+        long user_uid = Long.parseLong(data.get("uid").toString());
+
+        boardCommentMapper.deleteBoardCommentEmotion(board_comment_uid, user_uid);
+
+        return new BaseResponse("공감에 취소에 성공하였습니다.", HttpStatus.OK);
+
+    }
+
+    @Override
+    public Integer getBoardCommentEmotion(Long board_comment_uid) throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("Authorization");
+        Map<String, Object> data = jwt.verifyJWT(token);
+        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+
+
+        return boardCommentMapper.getBoardCommentEmotion(board_comment_uid);
+    }
 }

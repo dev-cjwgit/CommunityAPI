@@ -36,4 +36,22 @@
         WHERE uid = #{comment_uid};
     </select>
 
+    <insert id="createBoardCommentEmotion">
+        <!-- db 구조 -->
+        INSERT INTO board_comment_emotion(`board_comment_uid`, `account_uid`, `status`)
+        VALUES (#{board_comment_uid}, #{account_uid}, #{status});
+    </insert>
+
+    <delete id="deleteBoardCommentEmotion">
+        DELETE
+        FROM board_comment_emotion
+        WHERE board_comment_uid = ${board_comment_uid}
+          AND account_uid = ${account_uid};
+    </delete>
+
+    <select id="getBoardCommentEmotion" resultType="Integer">
+        SELECT count(*)
+        FROM board_comment_emotion
+        WHERE board_comment_uid = #{board_comment_uid};
+    </select>
 </mapper>

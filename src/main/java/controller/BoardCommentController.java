@@ -43,4 +43,22 @@ public class BoardCommentController {
     public ResponseEntity deleteComment(Long board_comment_uid) throws Exception {
         return new ResponseEntity(boardCommentService.deleteComment(board_comment_uid), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/create-board-comment-emotion", method = RequestMethod.POST)
+    @ApiOperation(value = "댓글 감정표현", notes = "댓글에 감정표현을 달기 위한 API입니다. {댓글 고유번호, 공감상태}")
+    public ResponseEntity createBoardCommentEmotion(@RequestBody Long board_comment_uid, Integer status) throws Exception {
+        return new ResponseEntity(boardCommentService.createBoardCommentEmotion(board_comment_uid, status), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete-board-comment-emotion", method = RequestMethod.DELETE)
+    @ApiOperation(value = "댓글 감정표현 취소", notes = "댓글에 감정표현을 취소 위한 API입니다. {댓글 고유번호}")
+    public ResponseEntity deleteBoardCommentEmotion(@RequestBody Long board_comment_uid) throws Exception {
+        return new ResponseEntity(boardCommentService.deleteBoardCommentEmotion(board_comment_uid), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/read-board-comment-emotion", method = RequestMethod.GET)
+    @ApiOperation(value = "댓글 감정표현 개수", notes = "댓글에 감정표현의 개수를 보기 위한 API입니다. {댓글 고유번호}")
+    public ResponseEntity getBoardCommentEmotion(Long board_comment_uid) throws Exception {
+        return new ResponseEntity(boardCommentService.getBoardCommentEmotion(board_comment_uid), HttpStatus.OK);
+    }
 }
