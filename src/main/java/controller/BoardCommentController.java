@@ -16,6 +16,8 @@ import service.interfaces.IBoardCommentService;
 public class BoardCommentController {
     /**
      * TODO MEMO: 댓글 불러 올 때 공감 수도 같이 불러와야 하는가
+     * TODO: board comment emotion 누가 공감 눌렀는지 확인하는 서비스 필요
+     * TODO MEMO: 댓글 목록 불러 올 때 댓글 공감 수도 같이 불러와야 하는가
      */
     @Autowired
     private IBoardCommentService boardCommentService;

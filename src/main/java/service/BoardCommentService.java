@@ -21,6 +21,10 @@ import java.util.Map;
 
 @Service
 public class BoardCommentService implements IBoardCommentService {
+    /**
+     * TODO: request 토큰 확인 코드 중복 제거 필요
+     * TODO: jwt.verifyJWT Map이 아닌 별도 도메인 객체로 맵핑 하는 것이 좋음
+     */
     @Autowired
     private BoardMapper boardMapper;
 
@@ -119,7 +123,7 @@ public class BoardCommentService implements IBoardCommentService {
     @Override
     public BaseResponse createBoardCommentEmotion(Long board_comment_uid, Integer status) throws Exception {
         /**
-         * TODO: 게시판 고유번호 확인 필요
+         * TODO: 댓글 고유번호 확인 필요
          * TODO: 중복 예외 처리 필요
          * TODO: 공감 상태 enum 확인 필요
          */
@@ -137,7 +141,7 @@ public class BoardCommentService implements IBoardCommentService {
     @Override
     public BaseResponse deleteBoardCommentEmotion(Long board_comment_uid) throws Exception {
         /**
-         * TODO: 게시판 고유번호 확인 필요
+         * TODO: 댓글 고유번호 확인 필요
          * TODO: 없는 것에 대한 취소 시 예외 처리 필요
          */
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
