@@ -5,6 +5,7 @@ import domain.vo.AccountRegisterVO;
 import domain.vo.AuthVO;
 import domain.vo.LoginVO;
 import enums.ErrorMessage;
+import exception.BaseException;
 import exception.RequestInputException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +37,18 @@ public class AccountService implements IAccountService {
     public BaseResponse signUp(AccountRegisterVO account) throws Exception {
         // 이메일 중복체크
         if (accountMapper.isAccountToEmail(account.getEmail()) != 0)
-            return new BaseResponse("이미 존재하는 이메일입니다.", HttpStatus.OK);
+            throw new BaseException(ErrorMessage.SIGNUP_EXIST_EMAIL);
 
         // 닉네임 중복체크
         if (accountMapper.isAccountToNickName(account.getNickname()) != 0)
-            return new BaseResponse("이미 존재하는 닉네임입니다.", HttpStatus.OK);
+            throw new BaseException(ErrorMessage.SIGNUP_EXIST_NICKNAME);
 
         // 비밀번호 암호화
         account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()));
         try {
             accountMapper.signUp(account);  // 회원 가입
         } catch (Exception ex) {
-            return new BaseResponse("알 수 없는 원인으로 회원가입에 실패하였습니다.", HttpStatus.OK);
+            throw ex;
         }
 
         // salt를 설정해주기위해 uid를 가져옴

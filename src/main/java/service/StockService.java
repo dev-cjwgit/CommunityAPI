@@ -3,6 +3,8 @@ package service;
 import domain.dto.StockDTO;
 import domain.param.StockRequestModel;
 import domain.vo.AuthVO;
+import enums.ErrorMessage;
+import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,7 @@ public class StockService implements IStockService {
         if (authVO != null) {
             return stockMapper.getStockList(model);
         } else {
-            throw new Exception("유효하지 않은 토큰입니다.");
+            throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID);
         }
     }
 }

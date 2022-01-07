@@ -4,6 +4,8 @@ import domain.dto.BoardDTO;
 import domain.vo.AccountRegisterVO;
 import domain.vo.AuthVO;
 import domain.vo.BoardVO;
+import enums.ErrorMessage;
+import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -57,7 +59,8 @@ public class BoardService implements IBoardService {
 //        long user_uid = Long.parseLong(data.get("uid").toString());
         Long board_onwer = boardMapper.getAccountUid(board_uid);
 
-        if (board_onwer == null) throw new Exception("게시글 고유번호가 잘못되었습니다.");
+        if (board_onwer == null)
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
         return boardMapper.getBoardInfo(board_uid);
     }
@@ -70,9 +73,12 @@ public class BoardService implements IBoardService {
         long user_uid = authVO.getUid();
         Long board_onwer = boardMapper.getAccountUid(board.getUid());
 
-        if (board_onwer == null) throw new Exception("게시글 고유번호가 잘못되었습니다.");
+        if (board_onwer == null)
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
-        if (board_onwer != user_uid) throw new Exception("게시물을 삭제 할 권한이 없습니다.");
+
+        if (board_onwer != user_uid)
+            throw new BaseException(ErrorMessage.PERMISSION_EXCEPTION);
 
         boardMapper.updateBoard(board);
 
@@ -86,10 +92,12 @@ public class BoardService implements IBoardService {
         long user_uid = authVO.getUid();
         Long board_onwer = boardMapper.getAccountUid(board_uid);
 
-        if (board_onwer == null) throw new Exception("서버에 오류가 발생하였습니다.");
+        if (board_onwer == null)
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
 
-        if (board_onwer != user_uid) throw new Exception("게시물을 삭제 할 권한이 없습니다.");
+        if (board_onwer != user_uid)
+            throw new BaseException(ErrorMessage.PERMISSION_EXCEPTION);
 
         boardMapper.deleteBoard(board_uid);
 

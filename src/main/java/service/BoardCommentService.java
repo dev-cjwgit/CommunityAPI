@@ -4,6 +4,8 @@ import domain.dto.BoardCommentDTO;
 import domain.dto.BoardDTO;
 import domain.vo.AuthVO;
 import domain.vo.BoardCommentVO;
+import enums.ErrorMessage;
+import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import java.util.Map;
 @Service
 public class BoardCommentService implements IBoardCommentService {
     /**
+     *
      */
     @Autowired
     private BoardMapper boardMapper;
@@ -42,7 +45,7 @@ public class BoardCommentService implements IBoardCommentService {
         BoardDTO board = boardMapper.getBoardInfo(comment.getBoard_uid());
 
         if (board == null)
-            throw new Exception("존재하지 않는 게시글입니다.");
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
         long user_uid = authVO.getUid();
 
@@ -61,7 +64,7 @@ public class BoardCommentService implements IBoardCommentService {
         BoardDTO board = boardMapper.getBoardInfo(board_uid);
 
         if (board == null)
-            throw new Exception("존재하지 않는 게시글입니다.");
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
         page = (page - 1) * range;
         return boardCommentMapper.getComment(board_uid, page, range);
@@ -75,10 +78,10 @@ public class BoardCommentService implements IBoardCommentService {
         Long comment_onwer = boardCommentMapper.getAccountUid(comment.getUid());
 
         if (comment_onwer == null)
-            throw new Exception("댓글 고유번호가 잘못되었습니다.");
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 
         if (comment_onwer != user_uid)
-            throw new Exception("댓글을 수정 할 권한이 없습니다.");
+            throw new BaseException(ErrorMessage.PERMISSION_EXCEPTION);
 
         comment.setAccount_uid(user_uid);
 
@@ -96,10 +99,10 @@ public class BoardCommentService implements IBoardCommentService {
         Long comment_onwer = boardCommentMapper.getAccountUid(board_comment_uid);
 
         if (comment_onwer == null)
-            throw new Exception("댓글 고유번호가 잘못되었습니다.");
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 
         if (comment_onwer != user_uid)
-            throw new Exception("댓글을 삭제 할 권한이 없습니다.");
+            throw new BaseException(ErrorMessage.PERMISSION_EXCEPTION);
 
         boardCommentMapper.deleteComment(board_comment_uid);
         return new BaseResponse("댓글 삭제에 성공했습니다.", HttpStatus.OK);
@@ -113,7 +116,6 @@ public class BoardCommentService implements IBoardCommentService {
          * TODO: 공감 상태 enum 확인 필요
          */
         AuthVO authVO = authService.authUser();
-
 
         long user_uid = authVO.getUid();
         boardCommentMapper.createBoardCommentEmotion(board_comment_uid, user_uid, status);
