@@ -2,6 +2,7 @@ package service;
 
 import domain.dto.AccountDTO;
 import domain.vo.AccountRegisterVO;
+import domain.vo.AuthVO;
 import domain.vo.LoginVO;
 import enums.ErrorMessage;
 import exception.RequestInputException;
@@ -14,6 +15,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.AccountMapper;
 import response.BaseResponse;
 import service.interfaces.IAccountService;
+import service.interfaces.IAuthService;
 import util.Jwt;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,9 @@ public class AccountService implements IAccountService {
 
     @Autowired
     private Jwt jwt;
+
+    @Autowired
+    private IAuthService authService;
 
     @Override
     public BaseResponse signUp(AccountRegisterVO account) throws Exception {
@@ -82,17 +87,13 @@ public class AccountService implements IAccountService {
 
     @Override
     public Map<String, String> refresh() throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null)
-            throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
         AccountDTO account = new AccountDTO();
-        account.setUid(Long.parseLong(data.get("uid").toString()));
-        account.setNickname(data.get("nickname").toString());
+        account.setUid(authVO.getUid());
+        account.setNickname(authVO.getNickname());
 
-        account.setSalt(accountMapper.getSaltToUid(account.getUid()));
+        account.setSalt(accountMapper.getSaltToUid(authVO.getUid()));
 
         Map<String, String> refresh_token = new HashMap<>();
         // 토큰 재발급

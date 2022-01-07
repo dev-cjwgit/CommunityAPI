@@ -2,6 +2,7 @@ package service;
 
 import domain.dto.BoardCommentDTO;
 import domain.dto.BoardDTO;
+import domain.vo.AuthVO;
 import domain.vo.BoardCommentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.BoardCommentMapper;
 import repository.BoardMapper;
 import response.BaseResponse;
+import service.interfaces.IAuthService;
 import service.interfaces.IBoardCommentService;
 import util.Jwt;
 
@@ -22,8 +24,6 @@ import java.util.Map;
 @Service
 public class BoardCommentService implements IBoardCommentService {
     /**
-     * TODO: request 토큰 확인 코드 중복 제거 필요
-     * TODO: jwt.verifyJWT Map이 아닌 별도 도메인 객체로 맵핑 하는 것이 좋음
      */
     @Autowired
     private BoardMapper boardMapper;
@@ -32,23 +32,19 @@ public class BoardCommentService implements IBoardCommentService {
     private BoardCommentMapper boardCommentMapper;
 
     @Autowired
-    private Jwt jwt;
+    private IAuthService authService;
 
 
     @Override
     public BaseResponse createComment(BoardCommentVO comment) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null)
-            throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
         BoardDTO board = boardMapper.getBoardInfo(comment.getBoard_uid());
 
         if (board == null)
             throw new Exception("존재하지 않는 게시글입니다.");
 
-        long user_uid = Long.parseLong(data.get("uid").toString());
+        long user_uid = authVO.getUid();
 
         comment.setAccount_uid(user_uid);
 
@@ -60,11 +56,7 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public List<BoardCommentDTO> getComment(Long board_uid, int page, int range) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null)
-            throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
         BoardDTO board = boardMapper.getBoardInfo(board_uid);
 
@@ -77,13 +69,9 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public BaseResponse updateComment(BoardCommentVO comment) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null)
-            throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
-        long user_uid = Long.parseLong(data.get("uid").toString());
+        long user_uid = authVO.getUid();
         Long comment_onwer = boardCommentMapper.getAccountUid(comment.getUid());
 
         if (comment_onwer == null)
@@ -101,13 +89,10 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public BaseResponse deleteComment(Long board_comment_uid) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null)
-            throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
-        long user_uid = Long.parseLong(data.get("uid").toString());
+
+        long user_uid = authVO.getUid();
         Long comment_onwer = boardCommentMapper.getAccountUid(board_comment_uid);
 
         if (comment_onwer == null)
@@ -127,12 +112,10 @@ public class BoardCommentService implements IBoardCommentService {
          * TODO: 중복 예외 처리 필요
          * TODO: 공감 상태 enum 확인 필요
          */
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
-        long user_uid = Long.parseLong(data.get("uid").toString());
+
+        long user_uid = authVO.getUid();
         boardCommentMapper.createBoardCommentEmotion(board_comment_uid, user_uid, status);
 
         return new BaseResponse("공감에 성공하였습니다.", HttpStatus.OK);
@@ -144,12 +127,9 @@ public class BoardCommentService implements IBoardCommentService {
          * TODO: 댓글 고유번호 확인 필요
          * TODO: 없는 것에 대한 취소 시 예외 처리 필요
          */
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
-        long user_uid = Long.parseLong(data.get("uid").toString());
+        long user_uid = authVO.getUid();
 
         boardCommentMapper.deleteBoardCommentEmotion(board_comment_uid, user_uid);
 
@@ -159,11 +139,7 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public Integer getBoardCommentEmotion(Long board_comment_uid) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
-
+        AuthVO authVO = authService.authUser();
 
         return boardCommentMapper.getBoardCommentEmotion(board_comment_uid);
     }

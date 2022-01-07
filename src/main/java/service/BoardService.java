@@ -2,6 +2,7 @@ package service;
 
 import domain.dto.BoardDTO;
 import domain.vo.AccountRegisterVO;
+import domain.vo.AuthVO;
 import domain.vo.BoardVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.AccountMapper;
 import repository.BoardMapper;
 import response.BaseResponse;
+import service.interfaces.IAuthService;
 import service.interfaces.IBoardService;
 import util.Jwt;
 
@@ -22,8 +24,7 @@ import java.util.Map;
 @Service
 public class BoardService implements IBoardService {
     /**
-     * TODO: request 토큰 확인 코드 중복 제거 필요
-     * TODO: jwt.verifyJWT Map이 아닌 별도 도메인 객체로 맵핑 하는 것이 좋음
+     *
      */
     @Autowired
     private AccountService accountService;
@@ -32,16 +33,13 @@ public class BoardService implements IBoardService {
     private BoardMapper boardMapper;
 
     @Autowired
-    private Jwt jwt;
+    private IAuthService authService;
 
     @Override
     public BaseResponse createBoard(BoardVO board) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
-        boardMapper.createBoard(Long.parseLong(data.get("uid").toString()), board);
+        boardMapper.createBoard(authVO.getUid(), board);
 
         return new BaseResponse("게시글 등록에 성공했습니다.", HttpStatus.OK);
     }
@@ -54,10 +52,7 @@ public class BoardService implements IBoardService {
 
     @Override
     public BoardDTO getBoardInfo(Long board_uid) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
 //        long user_uid = Long.parseLong(data.get("uid").toString());
         Long board_onwer = boardMapper.getAccountUid(board_uid);
@@ -69,12 +64,10 @@ public class BoardService implements IBoardService {
 
     @Override
     public BaseResponse updateBoard(BoardVO board) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
-        long user_uid = Long.parseLong(data.get("uid").toString());
+
+        long user_uid = authVO.getUid();
         Long board_onwer = boardMapper.getAccountUid(board.getUid());
 
         if (board_onwer == null) throw new Exception("게시글 고유번호가 잘못되었습니다.");
@@ -88,12 +81,9 @@ public class BoardService implements IBoardService {
 
     @Override
     public BaseResponse deleteBoard(Long board_uid) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
-        long user_uid = Long.parseLong(data.get("uid").toString());
+        long user_uid = authVO.getUid();
         Long board_onwer = boardMapper.getAccountUid(board_uid);
 
         if (board_onwer == null) throw new Exception("서버에 오류가 발생하였습니다.");
@@ -109,10 +99,7 @@ public class BoardService implements IBoardService {
 
     @Override
     public Long getBoardListCnt() throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
         return boardMapper.getBoardListCnt();
     }
@@ -124,12 +111,9 @@ public class BoardService implements IBoardService {
          * TODO: 중복 예외 처리 필요
          * TODO: 공감 상태 enum 확인 필요
          */
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
-        long user_uid = Long.parseLong(data.get("uid").toString());
+        long user_uid = authVO.getUid();
         boardMapper.createBoardEmotion(board_uid, user_uid, status);
 
         return new BaseResponse("공감에 성공하였습니다.", HttpStatus.OK);
@@ -141,12 +125,9 @@ public class BoardService implements IBoardService {
          * TODO: 게시판 고유번호 확인 필요
          * TODO: 없는 것에 대한 취소 시 예외 처리 필요
          */
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
+        AuthVO authVO = authService.authUser();
 
-        long user_uid = Long.parseLong(data.get("uid").toString());
+        long user_uid = authVO.getUid();
 
         boardMapper.deleteBoardEmotion(board_uid, user_uid);
 
@@ -156,11 +137,7 @@ public class BoardService implements IBoardService {
 
     @Override
     public Integer getBoardEmotion(Long board_uid) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String token = request.getHeader("Authorization");
-        Map<String, Object> data = jwt.verifyJWT(token);
-        if (data == null) throw new Exception("토큰이 잘못되었습니다.");
-
+        AuthVO authVO = authService.authUser();
 
         return boardMapper.getBoardEmotion(board_uid);
     }

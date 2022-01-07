@@ -41,7 +41,10 @@ public class GlobalExceptionHandler {
             }
         } else {
             baseException = new BaseException(ErrorMessage.UNDEFINED_EXCEPTION);
-            baseException.appendMsg(e.getCause().toString());
+            if (e.getCause() != null) {
+                baseException.appendMsg(e.getCause().toString());
+            }
+            baseException.appendMsg(e.getMessage());
             for (StackTraceElement item : e.getStackTrace()) {
                 baseException.appendTrace(item.toString());
             }

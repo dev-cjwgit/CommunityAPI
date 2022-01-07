@@ -1,11 +1,12 @@
 package util;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.internal.messaging.saaj.util.Base64;
 import domain.dto.AccountDTO;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import enums.ErrorMessage;
+import exception.BaseException;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -57,25 +58,42 @@ public class Jwt {
         Map<String, Object> claimMap = null;
         long uid = getUid(jwt);
         String salt = accountMapper.getSaltToUid(uid);
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey((SECRET_KEY + salt).getBytes("UTF-8")) // Set Key
+                    .parseClaimsJws(jwt) // 파싱 및 검증, 실패 시 에러
+                    .getBody();
 
-        Claims claims = Jwts.parser()
-                .setSigningKey((SECRET_KEY + salt).getBytes("UTF-8")) // Set Key
-                .parseClaimsJws(jwt) // 파싱 및 검증, 실패 시 에러
-                .getBody();
+            claimMap = claims;
 
-        claimMap = claims;
+        } catch (ExpiredJwtException ex) {
+            throw new BaseException(ErrorMessage.ACCESS_TOKEN_EXPIRE);
+        } catch (MalformedJwtException ex) {
+            throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_HEADER);
+        } catch (SignatureException ex) {
+            throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_SIGNATURE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return claimMap;
     }
 
     private Long getUid(String jwt) throws Exception {
-        if (jwt.chars().filter(c -> c == '.').count() != 2)
-            throw new Exception("유효하지 않은 토큰입니다.");
+        try {
+            if (jwt.chars().filter(c -> c == '.').count() != 2)
+                throw new Exception("유효하지 않은 토큰입니다.");
 
-        Map<String, Object> map;
-        map = new ObjectMapper().readValue(Base64.base64Decode(jwt.split("\\.")[1]), Map.class);
-        if (map.get("uid") == null || map.get("nickname") == null)
-            throw new Exception("유효하지 않은 토큰입니다.");
+            Map<String, Object> map;
+            map = new ObjectMapper().readValue(Base64.base64Decode(jwt.split("\\.")[1]), Map.class);
+            if (map.get("uid") == null || map.get("nickname") == null)
+                throw new Exception("유효하지 않은 토큰입니다.");
 
-        return Long.parseLong(map.get("uid").toString());
+            return Long.parseLong(map.get("uid").toString());
+        } catch (JsonParseException ex) {
+            throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_PAYLOADS);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
     }
 }
