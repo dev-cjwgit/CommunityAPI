@@ -4,8 +4,10 @@ import enums.ErrorMessage;
 import exception.BaseException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,19 +24,27 @@ public class GlobalExceptionHandler {
 
         if (e instanceof BaseException) {
             baseException = (BaseException) e;
-        }
-
-        if (e instanceof MethodArgumentNotValidException) {
+        } else if (e instanceof MethodArgumentNotValidException) {
             baseException = new BaseException(ErrorMessage.VALIDATION_FAIL_EXCEPTION);
 
             //validation error message에서 본인이 domain에 작성한 default message만 가져오도록 하는
             List<ObjectError> messageList = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
-            String message = "";
             for (int i = 0; i < messageList.size(); i++) {
                 String validationMessage = messageList.get(i).getDefaultMessage();
-                message += "[" + validationMessage + "]";
+                baseException.appendMsg(validationMessage);
             }
-            baseException.setMsg(message);
+        } else if (e instanceof BindingException) {
+            baseException = new BaseException(ErrorMessage.BINDING_FAIL_EXCEPTION);
+            baseException.appendMsg(e.getCause().toString());
+            for (StackTraceElement item : e.getStackTrace()) {
+                baseException.appendTrace(item.toString());
+            }
+        } else {
+            baseException = new BaseException(ErrorMessage.UNDEFINED_EXCEPTION);
+            baseException.appendMsg(e.getCause().toString());
+            for (StackTraceElement item : e.getStackTrace()) {
+                baseException.appendTrace(item.toString());
+            }
         }
 
         return new ResponseEntity<>(Error.create(baseException), baseException.getHttpStatus());
@@ -46,10 +56,11 @@ public class GlobalExceptionHandler {
     static class Error {
         private int code;
         private HttpStatus status;
-        private String message;
+        private List<String> message;
+        private List<String> trace;
 
         static Error create(BaseException exception) {
-            return new Error(exception.getErrorCode(), exception.getHttpStatus(), exception.getErrorMessage());
+            return new Error(exception.getErrorCode(), exception.getHttpStatus(), exception.getErrorMessage(), exception.getErrorTrace());
         }
 
         public int getCode() {
@@ -60,8 +71,12 @@ public class GlobalExceptionHandler {
             return status;
         }
 
-        public String getMessage() {
+        public List<String> getMessage() {
             return message;
+        }
+
+        public List<String> getTrace() {
+            return trace;
         }
     }
 }

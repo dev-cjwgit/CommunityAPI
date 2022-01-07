@@ -6,6 +6,6 @@ import domain.param.StockRequestModel;
 import java.util.List;
 
 public interface IStockService {
-    List<StockDTO> getStockList(StockRequestModel model) throws Exception ;
+    List<StockDTO> getStockList(StockRequestModel model) throws Exception;
 
 }
