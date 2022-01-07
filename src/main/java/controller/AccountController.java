@@ -1,5 +1,6 @@
 package controller;
 
+import annotation.ValidationGroups;
 import domain.dto.AccountDTO;
 import domain.vo.AccountRegisterVO;
 import domain.vo.LoginVO;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import service.interfaces.IAccountService;
@@ -23,8 +25,11 @@ public class AccountController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ApiOperation(value = "회원가입", notes = "회원가입을 위한 API입니다. {이메일, 비밀번호, 실명, 닉네임}")
-    public ResponseEntity signUp(@RequestBody @Validated(AccountRegisterVO.class) AccountRegisterVO account) throws Exception {
-        return new ResponseEntity(accountService.signUp(account), HttpStatus.OK);
+    public ResponseEntity signUp(@RequestBody @Validated(ValidationGroups.signUp.class) AccountRegisterVO account, BindingResult bindingResult) throws Exception {
+        if (bindingResult.getErrorCount() == 0) {
+            return new ResponseEntity(accountService.signUp(account), HttpStatus.OK);
+        }
+        return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
