@@ -1,10 +1,32 @@
 package exception;
 
-import enums.ErrorMessage;
+import org.springframework.http.HttpStatus;
 
-public class RequestInputException extends BaseException {
+public class RequestInputException extends RuntimeException implements BaseException {
 
-    public RequestInputException(ErrorMessage errorMessage) {
-        super(null, errorMessage);
+    private BaseException baseExceptionType;
+
+    public RequestInputException(BaseException baseExceptionType) {
+        super(baseExceptionType.getErrorMessage());
+        this.baseExceptionType = baseExceptionType;
+    }
+
+    public BaseException getBaseExceptionType() {
+        return baseExceptionType;
+    }
+
+    @Override
+    public int getErrorCode() {
+        return baseExceptionType.getErrorCode();
+    }
+
+    @Override
+    public HttpStatus getHttpStatus() {
+        return baseExceptionType.getHttpStatus();
+    }
+
+    @Override
+    public String getErrorMessage() {
+        return baseExceptionType.getErrorMessage();
     }
 }

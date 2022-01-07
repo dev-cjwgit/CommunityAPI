@@ -1,10 +1,8 @@
 package controller;
 
 import annotation.ValidationGroups;
-import domain.dto.AccountDTO;
 import domain.vo.AccountRegisterVO;
 import domain.vo.LoginVO;
-import exception.BaseException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,20 +24,14 @@ public class AccountController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ApiOperation(value = "회원가입", notes = "회원가입을 위한 API입니다. {이메일, 비밀번호, 실명, 닉네임}")
-    public ResponseEntity signUp(@RequestBody @Validated(ValidationGroups.signUp.class) AccountRegisterVO account, BindingResult bindingResult) throws Exception {
-        if (bindingResult.getErrorCount() == 0) {
-            return new ResponseEntity(accountService.signUp(account), HttpStatus.OK);
-        }
-        return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity signUp(@RequestBody @Validated(ValidationGroups.signUp.class) AccountRegisterVO account) throws Exception {
+        return new ResponseEntity(accountService.signUp(account), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation(value = "로그인", notes = "로그인을 위한 API입니다. {이메일, 비밀번호}")
-    public ResponseEntity login(@RequestBody @Validated(ValidationGroups.login.class) LoginVO account, BindingResult bindingResult) throws Exception {
-        if (bindingResult.getErrorCount() == 0) {
-            return new ResponseEntity(accountService.login(account), HttpStatus.OK);
-        }
-        return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity login(@RequestBody @Validated(ValidationGroups.login.class) LoginVO account) throws Exception {
+        return new ResponseEntity(accountService.login(account), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.POST)

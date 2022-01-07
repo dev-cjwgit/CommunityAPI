@@ -4,7 +4,6 @@ import domain.dto.AccountDTO;
 import domain.vo.AccountRegisterVO;
 import domain.vo.LoginVO;
 import enums.ErrorMessage;
-import exception.BaseException;
 import exception.RequestInputException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;

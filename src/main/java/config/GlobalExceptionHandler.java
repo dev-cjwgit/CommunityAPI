@@ -1,37 +1,49 @@
 package config;
 
-import enums.ErrorMessage;
 import exception.BaseException;
+import exception.RequestInputException;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.method.HandlerMethod;
-
-import java.io.IOException;
-import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
-    public ResponseEntity<BaseException> defaultException(Throwable e, HandlerMethod handlerMethod) {
+    public ResponseEntity<Error> defaultException(Throwable e) {
         BaseException baseException = null;
 
-        if (e instanceof MethodArgumentNotValidException) {
-            baseException = new BaseException(e.getClass().getSimpleName(), ErrorMessage.UNDEFINED_EXCEPTION);
-
-            //validation error message에서 본인이 domain에 작성한 default message만 가져오도록 하는
-            List<ObjectError> messageList = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
-            String message = "";
-            for (int i = 0; i < messageList.size(); i++) {
-                String validationMessage = messageList.get(i).getDefaultMessage();
-                message += "[" + validationMessage + "]";
-            }
-            baseException.setErrorMessage(message);
+        if (e instanceof BaseException) {
+            baseException = ((RequestInputException) e).getBaseExceptionType();
         }
-        return new ResponseEntity<>(baseException, baseException.getHttpStatus());
+        return new ResponseEntity<>(Error.create(baseException), baseException.getHttpStatus());
+    }
 
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static class Error {
+        private int code;
+        private HttpStatus status;
+        private String message;
+
+        static Error create(BaseException exception) {
+            return new Error(exception.getErrorCode(), exception.getHttpStatus(), exception.getErrorMessage());
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public HttpStatus getStatus() {
+            return status;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 }
