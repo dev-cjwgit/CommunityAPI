@@ -34,8 +34,11 @@ public class AccountController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation(value = "로그인", notes = "로그인을 위한 API입니다. {이메일, 비밀번호}")
-    public ResponseEntity login(@RequestBody @Validated(LoginVO.class) LoginVO account) throws Exception {
-        return new ResponseEntity(accountService.login(account), HttpStatus.OK);
+    public ResponseEntity login(@RequestBody @Validated(ValidationGroups.login.class) LoginVO account, BindingResult bindingResult) throws Exception {
+        if (bindingResult.getErrorCount() == 0) {
+            return new ResponseEntity(accountService.login(account), HttpStatus.OK);
+        }
+        return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.POST)
