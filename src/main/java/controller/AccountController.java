@@ -4,6 +4,7 @@ import annotation.ValidationGroups;
 import domain.dto.AccountDTO;
 import domain.vo.AccountRegisterVO;
 import domain.vo.LoginVO;
+import exception.BaseException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

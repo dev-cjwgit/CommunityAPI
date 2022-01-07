@@ -19,7 +19,7 @@ public interface AccountMapper {
 
     void setSalt(@Param(value = "uid") Long uid, @Param(value = "salt") String salt);
 
-    AccountDTO getAccountToEmail(@Param(value = "email") String email);
+    AccountDTO getLoginInfoToEmail(@Param(value = "email") String email);
 
     String getSaltToUid(@Param(value = "uid") Long uid);
 }

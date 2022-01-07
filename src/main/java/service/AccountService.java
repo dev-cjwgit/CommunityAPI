@@ -3,6 +3,9 @@ package service;
 import domain.dto.AccountDTO;
 import domain.vo.AccountRegisterVO;
 import domain.vo.LoginVO;
+import enums.ErrorMessage;
+import exception.BaseException;
+import exception.RequestInputException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,12 +67,12 @@ public class AccountService implements IAccountService {
 
     @Override
     public Map<String, String> login(LoginVO account) throws Exception {
-        AccountDTO accountDTO = accountMapper.getAccountToEmail(account.getEmail());
-        if (account.getEmail() == null)
-            throw new Exception("이메일이 잘못되었습니다.");
+        AccountDTO accountDTO = accountMapper.getLoginInfoToEmail(account.getEmail());
+        if (accountDTO == null)
+            throw new RequestInputException(ErrorMessage.LOGIN_NOT_EXIST_EMAIL);
 
-        if (!BCrypt.checkpw(account.getPassword(), accountMapper.getPasswordToEmail(account.getEmail()))) {
-            throw new Exception("비밀번호가 잘못되었습니다.");
+        if (!BCrypt.checkpw(account.getPassword(), accountDTO.getPassword())) {
+            throw new RequestInputException(ErrorMessage.LOGIN_NOT_PASSWORD);
         } else {
             Map<String, String> token = new HashMap<>();
             // 토큰 발급

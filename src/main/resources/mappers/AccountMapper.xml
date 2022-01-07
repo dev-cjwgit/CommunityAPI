@@ -42,8 +42,8 @@
         WHERE uid = #{uid}
     </select>
 
-    <select id="getAccountToEmail" resultType="domain.dto.AccountDTO">
-        SELECT *
+    <select id="getLoginInfoToEmail" resultType="domain.dto.AccountDTO">
+        SELECT uid, password, nickname, salt
         FROM account
         WHERE email = #{email}
     </select>
