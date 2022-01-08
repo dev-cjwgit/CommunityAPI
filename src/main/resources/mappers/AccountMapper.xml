@@ -13,25 +13,26 @@
         WHERE uid = #{uid}
     </update>
 
-    <select id="isAccountToEmail" resultType="short">
-        SELECT count(*)
-        FROM account
-        WHERE email = #{email}
+    <select id="isExistEmail" resultType="Boolean">
+        SELECT EXISTS(
+                       SELECT uid
+                       FROM account
+                       WHERE email = #{email}
+                       LIMIT 1
+                   );
     </select>
-    <select id="isAccountToNickName" resultType="short">
-        SELECT count(*)
-        FROM account
-        WHERE nickname = #{nickname}
+
+    <select id="isExistNickName" resultType="Boolean">
+        SELECT EXISTS(
+                       SELECT uid
+                       FROM account
+                       WHERE nickname = #{nickname}
+                       LIMIT 1
+                   );
     </select>
 
     <select id="getUidToEmail" resultType="Long">
         SELECT uid
-        FROM account
-        WHERE email = #{email}
-    </select>
-
-    <select id="getPasswordToEmail" resultType="string">
-        SELECT password
         FROM account
         WHERE email = #{email}
     </select>
@@ -47,5 +48,4 @@
         FROM account
         WHERE email = #{email}
     </select>
-
 </mapper>

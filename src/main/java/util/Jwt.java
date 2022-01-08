@@ -36,7 +36,7 @@ public class Jwt {
         payloads.put("uid", account.getUid());
         payloads.put("nickname", account.getNickname());
 
-        long expiredTime = 1000L * 60 * 60 * 5; // TODO: 토큰 유효 시간 (24시간)
+        long expiredTime = 1000L * 60 * 60 * 5; // TODO: 토큰 유효 시간 (5 시간)
 
         Date ext = new Date(); // 토큰 만료 시간
         ext.setTime(ext.getTime() + expiredTime);
@@ -74,6 +74,7 @@ public class Jwt {
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_SIGNATURE);
         } catch (Exception ex) {
             ex.printStackTrace();
+            throw ex;
         }
         return claimMap;
     }

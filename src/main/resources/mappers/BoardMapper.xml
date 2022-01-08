@@ -9,7 +9,7 @@
     </insert>
 
     <select id="getSummaryBoardList" resultType="domain.dto.BoardDTO">
-        SELECT uid, title, account_uid, create_at, update_at
+        SELECT uid, title, account_uid, created_at, updated_at
         FROM board
         ORDER BY `create_at` DESC
             LIMIT ${page}, ${range};
@@ -19,7 +19,7 @@
         FROM board;
     </select>
     <select id="getBoardInfo" resultType="domain.dto.BoardDTO">
-        SELECT *
+        SELECT uid, title, body, account_uid, updated_at, created_at
         FROM board
         WHERE uid = #{board_uid};
     </select>
@@ -55,7 +55,7 @@
         DELETE
         FROM board_emotion
         WHERE board_uid = ${board_uid}
-        AND account_uid = ${account_uid};
+          AND account_uid = ${account_uid};
     </delete>
 
     <select id="getBoardEmotion" resultType="Integer">

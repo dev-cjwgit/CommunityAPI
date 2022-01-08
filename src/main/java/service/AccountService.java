@@ -11,15 +11,12 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.AccountMapper;
 import response.BaseResponse;
 import service.interfaces.IAccountService;
 import service.interfaces.IAuthService;
 import util.Jwt;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -36,11 +33,11 @@ public class AccountService implements IAccountService {
     @Override
     public BaseResponse signUp(AccountRegisterVO account) throws Exception {
         // 이메일 중복체크
-        if (accountMapper.isAccountToEmail(account.getEmail()) != 0)
+        if (accountMapper.isExistEmail(account.getEmail()))
             throw new BaseException(ErrorMessage.SIGNUP_EXIST_EMAIL);
 
         // 닉네임 중복체크
-        if (accountMapper.isAccountToNickName(account.getNickname()) != 0)
+        if (accountMapper.isExistNickName(account.getNickname()))
             throw new BaseException(ErrorMessage.SIGNUP_EXIST_NICKNAME);
 
         // 비밀번호 암호화

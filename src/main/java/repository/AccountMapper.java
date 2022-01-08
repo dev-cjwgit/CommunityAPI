@@ -9,13 +9,11 @@ import org.springframework.stereotype.Repository;
 public interface AccountMapper {
     void signUp(@Param(value = "account") AccountRegisterVO account);
 
-    short isAccountToEmail(@Param(value = "email") String email);
+    Boolean isExistEmail(@Param(value = "email") String email);
 
-    short isAccountToNickName(@Param(value = "nickname") String nickname);
+    Boolean isExistNickName(@Param(value = "nickname") String nickname);
 
     Long getUidToEmail(@Param(value = "email") String email);
-
-    String getPasswordToEmail(@Param(value = "email") String email);
 
     void setSalt(@Param(value = "uid") Long uid, @Param(value = "salt") String salt);
 
