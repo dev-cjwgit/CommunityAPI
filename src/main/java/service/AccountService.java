@@ -1,9 +1,9 @@
 package service;
 
 import domain.entity.AccountEntity;
-import domain.vo.AccountRegisterVO;
-import domain.vo.AuthVO;
-import domain.vo.LoginVO;
+import domain.dto.AccountRegisterDTO;
+import domain.dto.AuthDTO;
+import domain.dto.LoginDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import exception.RequestInputException;
@@ -31,7 +31,7 @@ public class AccountService implements IAccountService {
     private IAuthService authService;
 
     @Override
-    public BaseResponse signUp(AccountRegisterVO account) throws Exception {
+    public BaseResponse signUp(AccountRegisterDTO account) throws Exception {
         // 이메일 중복체크
         if (accountMapper.isExistEmail(account.getEmail()))
             throw new BaseException(ErrorMessage.SIGNUP_EXIST_EMAIL);
@@ -68,7 +68,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Map<String, String> login(LoginVO account) throws Exception {
+    public Map<String, String> login(LoginDTO account) throws Exception {
         AccountEntity accountDTO = accountMapper.getLoginInfoToEmail(account.getEmail());
         if (accountDTO == null)
             throw new RequestInputException(ErrorMessage.LOGIN_NOT_EXIST_EMAIL);
@@ -85,7 +85,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public Map<String, String> refresh() throws Exception {
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         Map<String, String> refresh_token = new HashMap<>();
         // 토큰 재발급

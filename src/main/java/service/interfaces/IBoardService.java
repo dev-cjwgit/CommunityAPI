@@ -1,19 +1,19 @@
 package service.interfaces;
 
 import domain.entity.BoardEntity;
-import domain.vo.BoardVO;
+import domain.dto.BoardDTO;
 import response.BaseResponse;
 
 import java.util.List;
 
 public interface IBoardService {
-    BaseResponse createBoard(BoardVO board) throws Exception;
+    BaseResponse createBoard(BoardDTO board) throws Exception;
 
     List<BoardEntity> getSummaryBoardList(int page, int range) throws Exception;
 
     BoardEntity getBoardInfo(Long board_uid) throws Exception;
 
-    BaseResponse updateBoard(BoardVO board) throws Exception;
+    BaseResponse updateBoard(BoardDTO board) throws Exception;
 
     BaseResponse deleteBoard(Long uid) throws Exception;
 

@@ -1,13 +1,13 @@
 package repository;
 
 import domain.entity.AccountEntity;
-import domain.vo.AccountRegisterVO;
+import domain.dto.AccountRegisterDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountMapper {
-    void signUp(@Param(value = "account") AccountRegisterVO account);
+    void signUp(@Param(value = "account") AccountRegisterDTO account);
 
     Boolean isExistEmail(@Param(value = "email") String email);
 

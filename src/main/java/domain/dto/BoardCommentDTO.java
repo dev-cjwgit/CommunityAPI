@@ -1,6 +1,6 @@
-package domain.vo;
+package domain.dto;
 
-public class BoardCommentVO {
+public class BoardCommentDTO {
     private Long uid;
     private Long board_uid;
     private Long account_uid;

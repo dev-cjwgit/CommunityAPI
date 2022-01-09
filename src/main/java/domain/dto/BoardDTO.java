@@ -1,8 +1,6 @@
-package domain.vo;
+package domain.dto;
 
-import java.sql.Timestamp;
-
-public class BoardVO {
+public class BoardDTO {
     private Long uid;
     private String title;
     private String body;

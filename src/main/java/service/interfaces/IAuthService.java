@@ -1,7 +1,7 @@
 package service.interfaces;
 
-import domain.vo.AuthVO;
+import domain.dto.AuthDTO;
 
 public interface IAuthService {
-    AuthVO authUser() throws Exception;
+    AuthDTO authUser() throws Exception;
 }

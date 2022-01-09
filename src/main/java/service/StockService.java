@@ -2,7 +2,7 @@ package service;
 
 import domain.entity.StockEntity;
 import domain.param.StockRequestModel;
-import domain.vo.AuthVO;
+import domain.dto.AuthDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class StockService implements IStockService {
 
     @Override
     public List<StockEntity> getStockList(StockRequestModel model) throws Exception {
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         if (authVO != null) {
             return stockMapper.getStockList(model);

@@ -1,14 +1,13 @@
 package controller;
 
 import annotation.ValidationGroups;
-import domain.vo.AccountRegisterVO;
-import domain.vo.LoginVO;
+import domain.dto.AccountRegisterDTO;
+import domain.dto.LoginDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import service.interfaces.IAccountService;
@@ -24,13 +23,13 @@ public class AccountController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ApiOperation(value = "회원가입", notes = "회원가입을 위한 API입니다. {이메일, 비밀번호, 실명, 닉네임}")
-    public ResponseEntity signUp(@RequestBody @Validated(ValidationGroups.signUp.class) AccountRegisterVO account) throws Exception {
+    public ResponseEntity signUp(@RequestBody @Validated(ValidationGroups.signUp.class) AccountRegisterDTO account) throws Exception {
         return new ResponseEntity(accountService.signUp(account), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation(value = "로그인", notes = "로그인을 위한 API입니다. {이메일, 비밀번호}")
-    public ResponseEntity login(@RequestBody @Validated(ValidationGroups.login.class) LoginVO account) throws Exception {
+    public ResponseEntity login(@RequestBody @Validated(ValidationGroups.login.class) LoginDTO account) throws Exception {
         return new ResponseEntity(accountService.login(account), HttpStatus.OK);
     }
 

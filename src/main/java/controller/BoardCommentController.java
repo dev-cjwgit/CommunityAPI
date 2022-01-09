@@ -1,7 +1,6 @@
 package controller;
 
-import domain.vo.BoardCommentVO;
-import domain.vo.BoardVO;
+import domain.dto.BoardCommentDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import service.interfaces.IAccountService;
 import service.interfaces.IBoardCommentService;
 
 @Controller
@@ -24,7 +22,7 @@ public class BoardCommentController {
 
     @RequestMapping(value = "/board/comment", method = RequestMethod.POST)
     @ApiOperation(value = "댓글 생성", notes = "게시글에 댓글을 생성하기 위한 API입니다. {게시글 고유번호, 내용}")
-    public ResponseEntity createComment(@RequestBody @Validated(BoardCommentVO.class) BoardCommentVO boardComment) throws Exception {
+    public ResponseEntity createComment(@RequestBody @Validated(BoardCommentDTO.class) BoardCommentDTO boardComment) throws Exception {
         return new ResponseEntity(boardCommentService.createComment(boardComment), HttpStatus.OK);
     }
 
@@ -36,7 +34,7 @@ public class BoardCommentController {
 
     @RequestMapping(value = "/board/comment", method = RequestMethod.PUT)
     @ApiOperation(value = "댓글 수정", notes = "게시글에 댓글을 수정하기 위한 API입니다. {게시글 고유번호, 내용}")
-    public ResponseEntity updateComment(@RequestBody @Validated(BoardCommentVO.class) BoardCommentVO boardComment) throws Exception {
+    public ResponseEntity updateComment(@RequestBody @Validated(BoardCommentDTO.class) BoardCommentDTO boardComment) throws Exception {
         return new ResponseEntity(boardCommentService.updateComment(boardComment), HttpStatus.OK);
     }
 

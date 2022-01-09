@@ -1,7 +1,6 @@
 package controller;
 
-import domain.vo.AccountRegisterVO;
-import domain.vo.BoardVO;
+import domain.dto.BoardDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import service.interfaces.IAccountService;
 import service.interfaces.IBoardService;
 
 @Controller
@@ -24,7 +22,7 @@ public class BoardController {
     //region Board CRUD
     @RequestMapping(value = "/create-board", method = RequestMethod.POST)
     @ApiOperation(value = "게시글 생성", notes = "게시글을 생성하기 위한 API입니다. {제목, 내용}")
-    public ResponseEntity signUp(@RequestBody @Validated(BoardVO.class) BoardVO board) throws Exception {
+    public ResponseEntity signUp(@RequestBody @Validated(BoardDTO.class) BoardDTO board) throws Exception {
         return new ResponseEntity(boardService.createBoard(board), HttpStatus.OK);
     }
 
@@ -42,7 +40,7 @@ public class BoardController {
 
     @RequestMapping(value = "/update-board", method = RequestMethod.PUT)
     @ApiOperation(value = "게시글 수정", notes = "게시글을 수정하기 위한 API입니다. {게시글 고유번호, 제목, 내용}")
-    public ResponseEntity updateBoard(@RequestBody @Validated(BoardVO.class) BoardVO board) throws Exception {
+    public ResponseEntity updateBoard(@RequestBody @Validated(BoardDTO.class) BoardDTO board) throws Exception {
         return new ResponseEntity(boardService.updateBoard(board), HttpStatus.OK);
     }
 

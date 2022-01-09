@@ -1,8 +1,8 @@
 package service;
 
 import domain.entity.BoardEntity;
-import domain.vo.AuthVO;
-import domain.vo.BoardVO;
+import domain.dto.AuthDTO;
+import domain.dto.BoardDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ public class BoardService implements IBoardService {
     private IAuthService authService;
 
     @Override
-    public BaseResponse createBoard(BoardVO board) throws Exception {
-        AuthVO authVO = authService.authUser();
+    public BaseResponse createBoard(BoardDTO board) throws Exception {
+        AuthDTO authVO = authService.authUser();
 
         boardMapper.createBoard(authVO.getUid(), board);
 
@@ -46,7 +46,7 @@ public class BoardService implements IBoardService {
 
     @Override
     public BoardEntity getBoardInfo(Long board_uid) throws Exception {
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
 //        long user_uid = Long.parseLong(data.get("uid").toString());
         Long board_onwer = boardMapper.getAccountUid(board_uid);
@@ -58,8 +58,8 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public BaseResponse updateBoard(BoardVO board) throws Exception {
-        AuthVO authVO = authService.authUser();
+    public BaseResponse updateBoard(BoardDTO board) throws Exception {
+        AuthDTO authVO = authService.authUser();
 
 
         long user_uid = authVO.getUid();
@@ -79,7 +79,7 @@ public class BoardService implements IBoardService {
 
     @Override
     public BaseResponse deleteBoard(Long board_uid) throws Exception {
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         long user_uid = authVO.getUid();
         Long board_onwer = boardMapper.getAccountUid(board_uid);
@@ -99,7 +99,7 @@ public class BoardService implements IBoardService {
 
     @Override
     public Long getBoardListCnt() throws Exception {
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         return boardMapper.getBoardListCnt();
     }
@@ -111,7 +111,7 @@ public class BoardService implements IBoardService {
          * TODO: 중복 예외 처리 필요
          * TODO: 공감 상태 enum 확인 필요
          */
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         long user_uid = authVO.getUid();
         boardMapper.createBoardEmotion(board_uid, user_uid, status);
@@ -125,7 +125,7 @@ public class BoardService implements IBoardService {
          * TODO: 게시판 고유번호 확인 필요
          * TODO: 없는 것에 대한 취소 시 예외 처리 필요
          */
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         long user_uid = authVO.getUid();
 
@@ -137,7 +137,7 @@ public class BoardService implements IBoardService {
 
     @Override
     public Integer getBoardEmotion(Long board_uid) throws Exception {
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         return boardMapper.getBoardEmotion(board_uid);
     }

@@ -2,8 +2,8 @@ package service;
 
 import domain.entity.BoardCommentEntity;
 import domain.entity.BoardEntity;
-import domain.vo.AuthVO;
-import domain.vo.BoardCommentVO;
+import domain.dto.AuthDTO;
+import domain.dto.BoardCommentDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,8 @@ public class BoardCommentService implements IBoardCommentService {
 
 
     @Override
-    public BaseResponse createComment(BoardCommentVO comment) throws Exception {
-        AuthVO authVO = authService.authUser();
+    public BaseResponse createComment(BoardCommentDTO comment) throws Exception {
+        AuthDTO authVO = authService.authUser();
 
         BoardEntity board = boardMapper.getBoardInfo(comment.getBoard_uid());
 
@@ -53,7 +53,7 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public List<BoardCommentEntity> getComment(Long board_uid, int page, int range) throws Exception {
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         BoardEntity board = boardMapper.getBoardInfo(board_uid);
 
@@ -65,8 +65,8 @@ public class BoardCommentService implements IBoardCommentService {
     }
 
     @Override
-    public BaseResponse updateComment(BoardCommentVO comment) throws Exception {
-        AuthVO authVO = authService.authUser();
+    public BaseResponse updateComment(BoardCommentDTO comment) throws Exception {
+        AuthDTO authVO = authService.authUser();
 
         long user_uid = authVO.getUid();
         Long comment_onwer = boardCommentMapper.getAccountUid(comment.getUid());
@@ -86,7 +86,7 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public BaseResponse deleteComment(Long board_comment_uid) throws Exception {
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
 
         long user_uid = authVO.getUid();
@@ -109,7 +109,7 @@ public class BoardCommentService implements IBoardCommentService {
          * TODO: 중복 예외 처리 필요
          * TODO: 공감 상태 enum 확인 필요
          */
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         long user_uid = authVO.getUid();
         boardCommentMapper.createBoardCommentEmotion(board_comment_uid, user_uid, status);
@@ -123,7 +123,7 @@ public class BoardCommentService implements IBoardCommentService {
          * TODO: 댓글 고유번호 확인 필요
          * TODO: 없는 것에 대한 취소 시 예외 처리 필요
          */
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         long user_uid = authVO.getUid();
 
@@ -135,7 +135,7 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public Integer getBoardCommentEmotion(Long board_comment_uid) throws Exception {
-        AuthVO authVO = authService.authUser();
+        AuthDTO authVO = authService.authUser();
 
         return boardCommentMapper.getBoardCommentEmotion(board_comment_uid);
     }

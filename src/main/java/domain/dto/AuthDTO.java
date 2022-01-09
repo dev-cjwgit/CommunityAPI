@@ -1,9 +1,9 @@
-package domain.vo;
+package domain.dto;
 
-public class AuthVO {
+public class AuthDTO {
     private Long uid;
 
-    public AuthVO(Long uid, String nickname) {
+    public AuthDTO(Long uid, String nickname) {
         this.uid = uid;
     }
 
