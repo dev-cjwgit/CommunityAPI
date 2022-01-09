@@ -109,11 +109,12 @@ public class BoardService implements IBoardService {
     @Override
     public BaseResponse createBoardEmotion(Long board_uid, Integer status) throws Exception {
         /**
-         * TODO: 게시판 고유번호 확인 필요
          * TODO: 중복 예외 처리 필요
          * TODO: 공감 상태 enum 확인 필요
          */
         AuthDTO authVO = authService.authUser();
+        if (!boardMapper.isBoard(board_uid))
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
         long user_uid = authVO.getUid();
         boardMapper.createBoardEmotion(board_uid, user_uid, status);
@@ -124,10 +125,11 @@ public class BoardService implements IBoardService {
     @Override
     public BaseResponse deleteBoardEmotion(Long board_uid) throws Exception {
         /**
-         * TODO: 게시판 고유번호 확인 필요
-         * TODO: 없는 것에 대한 취소 시 예외 처리 필요
          */
         AuthDTO authVO = authService.authUser();
+
+        if (!boardMapper.isBoard(board_uid))
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
         long user_uid = authVO.getUid();
 

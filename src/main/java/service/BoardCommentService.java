@@ -106,11 +106,12 @@ public class BoardCommentService implements IBoardCommentService {
     @Override
     public BaseResponse createBoardCommentEmotion(Long board_comment_uid, Integer status) throws Exception {
         /**
-         * TODO: 댓글 고유번호 확인 필요
          * TODO: 중복 예외 처리 필요
          * TODO: 공감 상태 enum 확인 필요
          */
         AuthDTO authVO = authService.authUser();
+        if (!boardCommentMapper.isBoardComment(board_comment_uid))
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 
         long user_uid = authVO.getUid();
         boardCommentMapper.createBoardCommentEmotion(board_comment_uid, user_uid, status);
@@ -121,10 +122,11 @@ public class BoardCommentService implements IBoardCommentService {
     @Override
     public BaseResponse deleteBoardCommentEmotion(Long board_comment_uid) throws Exception {
         /**
-         * TODO: 댓글 고유번호 확인 필요
          * TODO: 없는 것에 대한 취소 시 예외 처리 필요
          */
         AuthDTO authVO = authService.authUser();
+        if (!boardCommentMapper.isBoardComment(board_comment_uid))
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 
         long user_uid = authVO.getUid();
 
