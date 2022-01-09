@@ -3,7 +3,7 @@
 <mapper namespace="repository.StockMapper">
     <select id="getStockList" resultType="domain.entity.origin_mapping.StockEntity">
 
-        SELECT * FROM stock
+        SELECT * FROM `stock`
         <where>
             <if test="model.name != null">AND `name` LIKE "%${model.name}%"</if>
             <if test="model.startDate != null">AND `date` >= #{model.startDate}</if>

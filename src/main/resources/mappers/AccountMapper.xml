@@ -3,49 +3,49 @@
 <mapper namespace="repository.AccountMapper">
     <insert id="signUp">
         <!-- db 구조 -->
-        INSERT INTO account(`email`, `password`, `name`, `nickname`)
+        INSERT INTO `account`(`email`, `password`, `name`, `nickname`)
         VALUES (#{account.email}, #{account.password}, #{account.name}, #{account.nickname})
     </insert>
 
     <update id="setSalt">
-        UPDATE account
-        SET salt = #{salt}
-        WHERE uid = #{uid}
+        UPDATE `account`
+        SET `salt` = #{salt}
+        WHERE `uid` = #{uid}
     </update>
 
     <select id="isExistEmail" resultType="Boolean">
         SELECT EXISTS(
-                       SELECT uid
-                       FROM account
-                       WHERE email = #{email}
+                       SELECT `uid`
+                       FROM `account`
+                       WHERE `email` = #{email}
                        LIMIT 1
                    );
     </select>
 
     <select id="isExistNickName" resultType="Boolean">
         SELECT EXISTS(
-                       SELECT uid
-                       FROM account
-                       WHERE nickname = #{nickname}
+                       SELECT `uid`
+                       FROM `account`
+                       WHERE `nickname` = #{nickname}
                        LIMIT 1
                    );
     </select>
 
     <select id="getUidToEmail" resultType="Long">
-        SELECT uid
+        SELECT `uid`
         FROM account
-        WHERE email = #{email}
+        WHERE `email` = #{email}
     </select>
 
     <select id="getSaltToUid" resultType="string">
-        SELECT salt
+        SELECT `salt`
         FROM account
-        WHERE uid = #{uid}
+        WHERE `uid` = #{uid}
     </select>
 
     <select id="getLoginInfoToEmail" resultType="domain.entity.origin_mapping.AccountEntity">
-        SELECT uid, password, nickname, salt
-        FROM account
-        WHERE email = #{email}
+        SELECT `uid`, `password`, `nickname`, `salt`
+        FROM `account`
+        WHERE `email` = #{email}
     </select>
 </mapper>

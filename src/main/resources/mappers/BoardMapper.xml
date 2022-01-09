@@ -32,43 +32,43 @@
     </select>
 
     <select id="getBoardInfo" resultType="domain.entity.BoardEntity">
-        SELECT B.uid,
-               B.title,
-               B.body,
-               A.nickname,
-               B.account_uid,
-               B.created_at,
-               B.updated_at,
+        SELECT B.`uid`,
+               B.`title`,
+               B.`body`,
+               A.`nickname`,
+               B.`account_uid`,
+               B.`created_at`,
+               B.`updated_at`,
                (SELECT count(*)
                 FROM board_emotion
-                WHERE board_uid = B.uid) as emotion
+                WHERE `board_uid` = B.`uid`) as emotion
         FROM board B
                  LEFT OUTER JOIN
              account A
              ON
                  B.`account_uid` = A.`uid`
-        WHERE B.uid = #{board_uid};
+        WHERE B.`uid` = #{board_uid};
     </select>
 
     <update id="updateBoard">
-        UPDATE board
-        SET title = #{board.title},
-            body  = #{board.body}
-        WHERE uid = #{board.uid}
+        UPDATE `board`
+        SET `title` = #{board.title},
+            `body`  = #{board.body}
+        WHERE `uid` = #{board.uid}
     </update>
 
     <delete id="deleteBoard">
         DELETE
         FROM board
-        WHERE uid = ${board_uid};
+        WHERE `uid` = ${board_uid};
     </delete>
 
     <!--    func    -->
 
     <select id="getAccountUid" resultType="Long">
-        SELECT account_uid
+        SELECT `account_uid`
         FROM board
-        WHERE uid = #{board_uid};
+        WHERE `uid` = #{board_uid};
     </select>
 
     <insert id="createBoardEmotion">
@@ -80,13 +80,13 @@
     <delete id="deleteBoardEmotion">
         DELETE
         FROM board_emotion
-        WHERE board_uid = ${board_uid}
-          AND account_uid = ${account_uid};
+        WHERE `board_uid` = ${board_uid}
+          AND `account_uid` = ${account_uid};
     </delete>
 
     <select id="getBoardEmotion" resultType="Integer">
         SELECT count(*)
         FROM board_emotion
-        WHERE board_uid = #{board_uid};
+        WHERE `board_uid` = #{board_uid};
     </select>
 </mapper>

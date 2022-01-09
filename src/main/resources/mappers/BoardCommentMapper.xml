@@ -9,61 +9,61 @@
     </insert>
 
     <select id="getComment" resultType="domain.entity.BoardCommentEntity">
-        SELECT BC.uid,
-               BC.account_uid,
-               A.nickname,
-               BC.body,
-               BC.created_at,
-               BC.updated_at,
+        SELECT BC.`uid`,
+               BC.`account_uid`,
+               A.`nickname`,
+               BC.`body`,
+               BC.`created_at`,
+               BC.`updated_at`,
                (SELECT count(*)
                 FROM board_comment_emotion
-                WHERE board_comment_uid = BC.uid) as emotion
+                WHERE `board_comment_uid` = BC.`uid`) as emotion
         FROM board_comment BC
                  LEFT OUTER JOIN
              account A
              ON
-                 BC.`account_uid` = A.uid
+                 BC.`account_uid` = A.`uid`
         WHERE board_uid = 10
         ORDER BY `created_at` ASC
             LIMIT ${page}, ${range};
     </select>
 
     <update id="updateComment">
-        UPDATE board_comment
-        SET body = #{comment.body}
-        WHERE uid = #{comment.uid}
+        UPDATE `board_comment`
+        SET `body` = #{comment.body}
+        WHERE `uid` = #{comment.uid}
     </update>
 
     <delete id="deleteComment">
         DELETE
         FROM board_comment
-        WHERE uid = ${comment_uid};
+        WHERE `uid` = ${comment_uid};
     </delete>
 
     <!--    func    -->
 
     <select id="getAccountUid" resultType="Long">
-        SELECT account_uid
+        SELECT `account_uid`
         FROM board_comment
-        WHERE uid = #{comment_uid};
+        WHERE `uid` = #{comment_uid};
     </select>
 
     <insert id="createBoardCommentEmotion">
         <!-- db 구조 -->
-        INSERT INTO board_comment_emotion(`board_comment_uid`, `account_uid`, `status`)
+        INSERT INTO `board_comment_emotion`(`board_comment_uid`, `account_uid`, `status`)
         VALUES (#{board_comment_uid}, #{account_uid}, #{status});
     </insert>
 
     <delete id="deleteBoardCommentEmotion">
         DELETE
-        FROM board_comment_emotion
-        WHERE board_comment_uid = ${board_comment_uid}
-          AND account_uid = ${account_uid};
+        FROM `board_comment_emotion`
+        WHERE `board_comment_uid` = ${board_comment_uid}
+          AND `account_uid` = ${account_uid};
     </delete>
 
     <select id="getBoardCommentEmotion" resultType="Integer">
         SELECT count(*)
         FROM board_comment_emotion
-        WHERE board_comment_uid = #{board_comment_uid};
+        WHERE `board_comment_uid` = #{board_comment_uid};
     </select>
 </mapper>
