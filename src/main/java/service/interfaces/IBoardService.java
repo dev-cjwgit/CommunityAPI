@@ -1,7 +1,6 @@
 package service.interfaces;
 
-import domain.dto.BoardDTO;
-import domain.vo.AccountRegisterVO;
+import domain.entity.BoardDTO;
 import domain.vo.BoardVO;
 import response.BaseResponse;
 

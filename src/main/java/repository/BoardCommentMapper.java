@@ -1,6 +1,6 @@
 package repository;
 
-import domain.dto.BoardCommentDTO;
+import domain.entity.BoardCommentDTO;
 import domain.vo.BoardCommentVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

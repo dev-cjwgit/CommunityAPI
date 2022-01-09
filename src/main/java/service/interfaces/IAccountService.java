@@ -1,6 +1,5 @@
 package service.interfaces;
 
-import domain.dto.AccountDTO;
 import domain.vo.AccountRegisterVO;
 import domain.vo.LoginVO;
 import response.BaseResponse;

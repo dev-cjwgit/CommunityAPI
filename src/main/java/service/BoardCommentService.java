@@ -1,7 +1,7 @@
 package service;
 
-import domain.dto.BoardCommentDTO;
-import domain.dto.BoardDTO;
+import domain.entity.BoardCommentDTO;
+import domain.entity.BoardDTO;
 import domain.vo.AuthVO;
 import domain.vo.BoardCommentVO;
 import enums.ErrorMessage;
@@ -9,19 +9,13 @@ import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import repository.BoardCommentMapper;
 import repository.BoardMapper;
 import response.BaseResponse;
 import service.interfaces.IAuthService;
 import service.interfaces.IBoardCommentService;
-import util.Jwt;
 
-import javax.servlet.http.HttpServletRequest;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BoardCommentService implements IBoardCommentService {

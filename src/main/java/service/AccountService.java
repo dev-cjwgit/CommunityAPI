@@ -1,6 +1,6 @@
 package service;
 
-import domain.dto.AccountDTO;
+import domain.entity.AccountEntity;
 import domain.vo.AccountRegisterVO;
 import domain.vo.AuthVO;
 import domain.vo.LoginVO;
@@ -69,7 +69,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public Map<String, String> login(LoginVO account) throws Exception {
-        AccountDTO accountDTO = accountMapper.getLoginInfoToEmail(account.getEmail());
+        AccountEntity accountDTO = accountMapper.getLoginInfoToEmail(account.getEmail());
         if (accountDTO == null)
             throw new RequestInputException(ErrorMessage.LOGIN_NOT_EXIST_EMAIL);
 
@@ -78,7 +78,7 @@ public class AccountService implements IAccountService {
         } else {
             Map<String, String> token = new HashMap<>();
             // 토큰 발급
-            token.put("access_token", jwt.createToken(accountDTO));
+            token.put("access_token", jwt.createToken(accountDTO.getUid(), accountDTO.getSalt()));
             return token;
         }
     }
@@ -87,15 +87,9 @@ public class AccountService implements IAccountService {
     public Map<String, String> refresh() throws Exception {
         AuthVO authVO = authService.authUser();
 
-        AccountDTO account = new AccountDTO();
-        account.setUid(authVO.getUid());
-        account.setNickname(authVO.getNickname());
-
-        account.setSalt(accountMapper.getSaltToUid(authVO.getUid()));
-
         Map<String, String> refresh_token = new HashMap<>();
         // 토큰 재발급
-        refresh_token.put("access_token", jwt.createToken(account));
+        refresh_token.put("access_token", jwt.createToken(authVO.getUid(), accountMapper.getSaltToUid(authVO.getUid())));
         return refresh_token;
     }
 }

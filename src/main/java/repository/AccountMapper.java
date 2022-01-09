@@ -1,6 +1,6 @@
 package repository;
 
-import domain.dto.AccountDTO;
+import domain.entity.AccountEntity;
 import domain.vo.AccountRegisterVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -17,7 +17,7 @@ public interface AccountMapper {
 
     void setSalt(@Param(value = "uid") Long uid, @Param(value = "salt") String salt);
 
-    AccountDTO getLoginInfoToEmail(@Param(value = "email") String email);
+    AccountEntity getLoginInfoToEmail(@Param(value = "email") String email);
 
     String getSaltToUid(@Param(value = "uid") Long uid);
 }

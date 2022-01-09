@@ -8,7 +8,7 @@
         VALUES (#{board.title}, #{board.body}, #{uid});
     </insert>
 
-    <select id="getSummaryBoardList" resultType="domain.dto.BoardDTO">
+    <select id="getSummaryBoardList" resultType="domain.entity.BoardDTO">
         SELECT uid, title, account_uid, created_at, updated_at
         FROM board
         ORDER BY `create_at` DESC
@@ -18,7 +18,7 @@
         SELECT count(*)
         FROM board;
     </select>
-    <select id="getBoardInfo" resultType="domain.dto.BoardDTO">
+    <select id="getBoardInfo" resultType="domain.entity.BoardDTO">
         SELECT uid, title, body, account_uid, updated_at, created_at
         FROM board
         WHERE uid = #{board_uid};

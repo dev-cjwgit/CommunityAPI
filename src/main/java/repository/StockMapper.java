@@ -1,6 +1,6 @@
 package repository;
 
-import domain.dto.StockDTO;
+import domain.entity.StockDTO;
 import domain.param.StockRequestModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

@@ -1,27 +1,19 @@
 package service;
 
-import domain.dto.BoardDTO;
-import domain.vo.AccountRegisterVO;
+import domain.entity.BoardDTO;
 import domain.vo.AuthVO;
 import domain.vo.BoardVO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import repository.AccountMapper;
 import repository.BoardMapper;
 import response.BaseResponse;
 import service.interfaces.IAuthService;
 import service.interfaces.IBoardService;
-import util.Jwt;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BoardService implements IBoardService {

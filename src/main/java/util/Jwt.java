@@ -3,7 +3,6 @@ package util;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.internal.messaging.saaj.util.Base64;
-import domain.dto.AccountDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import io.jsonwebtoken.*;
@@ -25,7 +24,7 @@ public class Jwt {
     private AccountMapper accountMapper;
 
     //토큰 생성
-    public String createToken(AccountDTO account) {
+    public String createToken(Long uid, String salt) {
         //Header 부분 설정
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
@@ -33,8 +32,7 @@ public class Jwt {
 
         //payload 부분 설정
         Map<String, Object> payloads = new HashMap<>();
-        payloads.put("uid", account.getUid());
-        payloads.put("nickname", account.getNickname());
+        payloads.put("uid", uid);
 
         long expiredTime = 1000L * 60 * 60 * 5; // TODO: 토큰 유효 시간 (5 시간)
 
@@ -47,7 +45,7 @@ public class Jwt {
                 .setClaims(payloads) // Claims 설정
                 .setSubject("auth-user") // 토큰 용도
                 .setExpiration(ext) // 토큰 만료 시간 설정
-                .signWith(SignatureAlgorithm.HS256, (SECRET_KEY + account.getSalt()).getBytes()) // HS256과 Key로 Sign
+                .signWith(SignatureAlgorithm.HS256, (SECRET_KEY + salt).getBytes()) // HS256과 Key로 Sign
                 .compact(); // 토큰 생성
 
         return jwt;

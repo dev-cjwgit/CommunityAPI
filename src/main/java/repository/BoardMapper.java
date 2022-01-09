@@ -1,7 +1,6 @@
 package repository;
 
-import domain.dto.BoardDTO;
-import domain.vo.AccountRegisterVO;
+import domain.entity.BoardDTO;
 import domain.vo.BoardVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

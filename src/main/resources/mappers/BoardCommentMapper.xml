@@ -8,7 +8,7 @@
         VALUES (#{comment.board_uid}, #{comment.account_uid}, #{comment.body});
     </insert>
 
-    <select id="getComment" resultType="domain.dto.BoardCommentDTO">
+    <select id="getComment" resultType="domain.entity.BoardCommentDTO">
         SELECT *
         FROM board_comment
         WHERE board_uid = #{board_uid}

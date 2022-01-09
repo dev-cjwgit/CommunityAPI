@@ -1,4 +1,4 @@
-package domain.dto;
+package domain.entity;
 
 import java.sql.Timestamp;
 

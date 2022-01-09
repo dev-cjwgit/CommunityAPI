@@ -1,8 +1,7 @@
 package service.interfaces;
 
-import domain.dto.BoardCommentDTO;
+import domain.entity.BoardCommentDTO;
 import domain.vo.BoardCommentVO;
-import domain.vo.BoardVO;
 import response.BaseResponse;
 
 import java.util.List;

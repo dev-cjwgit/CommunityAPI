@@ -1,6 +1,6 @@
 package service.interfaces;
 
-import domain.dto.StockDTO;
+import domain.entity.StockDTO;
 import domain.param.StockRequestModel;
 
 import java.util.List;

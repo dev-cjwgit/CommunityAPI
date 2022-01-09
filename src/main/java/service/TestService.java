@@ -1,6 +1,6 @@
 package service;
 
-import domain.dto.StockDTO;
+import domain.entity.StockDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.TestMapper;
