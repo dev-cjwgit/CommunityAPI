@@ -1,6 +1,6 @@
 package service.interfaces;
 
-import domain.entity.BoardCommentDTO;
+import domain.entity.BoardCommentEntity;
 import domain.vo.BoardCommentVO;
 import response.BaseResponse;
 
@@ -9,7 +9,7 @@ import java.util.List;
 public interface IBoardCommentService {
     BaseResponse createComment(BoardCommentVO comment) throws Exception;
 
-    List<BoardCommentDTO> getComment(Long board_uid, int page, int range) throws Exception;
+    List<BoardCommentEntity> getComment(Long board_uid, int page, int range) throws Exception;
 
     BaseResponse updateComment(BoardCommentVO comment) throws Exception;
 

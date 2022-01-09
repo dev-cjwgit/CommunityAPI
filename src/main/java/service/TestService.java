@@ -1,6 +1,6 @@
 package service;
 
-import domain.entity.StockDTO;
+import domain.entity.StockEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.TestMapper;
@@ -14,7 +14,7 @@ public class TestService implements ITestService {
     private TestMapper testMapper;
 
     @Override
-    public List<StockDTO> test1() throws Exception {
+    public List<StockEntity> test1() throws Exception {
         return testMapper.test();
     }
 }

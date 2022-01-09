@@ -1,6 +1,6 @@
 package service;
 
-import domain.entity.BoardDTO;
+import domain.entity.BoardEntity;
 import domain.vo.AuthVO;
 import domain.vo.BoardVO;
 import enums.ErrorMessage;
@@ -39,13 +39,13 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardDTO> getSummaryBoardList(int page, int range) throws Exception {
+    public List<BoardEntity> getSummaryBoardList(int page, int range) throws Exception {
         page = (page - 1) * range;
         return boardMapper.getSummaryBoardList(page, range);
     }
 
     @Override
-    public BoardDTO getBoardInfo(Long board_uid) throws Exception {
+    public BoardEntity getBoardInfo(Long board_uid) throws Exception {
         AuthVO authVO = authService.authUser();
 
 //        long user_uid = Long.parseLong(data.get("uid").toString());

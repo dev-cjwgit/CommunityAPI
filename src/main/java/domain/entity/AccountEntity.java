@@ -3,17 +3,17 @@ package domain.entity;
 import java.sql.Timestamp;
 
 public class AccountEntity {
-    private Long uid;
-    private String email;
-    private String password;
-    private String name;
-    private String nickname;
-    private Long point;
-    private short level;
-    private Timestamp updated_at;
-    private Timestamp created_at;
-    private Timestamp deleted_at;
-    private String salt;
+    protected Long uid;
+    protected String email;
+    protected String password;
+    protected String name;
+    protected String nickname;
+    protected Long point;
+    protected short level;
+    protected Timestamp updated_at;
+    protected Timestamp created_at;
+    protected Timestamp deleted_at;
+    protected String salt;
 
     public AccountEntity() {
     }

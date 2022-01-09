@@ -1,6 +1,6 @@
 package service;
 
-import domain.entity.StockDTO;
+import domain.entity.StockEntity;
 import domain.param.StockRequestModel;
 import domain.vo.AuthVO;
 import enums.ErrorMessage;
@@ -22,7 +22,7 @@ public class StockService implements IStockService {
     private StockMapper stockMapper;
 
     @Override
-    public List<StockDTO> getStockList(StockRequestModel model) throws Exception {
+    public List<StockEntity> getStockList(StockRequestModel model) throws Exception {
         AuthVO authVO = authService.authUser();
 
         if (authVO != null) {

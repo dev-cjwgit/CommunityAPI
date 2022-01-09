@@ -1,6 +1,6 @@
 package repository;
 
-import domain.entity.BoardDTO;
+import domain.entity.BoardEntity;
 import domain.vo.BoardVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -11,9 +11,9 @@ import java.util.List;
 public interface BoardMapper {
     void createBoard(@Param(value = "uid") Long uid, @Param(value = "board") BoardVO board);
 
-    List<BoardDTO> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardEntity> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
 
-    BoardDTO getBoardInfo(@Param(value = "board_uid") Long board_uid);
+    BoardEntity getBoardInfo(@Param(value = "board_uid") Long board_uid);
 
     void updateBoard(@Param(value = "board") BoardVO board);
 

@@ -1,11 +1,11 @@
 package repository;
 
-import domain.entity.StockDTO;
+import domain.entity.StockEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface TestMapper {
-    List<StockDTO> test();
+    List<StockEntity> test();
 }

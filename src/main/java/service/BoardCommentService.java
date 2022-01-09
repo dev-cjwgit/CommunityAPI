@@ -1,7 +1,7 @@
 package service;
 
-import domain.entity.BoardCommentDTO;
-import domain.entity.BoardDTO;
+import domain.entity.BoardCommentEntity;
+import domain.entity.BoardEntity;
 import domain.vo.AuthVO;
 import domain.vo.BoardCommentVO;
 import enums.ErrorMessage;
@@ -36,7 +36,7 @@ public class BoardCommentService implements IBoardCommentService {
     public BaseResponse createComment(BoardCommentVO comment) throws Exception {
         AuthVO authVO = authService.authUser();
 
-        BoardDTO board = boardMapper.getBoardInfo(comment.getBoard_uid());
+        BoardEntity board = boardMapper.getBoardInfo(comment.getBoard_uid());
 
         if (board == null)
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
@@ -52,10 +52,10 @@ public class BoardCommentService implements IBoardCommentService {
     }
 
     @Override
-    public List<BoardCommentDTO> getComment(Long board_uid, int page, int range) throws Exception {
+    public List<BoardCommentEntity> getComment(Long board_uid, int page, int range) throws Exception {
         AuthVO authVO = authService.authUser();
 
-        BoardDTO board = boardMapper.getBoardInfo(board_uid);
+        BoardEntity board = boardMapper.getBoardInfo(board_uid);
 
         if (board == null)
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);

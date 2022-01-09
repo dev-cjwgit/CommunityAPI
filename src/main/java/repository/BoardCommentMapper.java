@@ -1,6 +1,6 @@
 package repository;
 
-import domain.entity.BoardCommentDTO;
+import domain.entity.BoardCommentEntity;
 import domain.vo.BoardCommentVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
 public interface BoardCommentMapper {
     void createComment(@Param(value = "comment") BoardCommentVO comment);
 
-    List<BoardCommentDTO> getComment(@Param(value = "board_uid") Long board_uid, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardCommentEntity> getComment(@Param(value = "board_uid") Long board_uid, @Param(value = "page") int page, @Param(value = "range") int range);
 
     void updateComment(@Param(value = "comment") BoardCommentVO comment);
 
