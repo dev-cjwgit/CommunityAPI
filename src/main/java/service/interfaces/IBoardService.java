@@ -2,6 +2,7 @@ package service.interfaces;
 
 import domain.entity.BoardEntity;
 import domain.dto.BoardDTO;
+import domain.entity.BoardSummaryEntity;
 import response.BaseResponse;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface IBoardService {
     BaseResponse createBoard(BoardDTO board) throws Exception;
 
-    List<BoardEntity> getSummaryBoardList(int page, int range) throws Exception;
+    List<BoardSummaryEntity> getSummaryBoardList(int page, int range) throws Exception;
 
     BoardEntity getBoardInfo(Long board_uid) throws Exception;
 

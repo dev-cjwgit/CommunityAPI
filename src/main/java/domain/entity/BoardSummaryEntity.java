@@ -2,11 +2,10 @@ package domain.entity;
 
 import java.sql.Timestamp;
 
-public class BoardCommentEntity {
+public class BoardSummaryEntity {
     private Long uid;
-    private Long account_uid;
+    private String title;
     private String nickname;
-    private String body;
     private Timestamp created_at;
     private Timestamp updated_at;
     private Integer emotion;
@@ -15,12 +14,8 @@ public class BoardCommentEntity {
         return uid;
     }
 
-    public Long getAccount_uid() {
-        return account_uid;
-    }
-
-    public String getBody() {
-        return body;
+    public String getTitle() {
+        return title;
     }
 
     public Timestamp getCreated_at() {
@@ -31,11 +26,11 @@ public class BoardCommentEntity {
         return updated_at;
     }
 
-    public Integer getEmotion() {
-        return emotion;
-    }
-
     public String getNickname() {
         return nickname;
+    }
+
+    public Integer getEmotion() {
+        return emotion;
     }
 }

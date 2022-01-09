@@ -1,6 +1,6 @@
 package service;
 
-import domain.entity.StockEntity;
+import domain.entity.origin_mapping.StockEntity;
 import domain.param.StockRequestModel;
 import domain.dto.AuthDTO;
 import enums.ErrorMessage;

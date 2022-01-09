@@ -43,7 +43,7 @@
         WHERE uid = #{uid}
     </select>
 
-    <select id="getLoginInfoToEmail" resultType="domain.entity.AccountEntity">
+    <select id="getLoginInfoToEmail" resultType="domain.entity.origin_mapping.AccountEntity">
         SELECT uid, password, nickname, salt
         FROM account
         WHERE email = #{email}

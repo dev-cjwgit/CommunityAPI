@@ -1,6 +1,6 @@
 package repository;
 
-import domain.entity.StockEntity;
+import domain.entity.origin_mapping.StockEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -84,7 +84,7 @@ public class Jwt {
 
             Map<String, Object> map;
             map = new ObjectMapper().readValue(Base64.base64Decode(jwt.split("\\.")[1]), Map.class);
-            if (map.get("uid") == null || map.get("nickname") == null)
+            if (map.get("uid") == null)
                 throw new Exception("유효하지 않은 토큰입니다.");
 
             return Long.parseLong(map.get("uid").toString());

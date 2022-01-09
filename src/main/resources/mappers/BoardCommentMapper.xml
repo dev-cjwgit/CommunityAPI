@@ -9,10 +9,22 @@
     </insert>
 
     <select id="getComment" resultType="domain.entity.BoardCommentEntity">
-        SELECT *
-        FROM board_comment
-        WHERE board_uid = #{board_uid}
-        ORDER BY `create_at` ASC
+        SELECT BC.uid,
+               BC.account_uid,
+               A.nickname,
+               BC.body,
+               BC.created_at,
+               BC.updated_at,
+               (SELECT count(*)
+                FROM board_comment_emotion
+                WHERE board_comment_uid = BC.uid) as emotion
+        FROM board_comment BC
+                 LEFT OUTER JOIN
+             account A
+             ON
+                 BC.`account_uid` = A.uid
+        WHERE board_uid = 10
+        ORDER BY `created_at` ASC
             LIMIT ${page}, ${range};
     </select>
 

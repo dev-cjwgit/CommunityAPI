@@ -3,6 +3,7 @@ package service;
 import domain.entity.BoardEntity;
 import domain.dto.AuthDTO;
 import domain.dto.BoardDTO;
+import domain.entity.BoardSummaryEntity;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardEntity> getSummaryBoardList(int page, int range) throws Exception {
+    public List<BoardSummaryEntity> getSummaryBoardList(int page, int range) throws Exception {
         page = (page - 1) * range;
         return boardMapper.getSummaryBoardList(page, range);
     }

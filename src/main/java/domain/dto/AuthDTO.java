@@ -3,7 +3,7 @@ package domain.dto;
 public class AuthDTO {
     private Long uid;
 
-    public AuthDTO(Long uid, String nickname) {
+    public AuthDTO(Long uid) {
         this.uid = uid;
     }
 

@@ -1,6 +1,6 @@
 package repository;
 
-import domain.entity.AccountEntity;
+import domain.entity.origin_mapping.AccountEntity;
 import domain.dto.AccountRegisterDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

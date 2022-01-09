@@ -28,7 +28,6 @@ public class AuthService implements IAuthService {
         if (data == null)
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_NOT_LOAD);
 
-        return new AuthDTO(Long.parseLong(data.get("uid").toString()),
-                data.get("nickname").toString());
+        return new AuthDTO(Long.parseLong(data.get("uid").toString()));
     }
 }

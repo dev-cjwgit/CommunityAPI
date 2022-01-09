@@ -1,6 +1,6 @@
 package service;
 
-import domain.entity.AccountEntity;
+import domain.entity.origin_mapping.AccountEntity;
 import domain.dto.AccountRegisterDTO;
 import domain.dto.AuthDTO;
 import domain.dto.LoginDTO;

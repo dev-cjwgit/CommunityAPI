@@ -1,6 +1,6 @@
 package repository;
 
-import domain.entity.StockEntity;
+import domain.entity.origin_mapping.StockEntity;
 import domain.param.StockRequestModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

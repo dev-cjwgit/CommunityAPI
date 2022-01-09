@@ -1,6 +1,6 @@
-package domain.entity;
+package domain.entity.origin_mapping;
 
-public class BoardEmotion {
+public class BoardEmotionEntity {
     protected Long board_uid;
     protected Long account_uid;
     protected Short status;

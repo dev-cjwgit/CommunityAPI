@@ -1,6 +1,6 @@
 package service.interfaces;
 
-import domain.entity.StockEntity;
+import domain.entity.origin_mapping.StockEntity;
 import domain.param.StockRequestModel;
 
 import java.util.List;

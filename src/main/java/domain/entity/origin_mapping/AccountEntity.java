@@ -1,4 +1,4 @@
-package domain.entity;
+package domain.entity.origin_mapping;
 
 import java.sql.Timestamp;
 

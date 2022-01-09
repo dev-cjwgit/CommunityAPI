@@ -1,6 +1,6 @@
 package service;
 
-import domain.entity.StockEntity;
+import domain.entity.origin_mapping.StockEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.TestMapper;
