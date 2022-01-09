@@ -84,9 +84,24 @@
           AND `account_uid` = ${account_uid};
     </delete>
 
-    <select id="getBoardEmotion" resultType="Integer">
-        SELECT count(*)
-        FROM board_emotion
+    <select id="getBoardEmotion" resultType="domain.entity.BoardEmotionEntity">
+        SELECT BE.`account_uid`,
+               A.`nickname`,
+               BE.`status`
+        FROM `board_emotion` BE
+                 LEFT OUTER JOIN
+             `account` A
+             ON
+                 A.`uid` = BE.`account_uid`
         WHERE `board_uid` = #{board_uid};
+    </select>
+
+    <select id="isBoard" resultType="Boolean">
+        SELECT EXISTS(
+                       SELECT `uid`
+                       FROM `board`
+                       WHERE `uid` = #{board_uid}
+                       LIMIT 1
+                   );
     </select>
 </mapper>

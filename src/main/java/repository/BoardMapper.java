@@ -1,5 +1,6 @@
 package repository;
 
+import domain.entity.BoardEmotionEntity;
 import domain.entity.BoardEntity;
 import domain.dto.BoardDTO;
 import domain.entity.BoardSummaryEntity;
@@ -28,5 +29,7 @@ public interface BoardMapper {
 
     void deleteBoardEmotion(@Param(value = "board_uid") Long board_uid, @Param(value = "account_uid") Long account_uid);
 
-    Integer getBoardEmotion(@Param(value = "board_uid") Long board_uid);
+    List<BoardEmotionEntity> getBoardEmotion(@Param(value = "board_uid") Long board_uid);
+
+    Boolean isBoard(@Param(value = "board_uid") Long board_uid);
 }

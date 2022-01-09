@@ -1,5 +1,6 @@
 package repository;
 
+import domain.entity.BoardCommentEmotionEntity;
 import domain.entity.BoardCommentEntity;
 import domain.dto.BoardCommentDTO;
 import org.apache.ibatis.annotations.Param;
@@ -19,9 +20,11 @@ public interface BoardCommentMapper {
 
     Long getAccountUid(@Param(value = "comment_uid") Long comment_uid);
 
-    void createBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_uid, @Param(value = "account_uid") Long account_uid, @Param(value = "status") Integer status);
+    void createBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_comment_uid, @Param(value = "account_uid") Long account_uid, @Param(value = "status") Integer status);
 
-    void deleteBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_uid, @Param(value = "account_uid") Long account_uid);
+    void deleteBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_comment_uid, @Param(value = "account_uid") Long account_uid);
 
-    Integer getBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_uid);
+    List<BoardCommentEmotionEntity> getBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_comment_uid);
+
+    Boolean isBoardComment(@Param(value = "comment_uid")Long board_uid);
 }

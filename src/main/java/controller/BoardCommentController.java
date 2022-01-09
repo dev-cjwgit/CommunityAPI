@@ -57,7 +57,7 @@ public class BoardCommentController {
     }
 
     @RequestMapping(value = "/board/comment/emotion", method = RequestMethod.GET)
-    @ApiOperation(value = "댓글 감정표현 개수", notes = "댓글에 감정표현의 개수를 보기 위한 API입니다. {댓글 고유번호}")
+    @ApiOperation(value = "댓글 감정표현 상세 내역", notes = "댓글에 감정표현의 상세내역을 보기 위한 API입니다. {댓글 고유번호}")
     public ResponseEntity getBoardCommentEmotion(Long board_comment_uid) throws Exception {
         return new ResponseEntity(boardCommentService.getBoardCommentEmotion(board_comment_uid), HttpStatus.OK);
     }

@@ -80,12 +80,12 @@ public class Jwt {
     private Long getUid(String jwt) throws Exception {
         try {
             if (jwt.chars().filter(c -> c == '.').count() != 2)
-                throw new Exception("유효하지 않은 토큰입니다.");
+                throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_STRUCT);
 
             Map<String, Object> map;
             map = new ObjectMapper().readValue(Base64.base64Decode(jwt.split("\\.")[1]), Map.class);
             if (map.get("uid") == null)
-                throw new Exception("유효하지 않은 토큰입니다.");
+                throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_PAYLOADS);
 
             return Long.parseLong(map.get("uid").toString());
         } catch (JsonParseException ex) {

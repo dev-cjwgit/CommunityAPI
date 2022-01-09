@@ -1,5 +1,6 @@
 package service.interfaces;
 
+import domain.entity.BoardCommentEmotionEntity;
 import domain.entity.BoardCommentEntity;
 import domain.dto.BoardCommentDTO;
 import response.BaseResponse;
@@ -19,5 +20,5 @@ public interface IBoardCommentService {
 
     BaseResponse deleteBoardCommentEmotion(Long board_comment_uid) throws Exception;
 
-    Integer getBoardCommentEmotion(Long board_comment_uid) throws Exception;
+    List<BoardCommentEmotionEntity> getBoardCommentEmotion(Long board_comment_uid) throws Exception;
 }

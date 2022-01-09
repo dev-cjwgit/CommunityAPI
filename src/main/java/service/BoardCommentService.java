@@ -1,5 +1,6 @@
 package service;
 
+import domain.entity.BoardCommentEmotionEntity;
 import domain.entity.BoardCommentEntity;
 import domain.entity.BoardEntity;
 import domain.dto.AuthDTO;
@@ -134,8 +135,10 @@ public class BoardCommentService implements IBoardCommentService {
     }
 
     @Override
-    public Integer getBoardCommentEmotion(Long board_comment_uid) throws Exception {
+    public List<BoardCommentEmotionEntity> getBoardCommentEmotion(Long board_comment_uid) throws Exception {
         AuthDTO authVO = authService.authUser();
+        if (!boardCommentMapper.isBoardComment(board_comment_uid))
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 
         return boardCommentMapper.getBoardCommentEmotion(board_comment_uid);
     }

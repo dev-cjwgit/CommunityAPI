@@ -61,9 +61,24 @@
           AND `account_uid` = ${account_uid};
     </delete>
 
-    <select id="getBoardCommentEmotion" resultType="Integer">
-        SELECT count(*)
-        FROM board_comment_emotion
+    <select id="getBoardCommentEmotion" resultType="domain.entity.BoardCommentEmotionEntity">
+        SELECT BCE.`account_uid`,
+               A.`nickname`,
+               BCE.`status`
+        FROM `board_comment_emotion` BCE
+                 LEFT OUTER JOIN
+             `account` A
+             ON
+                 A.`uid` = BCE.`account_uid`
         WHERE `board_comment_uid` = #{board_comment_uid};
+    </select>
+
+    <select id="isBoardComment" resultType="Boolean">
+        SELECT EXISTS(
+                       SELECT `uid`
+                       FROM `board_comment`
+                       WHERE `uid` = #{comment_uid}
+                       LIMIT 1
+                   );
     </select>
 </mapper>

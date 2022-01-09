@@ -1,5 +1,6 @@
 package service;
 
+import domain.entity.BoardEmotionEntity;
 import domain.entity.BoardEntity;
 import domain.dto.AuthDTO;
 import domain.dto.BoardDTO;
@@ -137,8 +138,11 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public Integer getBoardEmotion(Long board_uid) throws Exception {
+    public List<BoardEmotionEntity> getBoardEmotion(Long board_uid) throws Exception {
         AuthDTO authVO = authService.authUser();
+
+        if (!boardMapper.isBoard(board_uid))
+            throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
         return boardMapper.getBoardEmotion(board_uid);
     }
