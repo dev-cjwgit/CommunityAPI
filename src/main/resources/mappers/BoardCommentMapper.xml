@@ -15,7 +15,7 @@
                BC.`body`,
                BC.`created_at`,
                BC.`updated_at`,
-               (SELECT count(*)
+               (SELECT count(`status`)
                 FROM board_comment_emotion
                 WHERE `board_comment_uid` = BC.`uid`) as emotion
         FROM board_comment BC
@@ -23,7 +23,7 @@
              account A
              ON
                  BC.`account_uid` = A.`uid`
-        WHERE board_uid = 10
+        WHERE board_uid = #{board_uid}
         ORDER BY `created_at` ASC
             LIMIT ${page}, ${range};
     </select>
