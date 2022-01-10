@@ -72,7 +72,7 @@ public class BoardService implements IBoardService {
 
 
         if (board_onwer != user_uid)
-            throw new BaseException(ErrorMessage.PERMISSION_EXCEPTION);
+            throw new BaseException(ErrorMessage.NOT_PERMISSION_EXCEPTION);
 
         boardMapper.updateBoard(board);
 
@@ -91,19 +91,12 @@ public class BoardService implements IBoardService {
 
 
         if (board_onwer != user_uid)
-            throw new BaseException(ErrorMessage.PERMISSION_EXCEPTION);
+            throw new BaseException(ErrorMessage.NOT_PERMISSION_EXCEPTION);
 
         boardMapper.deleteBoard(board_uid);
 
         return new BaseResponse("게시글 삭제에 성공했습니다.", HttpStatus.OK);
 
-    }
-
-    @Override
-    public Long getBoardListCnt() throws Exception {
-        AuthDTO authVO = authService.authUser();
-
-        return boardMapper.getBoardListCnt();
     }
 
     @Override
@@ -125,6 +118,7 @@ public class BoardService implements IBoardService {
     @Override
     public BaseResponse deleteBoardEmotion(Long board_uid) throws Exception {
         /**
+         * TODO: 공감이 없는 것에 대한 삭제 확인
          */
         AuthDTO authVO = authService.authUser();
 

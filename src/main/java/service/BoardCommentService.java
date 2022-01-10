@@ -76,7 +76,7 @@ public class BoardCommentService implements IBoardCommentService {
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 
         if (comment_onwer != user_uid)
-            throw new BaseException(ErrorMessage.PERMISSION_EXCEPTION);
+            throw new BaseException(ErrorMessage.NOT_PERMISSION_EXCEPTION);
 
         comment.setAccount_uid(user_uid);
 
@@ -97,7 +97,7 @@ public class BoardCommentService implements IBoardCommentService {
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 
         if (comment_onwer != user_uid)
-            throw new BaseException(ErrorMessage.PERMISSION_EXCEPTION);
+            throw new BaseException(ErrorMessage.NOT_PERMISSION_EXCEPTION);
 
         boardCommentMapper.deleteComment(board_comment_uid);
         return new BaseResponse("댓글 삭제에 성공했습니다.", HttpStatus.OK);

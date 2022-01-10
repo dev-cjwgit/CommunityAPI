@@ -42,11 +42,8 @@ public class AccountService implements IAccountService {
 
         // 비밀번호 암호화
         account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()));
-        try {
-            accountMapper.signUp(account);  // 회원 가입
-        } catch (Exception ex) {
-            throw ex;
-        }
+
+        accountMapper.signUp(account);  // 회원 가입
 
         // salt를 설정해주기위해 uid를 가져옴
         Long uid = accountMapper.getUidToEmail(account.getEmail());
