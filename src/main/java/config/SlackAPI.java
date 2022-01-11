@@ -15,6 +15,11 @@ import java.util.Map;
 
 @Configuration
 public class SlackAPI {
+    /**
+     *  TODO MEMO: 리팩토링 필요.
+     *  hide WebHook URL
+     *  Define Slack Message Type
+     */
     @Resource
     RestTemplate restTemplate;
 
