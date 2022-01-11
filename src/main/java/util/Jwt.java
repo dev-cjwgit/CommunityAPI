@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import repository.AccountMapper;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +59,7 @@ public class Jwt {
         String salt = accountMapper.getSaltToUid(uid);
         try {
             Claims claims = Jwts.parser()
-                    .setSigningKey((SECRET_KEY + salt).getBytes("UTF-8")) // Set Key
+                    .setSigningKey((SECRET_KEY + salt).getBytes(StandardCharsets.UTF_8)) // Set Key
                     .parseClaimsJws(jwt) // 파싱 및 검증, 실패 시 에러
                     .getBody();
 

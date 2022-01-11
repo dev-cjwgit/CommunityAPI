@@ -5,9 +5,9 @@ import exception.BaseException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.binding.BindingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +17,8 @@ import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    @Autowired
+    SlackAPI slackAPI;
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<Error> defaultException(Throwable e) {
@@ -48,6 +50,8 @@ public class GlobalExceptionHandler {
             for (StackTraceElement item : e.getStackTrace()) {
                 baseException.appendTrace(item.toString());
             }
+            slackAPI.send(baseException);
+            e.printStackTrace();
         }
 
         return new ResponseEntity<>(Error.create(baseException), baseException.getHttpStatus());
