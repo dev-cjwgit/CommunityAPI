@@ -72,7 +72,6 @@ public class Jwt {
         } catch (SignatureException ex) {
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_SIGNATURE);
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw ex;
         }
         return claimMap;
@@ -92,7 +91,6 @@ public class Jwt {
         } catch (JsonParseException ex) {
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_PAYLOADS);
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw ex;
         }
     }

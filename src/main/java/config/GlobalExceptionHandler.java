@@ -51,7 +51,6 @@ public class GlobalExceptionHandler {
                 baseException.appendTrace(item.toString());
             }
             slackAPI.send(baseException);
-            e.printStackTrace();
         }
 
         return new ResponseEntity<>(Error.create(baseException), baseException.getHttpStatus());
