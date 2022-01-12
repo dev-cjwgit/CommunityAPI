@@ -28,8 +28,8 @@ public class SlackSender {
     @Resource
     private RestTemplate restTemplate;
 
-    //    @Value("${slack_webhook_url}")
-    private String webhook_url = "https://hooks.slack.com/services/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";
+        @Value("${slack_webhook_url}")
+    private String webhook_url;
 
     @Bean
     public RestTemplate restTemplate() {
