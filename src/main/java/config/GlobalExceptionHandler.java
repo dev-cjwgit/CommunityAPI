@@ -1,5 +1,6 @@
 package config;
 
+import domain.dto.SlackDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import lombok.AllArgsConstructor;
@@ -18,10 +19,13 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @Autowired
-    SlackAPI slackAPI;
+    SlackSender slackAPI;
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<Error> defaultException(Throwable e) {
+        /**
+         * Error Message 리팩토링 필요
+         */
         BaseException baseException = null;
 
         if (e instanceof BaseException) {
@@ -50,7 +54,9 @@ public class GlobalExceptionHandler {
             for (StackTraceElement item : e.getStackTrace()) {
                 baseException.appendTrace(item.toString());
             }
-            slackAPI.send(baseException);
+            slackAPI.send(new SlackDTO(baseException.getErrorMessage().toString() + "", baseException.getErrorTrace().toString(), ":ghost:"));
+//            slackAPI.send(baseException);
+
         }
 
         return new ResponseEntity<>(Error.create(baseException), baseException.getHttpStatus());

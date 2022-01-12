@@ -12,6 +12,9 @@ public class BaseException extends RuntimeException {
     private List<String> errorTrace;
     private HttpStatus httpStatus;
 
+    public BaseException() {
+    }
+
     public BaseException(ErrorMessage errorMessage) {
         this.errorCode = errorMessage.getErrorCode();
         this.errorMessage = new ArrayList<>();
