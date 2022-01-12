@@ -1,4 +1,4 @@
-package config;
+package service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.dto.SlackDTO;
@@ -21,14 +21,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Configuration
+//@Configuration
+@Service
 public class SlackSender {
     /**
+     *
      */
     @Resource
     private RestTemplate restTemplate;
 
-        @Value("${slack_webhook_url}")
+    @Value("${slack_webhook_url}")
     private String webhook_url;
 
     @Bean
