@@ -15,6 +15,8 @@ public interface BoardMapper {
 
     List<BoardSummaryEntity> searchSummaryBoardTitleBody(@Param(value = "title") String title, @Param(value = "body") String body, @Param(value = "page") int page, @Param(value = "range") int range);
 
+    List<BoardSummaryEntity> searchSummaryBoardNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
+
     List<BoardSummaryEntity> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
 
     BoardEntity getBoardInfo(@Param(value = "board_uid") Long board_uid);

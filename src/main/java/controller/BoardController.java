@@ -27,14 +27,20 @@ public class BoardController {
 
     @RequestMapping(value = "/summaryboardlist", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 목록 요약 보기", notes = "게시글 요약 목록을 보기 위한 API입니다.")
-    public ResponseEntity searchSummaryBoardTitle(@RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
+    public ResponseEntity searchSummaryBoard(@RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
         return new ResponseEntity(boardService.getSummaryBoardList(page, range), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/search/summaryboard/title", method = RequestMethod.GET)
+    @RequestMapping(value = "/search/summaryboard/titlebody", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 제목, 내용 검색", notes = "게시글 제목 및 내용을 검색하기 위한 API입니다.")
-    public ResponseEntity getSummaryBoardList(@RequestParam(required = false, defaultValue = "") String title, @RequestParam(required = false, defaultValue = "") String body, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
+    public ResponseEntity getSummaryBoardListTitle(@RequestParam(required = false, defaultValue = "") String title, @RequestParam(required = false, defaultValue = "") String body, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
         return new ResponseEntity(boardService.searchSummaryBoardTitleBody(title, body, page, range), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/search/summaryboard/titlebody", method = RequestMethod.GET)
+    @ApiOperation(value = "게시글 제목, 내용 검색", notes = "게시글 제목 및 내용을 검색하기 위한 API입니다.")
+    public ResponseEntity getSummaryBoardListNickName(String nickname, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
+        return new ResponseEntity(boardService.searchSummaryBoardNickName(nickname, page, range), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/boardinfo", method = RequestMethod.GET)
