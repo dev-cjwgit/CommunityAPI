@@ -70,7 +70,7 @@
                  BC.`board_uid` = B.`uid`
         WHERE BC.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%${nickname}%")
         ORDER BY B.`created_at` DESC
-        LIMIT ${page}, ${range};
+            LIMIT ${page}, ${range};
     </select>
 
     <select id="searchSummaryBoardTitle" resultType="domain.entity.BoardSummaryEntity">
