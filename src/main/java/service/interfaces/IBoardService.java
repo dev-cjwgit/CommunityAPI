@@ -13,6 +13,8 @@ public interface IBoardService {
 
     List<BoardSummaryEntity> getSummaryBoardList(int page, int range) throws Exception;
 
+    List<BoardSummaryEntity> searchSummaryBoardTitle(String word, int page, int range) throws Exception;
+
     BoardEntity getBoardInfo(Long board_uid) throws Exception;
 
     BaseResponse updateBoard(BoardDTO board) throws Exception;

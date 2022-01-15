@@ -47,6 +47,15 @@ public class BoardService implements IBoardService {
     }
 
     @Override
+    public List<BoardSummaryEntity> searchSummaryBoardTitle(String word, int page, int range) throws Exception {
+        if (word.length() < 2)
+            throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
+
+        page = (page - 1) * range;
+        return boardMapper.searchSummaryBoardTitle(word, page, range);
+    }
+
+    @Override
     public BoardEntity getBoardInfo(Long board_uid) throws Exception {
         AuthDTO authVO = authService.authUser();
 

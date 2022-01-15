@@ -13,36 +13,43 @@ import service.interfaces.IBoardService;
 @Controller
 public class BoardController {
     /**
+     *
      */
     @Autowired
     private IBoardService boardService;
 
     //region Board CRUD
-    @RequestMapping(value = "/create-board", method = RequestMethod.POST)
+    @RequestMapping(value = "/board", method = RequestMethod.POST)
     @ApiOperation(value = "게시글 생성", notes = "게시글을 생성하기 위한 API입니다. {제목, 내용}")
     public ResponseEntity signUp(@RequestBody @Validated(BoardDTO.class) BoardDTO board) throws Exception {
         return new ResponseEntity(boardService.createBoard(board), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/read-summaryboardlist", method = RequestMethod.GET)
+    @RequestMapping(value = "/summaryboardlist", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 목록 요약 보기", notes = "게시글 요약 목록을 보기 위한 API입니다.")
-    public ResponseEntity getSummaryBoardList(@RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
+    public ResponseEntity searchSummaryBoardTitle(@RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
         return new ResponseEntity(boardService.getSummaryBoardList(page, range), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/read-boardinfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/search/summaryboard/title", method = RequestMethod.GET)
+    @ApiOperation(value = "게시글 제목 검색", notes = "게시글 제목을 검색하기 위한 API입니다.")
+    public ResponseEntity getSummaryBoardList(String word, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
+        return new ResponseEntity(boardService.searchSummaryBoardTitle(word, page, range), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/boardinfo", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 상세 보기", notes = "게시글을 상세하게 보기 위한 API입니다. {게시글 고유번호}")
     public ResponseEntity getBoardInfo(Long board_uid) throws Exception {
         return new ResponseEntity(boardService.getBoardInfo(board_uid), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/update-board", method = RequestMethod.PUT)
+    @RequestMapping(value = "/board", method = RequestMethod.PUT)
     @ApiOperation(value = "게시글 수정", notes = "게시글을 수정하기 위한 API입니다. {게시글 고유번호, 제목, 내용}")
     public ResponseEntity updateBoard(@RequestBody @Validated(BoardDTO.class) BoardDTO board) throws Exception {
         return new ResponseEntity(boardService.updateBoard(board), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete-board", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/board", method = RequestMethod.DELETE)
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제하기 위한 API입니다. {게시글 고유번호}")
     public ResponseEntity deleteBoard(@RequestBody Long board_uid) throws Exception {
         return new ResponseEntity(boardService.deleteBoard(board_uid), HttpStatus.OK);
@@ -55,7 +62,7 @@ public class BoardController {
         return new ResponseEntity(boardService.createBoardEmotion(board_uid, status), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "board/emotion", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/board/emotion", method = RequestMethod.DELETE)
     @ApiOperation(value = "게시글 감정표현 취소", notes = "게시글 감정표현을 취소 위한 API입니다. {게시판 고유번호}")
     public ResponseEntity deleteBoardEmotion(@RequestBody Long board_uid) throws Exception {
         return new ResponseEntity(boardService.deleteBoardEmotion(board_uid), HttpStatus.OK);

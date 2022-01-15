@@ -17,6 +17,7 @@ public enum ErrorMessage {
     SIGNUP_EXIST_EMAIL(201, "이미 가입된 이메일입니다.", HttpStatus.BAD_REQUEST),
 
     NOT_EXIST_BOARD(300, "존재하지 않는 게시글입니다.", HttpStatus.BAD_REQUEST),
+    SEARCH_WORD_LENGTH(320, "검색은 2글자 이상으로 입력해야 합니다.", HttpStatus.BAD_REQUEST),
     NOT_EXIST_BOARD_COMMENT(350, "존재하지 않는 댓글입니다.", HttpStatus.BAD_REQUEST),
 
     ACCESS_TOKEN_EXPIRE(1000, "토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
