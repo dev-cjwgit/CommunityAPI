@@ -13,7 +13,7 @@ public interface IBoardService {
 
     List<BoardSummaryEntity> getSummaryBoardList(int page, int range) throws Exception;
 
-    List<BoardSummaryEntity> searchSummaryBoardTitle(String word, int page, int range) throws Exception;
+    List<BoardSummaryEntity> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception;
 
     BoardEntity getBoardInfo(Long board_uid) throws Exception;
 

@@ -32,9 +32,9 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/search/summaryboard/title", method = RequestMethod.GET)
-    @ApiOperation(value = "게시글 제목 검색", notes = "게시글 제목을 검색하기 위한 API입니다.")
-    public ResponseEntity getSummaryBoardList(String word, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
-        return new ResponseEntity(boardService.searchSummaryBoardTitle(word, page, range), HttpStatus.OK);
+    @ApiOperation(value = "게시글 제목, 내용 검색", notes = "게시글 제목 및 내용을 검색하기 위한 API입니다.")
+    public ResponseEntity getSummaryBoardList(@RequestParam(required = false, defaultValue = "") String title, @RequestParam(required = false, defaultValue = "") String body, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
+        return new ResponseEntity(boardService.searchSummaryBoardTitleBody(title, body, page, range), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/boardinfo", method = RequestMethod.GET)

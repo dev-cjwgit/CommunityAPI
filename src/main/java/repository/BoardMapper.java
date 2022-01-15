@@ -13,7 +13,7 @@ import java.util.List;
 public interface BoardMapper {
     void createBoard(@Param(value = "uid") Long uid, @Param(value = "board") BoardDTO board);
 
-    List<BoardSummaryEntity> searchSummaryBoardTitle(@Param(value = "word") String word, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardSummaryEntity> searchSummaryBoardTitleBody(@Param(value = "title") String title, @Param(value = "body") String body, @Param(value = "page") int page, @Param(value = "range") int range);
 
     List<BoardSummaryEntity> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
 

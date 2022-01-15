@@ -47,12 +47,17 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardSummaryEntity> searchSummaryBoardTitle(String word, int page, int range) throws Exception {
-        if (word.length() < 2)
+    public List<BoardSummaryEntity> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception {
+        if (title.length() < 2 && body.length() < 2)
             throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
 
+        if (title.length() < 2)
+            title = null;
+        if (body.length() < 2)
+            body = null;
+
         page = (page - 1) * range;
-        return boardMapper.searchSummaryBoardTitle(word, page, range);
+        return boardMapper.searchSummaryBoardTitleBody(title, body, page, range);
     }
 
     @Override

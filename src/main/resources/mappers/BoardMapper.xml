@@ -8,6 +8,28 @@
         VALUES (#{board.title}, #{board.body}, #{uid});
     </insert>
 
+    <select id="searchSummaryBoardTitleBody" resultType="domain.entity.BoardSummaryEntity">
+        SELECT B.`uid`,
+               B.`title`,
+               A.`nickname`,
+               B.`created_at`,
+               B.`updated_at`,
+               (SELECT count(*)
+                FROM board_emotion
+                WHERE board_uid = B.uid) as emotion
+        FROM board B
+                 LEFT OUTER JOIN
+             account A
+             ON
+                 B.`account_uid` = A.`uid`
+        <where>
+            <if test="title != null">OR `title` LIKE "%${title}%"</if>
+            <if test="body != null">OR `body` LIKE "%${body}%"</if>
+        </where>
+        ORDER BY B.`created_at` DESC
+            LIMIT ${page}, ${range};
+    </select>
+
     <select id="searchSummaryBoardTitle" resultType="domain.entity.BoardSummaryEntity">
         SELECT B.`uid`,
                B.`title`,
