@@ -17,6 +17,8 @@ public interface IBoardService {
 
     List<BoardSummaryEntity> searchSummaryBoardNickName(String nickname, int page, int range) throws Exception;
 
+    List<BoardSummaryEntity> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception;
+
     BoardEntity getBoardInfo(Long board_uid) throws Exception;
 
     BaseResponse updateBoard(BoardDTO board) throws Exception;

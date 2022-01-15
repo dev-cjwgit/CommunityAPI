@@ -43,6 +43,12 @@ public class BoardController {
         return new ResponseEntity(boardService.searchSummaryBoardNickName(nickname, page, range), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/search/summaryboard/comment/nickname", method = RequestMethod.GET)
+    @ApiOperation(value = "게시글 제목, 내용 검색", notes = "게시글 제목 및 내용을 검색하기 위한 API입니다.")
+    public ResponseEntity getSummaryBoardListCommentNickName(String nickname, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
+        return new ResponseEntity(boardService.searchSummaryBoardNickName(nickname, page, range), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/boardinfo", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 상세 보기", notes = "게시글을 상세하게 보기 위한 API입니다. {게시글 고유번호}")
     public ResponseEntity getBoardInfo(Long board_uid) throws Exception {

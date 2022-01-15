@@ -70,6 +70,15 @@ public class BoardService implements IBoardService {
     }
 
     @Override
+    public List<BoardSummaryEntity> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception {
+        if (nickname.length() < 2)
+            throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
+
+        page = (page - 1) * range;
+        return boardMapper.searchSummaryBoardCommentNickName(nickname, page, range);
+    }
+
+    @Override
     public BoardEntity getBoardInfo(Long board_uid) throws Exception {
         AuthDTO authVO = authService.authUser();
 
