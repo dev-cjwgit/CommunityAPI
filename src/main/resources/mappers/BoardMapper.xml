@@ -22,7 +22,7 @@
              account A
              ON
                  A.`uid` = B.`account_uid`
-        WHERE B.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%${nickname}")
+        WHERE B.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%${nickname}%")
         ORDER BY B.`created_at` DESC
             LIMIT ${page}, ${range};
     </select>
@@ -47,6 +47,30 @@
                 </where>
             ORDER BY B.`created_at` DESC
                 LIMIT ${page}, ${range};
+    </select>
+
+    <select id="searchSummaryBoardCommentNickName" resultType="domain.entity.BoardSummaryEntity">
+        SELECT DISTINCT B.`uid`,
+                        B.`title`,
+                        A.`nickname`,
+                        B.`created_at`,
+                        B.`updated_at`,
+                        (SELECT count(*)
+                         FROM board_emotion
+                         WHERE board_uid = B.uid) as emotion
+        FROM board B
+                 LEFT OUTER JOIN
+             account A
+             ON
+                 A.`uid` = B.`account_uid`
+
+                 LEFT OUTER JOIN
+             board_comment BC
+             ON
+                 BC.`board_uid` = B.`uid`
+        WHERE BC.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%개발%")
+        ORDER BY B.`created_at` DESC
+        LIMIT ${page}, ${range};
     </select>
 
     <select id="searchSummaryBoardTitle" resultType="domain.entity.BoardSummaryEntity">
