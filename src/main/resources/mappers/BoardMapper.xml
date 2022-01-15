@@ -68,7 +68,7 @@
              board_comment BC
              ON
                  BC.`board_uid` = B.`uid`
-        WHERE BC.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%개발%")
+        WHERE BC.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%${nickname}%")
         ORDER BY B.`created_at` DESC
         LIMIT ${page}, ${range};
     </select>
