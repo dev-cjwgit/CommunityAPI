@@ -6,7 +6,7 @@
         <!-- db 구조 -->
         INSERT INTO board(`title`, `body`, `account_uid`)
         VALUES (#{board.title}, #{board.body}, #{uid});
-    </insert>…
+    </insert>
 
     <select id="searchSummaryBoardNickName" resultType="domain.entity.BoardSummaryEntity">
         SELECT B.`uid`,
