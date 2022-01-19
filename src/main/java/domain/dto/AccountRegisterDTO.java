@@ -8,16 +8,16 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class AccountRegisterDTO {
-    @NotNull(groups = {ValidationGroups.signUp.class}, message = "이메일은 공백일 수 없습니다.")
+    @NotNull(groups = {ValidationGroups.signUp.class, ValidationGroups.withdraw.class}, message = "이메일은 공백일 수 없습니다.")
     @Email(groups = {ValidationGroups.signUp.class}, message = "이메일 형식이 아닙니다.")
     private String email;
 
     @NotNull(groups = {ValidationGroups.signUp.class}, message = "비밀번호는 공백일 수 없습니다.")
-    @Size(min = 8, max = 30, groups = {ValidationGroups.signUp.class}, message = "비밀번호는은 8글자 이상 30글자 이하입니다.")
+    @Size(min = 8, max = 30, groups = {ValidationGroups.signUp.class, ValidationGroups.withdraw.class}, message = "비밀번호는은 8글자 이상 30글자 이하입니다.")
     private String password;
 
     @NotNull(groups = {ValidationGroups.signUp.class}, message = "이름은 공백일 수 없습니다.")
-    @Size(min = 2, max = 20, groups = {ValidationGroups.signUp.class}, message = "이름은 2글자이상 20글자 이하입니다.")
+    @Size(min = 2, max = 20, groups = {ValidationGroups.signUp.class, ValidationGroups.withdraw.class}, message = "이름은 2글자이상 20글자 이하입니다.")
     @Pattern(regexp = "^[a-zA-Z가-힣0-9]{1,20}$", groups = {ValidationGroups.signUp.class}, message = "이름은 특수문자와 초성은 사용불가능합니다")
     private String name;
 

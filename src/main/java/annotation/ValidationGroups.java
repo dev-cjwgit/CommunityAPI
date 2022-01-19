@@ -9,4 +9,6 @@ public class ValidationGroups {
     public interface signUp extends Default {};
 
     public interface login extends Default {};
+
+    public interface withdraw extends Default{};
 }

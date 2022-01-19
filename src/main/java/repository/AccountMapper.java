@@ -7,7 +7,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountMapper {
-    void signUp(@Param(value = "account") AccountRegisterDTO account);
+    void signup(@Param(value = "account") AccountRegisterDTO account);
+
+    void reSignup(@Param(value = "uid") Long uid, @Param(value = "account") AccountRegisterDTO account);
+
+    void withdraw(@Param(value = "uid") Long uid);
 
     Boolean isExistEmail(@Param(value = "email") String email);
 
@@ -19,5 +23,9 @@ public interface AccountMapper {
 
     AccountEntity getLoginInfoToEmail(@Param(value = "email") String email);
 
+    AccountEntity getWithdrawInfoToUid(@Param(value = "uid") Long uid);
+
     String getSaltToUid(@Param(value = "uid") Long uid);
+
+    String getPasswordToEamil(@Param(value = "email") String email);
 }

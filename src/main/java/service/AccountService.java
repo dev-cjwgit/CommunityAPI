@@ -30,11 +30,10 @@ public class AccountService implements IAccountService {
     @Autowired
     private IAuthService authService;
 
-    @Override
-    public BaseResponse signUp(AccountRegisterDTO account) throws Exception {
-        // 이메일 중복체크
-        if (accountMapper.isExistEmail(account.getEmail()))
-            throw new BaseException(ErrorMessage.SIGNUP_EXIST_EMAIL);
+    private BaseResponse reSignup(AccountRegisterDTO account) throws Exception {
+        /**
+         * TODO MEMO: 맨 처음에 timestamp 비교하여 삭제 후 N일 가입 불가 기능 추가 가능
+         */
 
         // 닉네임 중복체크
         if (accountMapper.isExistNickName(account.getNickname()))
@@ -43,7 +42,40 @@ public class AccountService implements IAccountService {
         // 비밀번호 암호화
         account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()));
 
-        accountMapper.signUp(account);  // 회원 가입
+        // salt를 설정해주기위해 uid를 가져옴
+        Long uid = accountMapper.getUidToEmail(account.getEmail());
+
+        accountMapper.reSignup(uid, account);  // 재 회원 가입
+
+        // salt 생성을 위한 날짜
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        String salt = uid.toString() + calendar.getTime();
+
+        salt = (BCrypt.hashpw(salt, BCrypt.gensalt()));
+        accountMapper.setSalt(uid, salt);
+
+        return new BaseResponse("재 회원가입에 성공했습니다.", HttpStatus.OK);
+    }
+
+    @Override
+    public BaseResponse signUp(AccountRegisterDTO account) throws Exception {
+        // 이메일 중복체크
+        if (accountMapper.isExistEmail(account.getEmail())) {
+            if (accountMapper.getPasswordToEamil(account.getEmail()) == null)
+                return reSignup(account);
+
+            throw new BaseException(ErrorMessage.SIGNUP_EXIST_EMAIL);
+        }
+
+        // 닉네임 중복체크
+        if (accountMapper.isExistNickName(account.getNickname()))
+            throw new BaseException(ErrorMessage.SIGNUP_EXIST_NICKNAME);
+
+        // 비밀번호 암호화
+        account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()));
+
+        accountMapper.signup(account);  // 회원 가입
 
         // salt를 설정해주기위해 uid를 가져옴
         Long uid = accountMapper.getUidToEmail(account.getEmail());
@@ -60,6 +92,33 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public BaseResponse withdraw(AccountRegisterDTO account) throws Exception {
+        AuthDTO authVO = authService.authUser();
+
+        if (authVO == null)
+            throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID);
+
+        AccountEntity accountDTO = accountMapper.getWithdrawInfoToUid(authVO.getUid());
+
+        if (accountDTO == null)
+            throw new RequestInputException(ErrorMessage.LOGIN_NOT_EXIST_EMAIL);
+
+        if (accountDTO.getPassword() == null)
+            throw new RequestInputException(ErrorMessage.DONT_EXIST_ACCOUNT);
+
+        if (!accountDTO.getEmail().equals(account.getEmail()) || !accountDTO.getName().equals(account.getName()))
+            throw new RequestInputException(ErrorMessage.NOT_MATCH_ACCOUNT_INFO);
+
+
+        if (!BCrypt.checkpw(account.getPassword(), accountDTO.getPassword())) {
+            throw new RequestInputException(ErrorMessage.LOGIN_NOT_PASSWORD);
+        } else {
+            accountMapper.withdraw(authVO.getUid());
+            return new BaseResponse("회원 탈퇴에 성공하였습니다.", HttpStatus.OK);
+        }
+    }
+
+    @Override
     public Map<String, Object> checkKey(String token) throws Exception {
         return jwt.verifyJWT(token);
     }
@@ -69,6 +128,9 @@ public class AccountService implements IAccountService {
         AccountEntity accountDTO = accountMapper.getLoginInfoToEmail(account.getEmail());
         if (accountDTO == null)
             throw new RequestInputException(ErrorMessage.LOGIN_NOT_EXIST_EMAIL);
+
+        if (accountDTO.getPassword() == null)
+            throw new RequestInputException(ErrorMessage.DONT_EXIST_ACCOUNT);
 
         if (!BCrypt.checkpw(account.getPassword(), accountDTO.getPassword())) {
             throw new RequestInputException(ErrorMessage.LOGIN_NOT_PASSWORD);

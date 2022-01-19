@@ -27,6 +27,12 @@ public class AccountController {
         return new ResponseEntity(accountService.signUp(account), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
+    @ApiOperation(value = "회원탈퇴", notes = "회원탈퇴을 위한 API입니다. {이메일, 비밀번호, 실명}")
+    public ResponseEntity withdraw(@RequestBody @Validated(ValidationGroups.withdraw.class) AccountRegisterDTO account) throws Exception {
+        return new ResponseEntity(accountService.withdraw(account), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation(value = "로그인", notes = "로그인을 위한 API입니다. {이메일, 비밀번호}")
     public ResponseEntity login(@RequestBody @Validated(ValidationGroups.login.class) LoginDTO account) throws Exception {
