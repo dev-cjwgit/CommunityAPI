@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class BoardService implements IBoardService {
     /**
-     *
+     * TODO MEMO: 페이지네이션 리팩토링 필요
      */
     @Autowired
     private AccountService accountService;

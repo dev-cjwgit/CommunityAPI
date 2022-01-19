@@ -33,6 +33,8 @@ public class AccountService implements IAccountService {
     private BaseResponse reSignup(AccountRegisterDTO account) throws Exception {
         /**
          * TODO MEMO: 맨 처음에 timestamp 비교하여 삭제 후 N일 가입 불가 기능 추가 가능
+         * TODO: 삭제 시 따로 만들어서 저장해야 할 듯.
+         * 현재 mariadb의 외래키 사용으로 전부 지워지긴 한데 이는 uid가 지워져야 가능한 일임.
          */
 
         // 닉네임 중복체크

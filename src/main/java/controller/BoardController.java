@@ -13,7 +13,8 @@ import service.interfaces.IBoardService;
 @Controller
 public class BoardController {
     /**
-     *
+     *  TODO MEMO: 게시글 검색을 굳이 3개로 나눌 필요가 없음.
+     *  서비스단, 맵퍼단에서 수정이 가능함.
      */
     @Autowired
     private IBoardService boardService;
