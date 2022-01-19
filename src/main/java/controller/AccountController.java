@@ -15,7 +15,6 @@ import service.interfaces.IAccountService;
 @Controller
 public class AccountController {
     /**
-     * TODO: 회원 탈퇴 구현 필요
      * TODO MEMO: JWT에 로그아웃 개념은??
      */
     @Autowired
