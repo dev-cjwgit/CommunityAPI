@@ -3,7 +3,6 @@ package service;
 import domain.dto.AccountDTO;
 import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
-import domain.dto.BoardSummaryDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +39,13 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardSummaryDTO> getSummaryBoardList(int page, int range) throws Exception {
+    public List<BoardDTO> getSummaryBoardList(int page, int range) throws Exception {
         page = (page - 1) * range;
         return boardMapper.getSummaryBoardList(page, range);
     }
 
     @Override
-    public List<BoardSummaryDTO> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception {
+    public List<BoardDTO> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception {
         if (title.length() < 2 && body.length() < 2)
             throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
 
@@ -60,7 +59,7 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardSummaryDTO> searchSummaryBoardNickName(String nickname, int page, int range) throws Exception {
+    public List<BoardDTO> searchSummaryBoardNickName(String nickname, int page, int range) throws Exception {
         if (nickname.length() < 2)
             throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
 
@@ -69,7 +68,7 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardSummaryDTO> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception {
+    public List<BoardDTO> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception {
         if (nickname.length() < 2)
             throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
 

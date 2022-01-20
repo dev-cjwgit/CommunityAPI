@@ -2,7 +2,6 @@ package repository;
 
 import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
-import domain.dto.BoardSummaryDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,13 +11,13 @@ import java.util.List;
 public interface BoardMapper {
     void createBoard(@Param(value = "uid") Long uid, @Param(value = "board") BoardDTO board);
 
-    List<BoardSummaryDTO> searchSummaryBoardTitleBody(@Param(value = "title") String title, @Param(value = "body") String body, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardDTO> searchSummaryBoardTitleBody(@Param(value = "title") String title, @Param(value = "body") String body, @Param(value = "page") int page, @Param(value = "range") int range);
 
-    List<BoardSummaryDTO> searchSummaryBoardNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardDTO> searchSummaryBoardNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
 
-    List<BoardSummaryDTO> searchSummaryBoardCommentNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardDTO> searchSummaryBoardCommentNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
 
-    List<BoardSummaryDTO> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardDTO> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
 
     BoardDTO getBoardInfo(@Param(value = "board_uid") Long board_uid);
 
