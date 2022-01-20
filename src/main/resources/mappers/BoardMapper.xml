@@ -10,8 +10,8 @@
         <result property="nickname" column="nickname"/>
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
-        <result property="emotionCount" column="emotion_count"/>
-        <collection property="emotionList" column="emotion_list" javaType="java.util.ArrayList"
+        <collection property="emotionCount" column="{board_uid=uid}" javaType="Integer" select="getBoardEmotionCount"/>
+        <collection property="emotionList" column="{board_uid=uid}" javaType="java.util.ArrayList"
                     ofType="domain.dto.BoardEmotionDTO" select="getBoardEmotion"/>
     </resultMap>
 
@@ -124,19 +124,24 @@
         LIMIT ${page}, ${range};
     </select>
 
+    <select id="getBoardEmotionCount" resultType="Integer">
+        SELECT count(*)
+        FROM board_emotion
+        WHERE board_uid = #{board_uid}
+    </select>
+
     <select id="getBoard" resultType="domain.dto.BoardDTO" resultMap="Board">
         SELECT B.`uid`,
         B.`title`,
         A.`nickname`,
         B.`created_at`,
-        B.`updated_at`,
         <if test="board.detail">
             A.`uid` as accountUid,
             B.`body`,
         </if>
-        (SELECT count(*)
-        FROM board_emotion
-        WHERE board_uid = B.uid) as emotion_count
+        B.`updated_at`
+
+
         FROM board B
         LEFT OUTER JOIN
         account A
