@@ -1,10 +1,18 @@
 package domain.dto;
 
 public class BoardEmotionDTO {
+    private Long boardUid;
     private Long accountUid;
     private String nickname;
     private Short status;
 
+    public Long getBoardUid() {
+        return boardUid;
+    }
+
+    public void setBoardUid(Long boardUid) {
+        this.boardUid = boardUid;
+    }
 
     public Long getAccountUid() {
         return accountUid;

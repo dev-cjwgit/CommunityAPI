@@ -1,15 +1,13 @@
 package domain.dto;
 
-import domain.Pagination;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -29,7 +27,7 @@ public class BoardDTO {
     @ApiModelProperty(hidden = true)
     private Integer emotionCount;
     @ApiModelProperty(hidden = true)
-    private Map<Short, AccountDTO> emotionList;
+    private ArrayList<BoardEmotionDTO> emotionList;
 
     public BoardDTO() {
 
@@ -99,11 +97,11 @@ public class BoardDTO {
         this.emotionCount = emotionCount;
     }
 
-    public Map<Short, AccountDTO> getEmotionList() {
+    public List<BoardEmotionDTO> getEmotionList() {
         return emotionList;
     }
 
-    public void setEmotionList(Map<Short, AccountDTO> emotionList) {
+    public void setEmotionList(ArrayList<BoardEmotionDTO> emotionList) {
         this.emotionList = emotionList;
     }
 }

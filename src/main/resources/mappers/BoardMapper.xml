@@ -11,6 +11,8 @@
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
         <result property="emotionCount" column="emotion_count"/>
+        <collection property="emotionList" column="emotion_list" javaType="java.util.ArrayList"
+                    ofType="domain.dto.BoardEmotionDTO" select="getBoardEmotion"/>
     </resultMap>
 
     <resultMap id="BoardEmotion" type="domain.dto.BoardEmotionDTO">
@@ -19,6 +21,17 @@
         <result property="nickname" column="nickname"/>
         <result property="status" column="status"/>
     </resultMap>
+
+    <select id="getBoardEmotion" resultType="domain.dto.BoardEmotionDTO" resultMap="BoardEmotion">
+        SELECT BC.`board_uid`, A.`nickname`, BC.`account_uid`, BC.`status`
+        FROM `board_emotion` BC
+                 LEFT OUTER JOIN
+             account A
+             ON
+                 BC.`account_uid` = A.`uid`
+        WHERE BC.`board_uid` = #{board_uid}
+    </select>
+
 
     <!--    CRUD    -->
     <insert id="createBoard">
@@ -113,22 +126,22 @@
 
     <select id="getBoard" resultType="domain.dto.BoardDTO" resultMap="Board">
         SELECT B.`uid`,
-               B.`title`,
-               A.`nickname`,
-               B.`created_at`,
-               B.`updated_at`,
-               <if test="board.detail">
-                   A.`uid` as accountUid,
-                   B.`body`,
-               </if>
-               (SELECT count(*)
-                FROM board_emotion
-                WHERE board_uid = B.uid) as emotion_count
+        B.`title`,
+        A.`nickname`,
+        B.`created_at`,
+        B.`updated_at`,
+        <if test="board.detail">
+            A.`uid` as accountUid,
+            B.`body`,
+        </if>
+        (SELECT count(*)
+        FROM board_emotion
+        WHERE board_uid = B.uid) as emotion_count
         FROM board B
-                 LEFT OUTER JOIN
-             account A
-             ON
-                 B.`account_uid` = A.`uid`
+        LEFT OUTER JOIN
+        account A
+        ON
+        B.`account_uid` = A.`uid`
         <where>
             <choose>
                 <when test="board.uid == null">
@@ -185,18 +198,6 @@
         WHERE `board_uid` = ${board_uid}
           AND `account_uid` = ${account_uid};
     </delete>
-
-    <select id="getBoardEmotion" resultType="domain.dto.BoardEmotionDTO" resultMap="BoardEmotion">
-        SELECT BE.`account_uid`,
-               A.`nickname`,
-               BE.`status`
-        FROM `board_emotion` BE
-                 LEFT OUTER JOIN
-             `account` A
-             ON
-                 A.`uid` = BE.`account_uid`
-        WHERE `board_uid` = #{board_uid};
-    </select>
 
     <select id="isBoard" resultType="Boolean">
         SELECT EXISTS(
