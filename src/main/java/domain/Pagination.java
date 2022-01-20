@@ -10,10 +10,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Pagination {
-    @ApiParam(defaultValue = "2")
-    private Integer page = 2;
-    @ApiModelProperty(hidden = true)
-    private Integer endPage;
+    @ApiParam(defaultValue = "1")
+    private Integer page = 1;
+
     @ApiParam(defaultValue = "10")
     private Integer range = 10;
 
@@ -23,14 +22,6 @@ public class Pagination {
 
     public void setPage(Integer page) {
         this.page = page;
-    }
-
-    public Integer getEndPage() {
-        return endPage;
-    }
-
-    public void setEndPage(Integer endPage) {
-        this.endPage = endPage;
     }
 
     public Integer getRange() {
