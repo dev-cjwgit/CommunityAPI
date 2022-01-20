@@ -1,8 +1,8 @@
 package service;
 
-import domain.entity.origin_mapping.StockEntity;
+import domain.dto.AccountDTO;
+import domain.dto.StockDTO;
 import domain.param.StockRequestModel;
-import domain.dto.AuthDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ public class StockService implements IStockService {
     private StockMapper stockMapper;
 
     @Override
-    public List<StockEntity> getStockList(StockRequestModel model) throws Exception {
-        AuthDTO authVO = authService.authUser();
+    public List<StockDTO> getStockList(StockRequestModel model) throws Exception {
+        AccountDTO servAccountDTO = authService.authUser();
 
-        if (authVO != null) {
+        if (servAccountDTO != null) {
             return stockMapper.getStockList(model);
         } else {
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID);

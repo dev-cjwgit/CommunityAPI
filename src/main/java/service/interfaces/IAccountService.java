@@ -1,19 +1,18 @@
 package service.interfaces;
 
-import domain.dto.AccountRegisterDTO;
-import domain.dto.LoginDTO;
+import domain.dto.AccountDTO;
 import response.BaseResponse;
 
 import java.util.Map;
 
 public interface IAccountService {
-    BaseResponse signUp(AccountRegisterDTO account) throws Exception;
+    BaseResponse signUp(AccountDTO account) throws Exception;
 
-    BaseResponse withdraw(AccountRegisterDTO account) throws Exception;
+    BaseResponse withdraw(AccountDTO account) throws Exception;
 
     Map<String, Object> checkKey(String key) throws Exception;
 
-    Map<String, String> login(LoginDTO account) throws Exception;
+    Map<String, String> login(AccountDTO account) throws Exception;
 
     Map<String, String> refresh() throws Exception;
 }

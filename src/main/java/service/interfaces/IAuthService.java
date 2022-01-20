@@ -1,7 +1,7 @@
 package service.interfaces;
 
-import domain.dto.AuthDTO;
+import domain.dto.AccountDTO;
 
 public interface IAuthService {
-    AuthDTO authUser() throws Exception;
+    AccountDTO authUser() throws Exception;
 }

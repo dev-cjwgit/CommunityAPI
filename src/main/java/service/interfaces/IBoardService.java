@@ -1,9 +1,8 @@
 package service.interfaces;
 
-import domain.entity.BoardEmotionEntity;
-import domain.entity.BoardEntity;
+import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
-import domain.entity.BoardSummaryEntity;
+import domain.dto.BoardSummaryDTO;
 import response.BaseResponse;
 
 import java.util.List;
@@ -11,15 +10,15 @@ import java.util.List;
 public interface IBoardService {
     BaseResponse createBoard(BoardDTO board) throws Exception;
 
-    List<BoardSummaryEntity> getSummaryBoardList(int page, int range) throws Exception;
+    List<BoardSummaryDTO> getSummaryBoardList(int page, int range) throws Exception;
 
-    List<BoardSummaryEntity> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception;
+    List<BoardSummaryDTO> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception;
 
-    List<BoardSummaryEntity> searchSummaryBoardNickName(String nickname, int page, int range) throws Exception;
+    List<BoardSummaryDTO> searchSummaryBoardNickName(String nickname, int page, int range) throws Exception;
 
-    List<BoardSummaryEntity> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception;
+    List<BoardSummaryDTO> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception;
 
-    BoardEntity getBoardInfo(Long board_uid) throws Exception;
+    BoardDTO getBoardInfo(Long board_uid) throws Exception;
 
     BaseResponse updateBoard(BoardDTO board) throws Exception;
 
@@ -29,5 +28,5 @@ public interface IBoardService {
 
     BaseResponse deleteBoardEmotion(Long board_uid) throws Exception;
 
-    List<BoardEmotionEntity> getBoardEmotion(Long board_uid) throws Exception;
+    List<BoardEmotionDTO> getBoardEmotion(Long board_uid) throws Exception;
 }

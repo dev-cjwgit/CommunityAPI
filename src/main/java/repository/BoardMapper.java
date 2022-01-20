@@ -1,9 +1,8 @@
 package repository;
 
-import domain.entity.BoardEmotionEntity;
-import domain.entity.BoardEntity;
+import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
-import domain.entity.BoardSummaryEntity;
+import domain.dto.BoardSummaryDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,15 +12,15 @@ import java.util.List;
 public interface BoardMapper {
     void createBoard(@Param(value = "uid") Long uid, @Param(value = "board") BoardDTO board);
 
-    List<BoardSummaryEntity> searchSummaryBoardTitleBody(@Param(value = "title") String title, @Param(value = "body") String body, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardSummaryDTO> searchSummaryBoardTitleBody(@Param(value = "title") String title, @Param(value = "body") String body, @Param(value = "page") int page, @Param(value = "range") int range);
 
-    List<BoardSummaryEntity> searchSummaryBoardNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardSummaryDTO> searchSummaryBoardNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
 
-    List<BoardSummaryEntity> searchSummaryBoardCommentNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardSummaryDTO> searchSummaryBoardCommentNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
 
-    List<BoardSummaryEntity> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardSummaryDTO> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
 
-    BoardEntity getBoardInfo(@Param(value = "board_uid") Long board_uid);
+    BoardDTO getBoardInfo(@Param(value = "board_uid") Long board_uid);
 
     void updateBoard(@Param(value = "board") BoardDTO board);
 
@@ -35,7 +34,7 @@ public interface BoardMapper {
 
     void deleteBoardEmotion(@Param(value = "board_uid") Long board_uid, @Param(value = "account_uid") Long account_uid);
 
-    List<BoardEmotionEntity> getBoardEmotion(@Param(value = "board_uid") Long board_uid);
+    List<BoardEmotionDTO> getBoardEmotion(@Param(value = "board_uid") Long board_uid);
 
     Boolean isBoard(@Param(value = "board_uid") Long board_uid);
 }

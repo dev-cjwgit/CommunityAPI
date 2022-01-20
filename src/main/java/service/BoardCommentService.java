@@ -1,10 +1,9 @@
 package service;
 
-import domain.entity.BoardCommentEmotionEntity;
-import domain.entity.BoardCommentEntity;
-import domain.entity.BoardEntity;
-import domain.dto.AuthDTO;
+import domain.dto.AccountDTO;
+import domain.dto.BoardCommentEmotionDTO;
 import domain.dto.BoardCommentDTO;
+import domain.dto.BoardDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +34,16 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public BaseResponse createComment(BoardCommentDTO comment) throws Exception {
-        AuthDTO authVO = authService.authUser();
+        AccountDTO servAccountDTO = authService.authUser();
 
-        BoardEntity board = boardMapper.getBoardInfo(comment.getBoard_uid());
+        BoardDTO board = boardMapper.getBoardInfo(comment.getUid());
 
         if (board == null)
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
-        long user_uid = authVO.getUid();
+        long user_uid = servAccountDTO.getUid();
 
-        comment.setAccount_uid(user_uid);
+        comment.setAccountUid(user_uid);
 
         boardCommentMapper.createComment(comment);
 
@@ -53,10 +52,10 @@ public class BoardCommentService implements IBoardCommentService {
     }
 
     @Override
-    public List<BoardCommentEntity> getComment(Long board_uid, int page, int range) throws Exception {
-        AuthDTO authVO = authService.authUser();
+    public List<BoardCommentDTO> getComment(Long board_uid, int page, int range) throws Exception {
+        AccountDTO servAccountDTO = authService.authUser();
 
-        BoardEntity board = boardMapper.getBoardInfo(board_uid);
+        BoardDTO board = boardMapper.getBoardInfo(board_uid);
 
         if (board == null)
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
@@ -67,9 +66,9 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public BaseResponse updateComment(BoardCommentDTO comment) throws Exception {
-        AuthDTO authVO = authService.authUser();
+        AccountDTO servAccountDTO = authService.authUser();
 
-        long user_uid = authVO.getUid();
+        long user_uid = servAccountDTO.getUid();
         Long comment_onwer = boardCommentMapper.getAccountUid(comment.getUid());
 
         if (comment_onwer == null)
@@ -78,7 +77,7 @@ public class BoardCommentService implements IBoardCommentService {
         if (comment_onwer != user_uid)
             throw new BaseException(ErrorMessage.NOT_PERMISSION_EXCEPTION);
 
-        comment.setAccount_uid(user_uid);
+        comment.setAccountUid(user_uid);
 
         boardCommentMapper.updateComment(comment);
 
@@ -87,10 +86,10 @@ public class BoardCommentService implements IBoardCommentService {
 
     @Override
     public BaseResponse deleteComment(Long board_comment_uid) throws Exception {
-        AuthDTO authVO = authService.authUser();
+        AccountDTO servAccountDTO = authService.authUser();
 
 
-        long user_uid = authVO.getUid();
+        long user_uid = servAccountDTO.getUid();
         Long comment_onwer = boardCommentMapper.getAccountUid(board_comment_uid);
 
         if (comment_onwer == null)
@@ -109,7 +108,7 @@ public class BoardCommentService implements IBoardCommentService {
          * TODO: 중복 예외 처리 필요
          * TODO: 공감 상태 enum 확인 필요
          */
-        AuthDTO authVO = authService.authUser();
+        AccountDTO authVO = authService.authUser();
         if (!boardCommentMapper.isBoardComment(board_comment_uid))
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 
@@ -124,7 +123,7 @@ public class BoardCommentService implements IBoardCommentService {
         /**
          * TODO: 없는 것에 대한 취소 시 예외 처리 필요
          */
-        AuthDTO authVO = authService.authUser();
+        AccountDTO authVO = authService.authUser();
         if (!boardCommentMapper.isBoardComment(board_comment_uid))
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 
@@ -137,8 +136,8 @@ public class BoardCommentService implements IBoardCommentService {
     }
 
     @Override
-    public List<BoardCommentEmotionEntity> getBoardCommentEmotion(Long board_comment_uid) throws Exception {
-        AuthDTO authVO = authService.authUser();
+    public List<BoardCommentEmotionDTO> getBoardCommentEmotion(Long board_comment_uid) throws Exception {
+        AccountDTO authVO = authService.authUser();
         if (!boardCommentMapper.isBoardComment(board_comment_uid))
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD_COMMENT);
 

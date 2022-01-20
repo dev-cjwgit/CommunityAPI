@@ -1,10 +1,9 @@
 package service;
 
-import domain.entity.BoardEmotionEntity;
-import domain.entity.BoardEntity;
-import domain.dto.AuthDTO;
+import domain.dto.AccountDTO;
+import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
-import domain.entity.BoardSummaryEntity;
+import domain.dto.BoardSummaryDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,21 +32,21 @@ public class BoardService implements IBoardService {
 
     @Override
     public BaseResponse createBoard(BoardDTO board) throws Exception {
-        AuthDTO authVO = authService.authUser();
+        AccountDTO servAccountDTO = authService.authUser();
 
-        boardMapper.createBoard(authVO.getUid(), board);
+        boardMapper.createBoard(servAccountDTO.getUid(), board);
 
         return new BaseResponse("게시글 등록에 성공했습니다.", HttpStatus.OK);
     }
 
     @Override
-    public List<BoardSummaryEntity> getSummaryBoardList(int page, int range) throws Exception {
+    public List<BoardSummaryDTO> getSummaryBoardList(int page, int range) throws Exception {
         page = (page - 1) * range;
         return boardMapper.getSummaryBoardList(page, range);
     }
 
     @Override
-    public List<BoardSummaryEntity> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception {
+    public List<BoardSummaryDTO> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception {
         if (title.length() < 2 && body.length() < 2)
             throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
 
@@ -61,7 +60,7 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardSummaryEntity> searchSummaryBoardNickName(String nickname, int page, int range) throws Exception {
+    public List<BoardSummaryDTO> searchSummaryBoardNickName(String nickname, int page, int range) throws Exception {
         if (nickname.length() < 2)
             throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
 
@@ -70,7 +69,7 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardSummaryEntity> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception {
+    public List<BoardSummaryDTO> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception {
         if (nickname.length() < 2)
             throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
 
@@ -79,8 +78,8 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public BoardEntity getBoardInfo(Long board_uid) throws Exception {
-        AuthDTO authVO = authService.authUser();
+    public BoardDTO getBoardInfo(Long board_uid) throws Exception {
+        AccountDTO servAccountDTO = authService.authUser();
 
 //        long user_uid = Long.parseLong(data.get("uid").toString());
         Long board_onwer = boardMapper.getAccountUid(board_uid);
@@ -93,10 +92,10 @@ public class BoardService implements IBoardService {
 
     @Override
     public BaseResponse updateBoard(BoardDTO board) throws Exception {
-        AuthDTO authVO = authService.authUser();
+        AccountDTO servAccountDTO = authService.authUser();
 
 
-        long user_uid = authVO.getUid();
+        long user_uid = servAccountDTO.getUid();
         Long board_onwer = boardMapper.getAccountUid(board.getUid());
 
         if (board_onwer == null)
@@ -113,9 +112,9 @@ public class BoardService implements IBoardService {
 
     @Override
     public BaseResponse deleteBoard(Long board_uid) throws Exception {
-        AuthDTO authVO = authService.authUser();
+        AccountDTO servAccountDTO = authService.authUser();
 
-        long user_uid = authVO.getUid();
+        long user_uid = servAccountDTO.getUid();
         Long board_onwer = boardMapper.getAccountUid(board_uid);
 
         if (board_onwer == null)
@@ -137,11 +136,11 @@ public class BoardService implements IBoardService {
          * TODO: 중복 예외 처리 필요
          * TODO: 공감 상태 enum 확인 필요
          */
-        AuthDTO authVO = authService.authUser();
+        AccountDTO servAccountDTO = authService.authUser();
         if (!boardMapper.isBoard(board_uid))
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
-        long user_uid = authVO.getUid();
+        long user_uid = servAccountDTO.getUid();
         boardMapper.createBoardEmotion(board_uid, user_uid, status);
 
         return new BaseResponse("공감에 성공하였습니다.", HttpStatus.OK);
@@ -152,12 +151,12 @@ public class BoardService implements IBoardService {
         /**
          * TODO: 공감이 없는 것에 대한 삭제 확인
          */
-        AuthDTO authVO = authService.authUser();
+        AccountDTO servAccountDTO = authService.authUser();
 
         if (!boardMapper.isBoard(board_uid))
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
-        long user_uid = authVO.getUid();
+        long user_uid = servAccountDTO.getUid();
 
         boardMapper.deleteBoardEmotion(board_uid, user_uid);
 
@@ -166,8 +165,8 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardEmotionEntity> getBoardEmotion(Long board_uid) throws Exception {
-        AuthDTO authVO = authService.authUser();
+    public List<BoardEmotionDTO> getBoardEmotion(Long board_uid) throws Exception {
+        AccountDTO servAccountDTO = authService.authUser();
 
         if (!boardMapper.isBoard(board_uid))
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);

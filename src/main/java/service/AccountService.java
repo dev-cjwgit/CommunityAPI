@@ -1,9 +1,6 @@
 package service;
 
-import domain.entity.origin_mapping.AccountEntity;
-import domain.dto.AccountRegisterDTO;
-import domain.dto.AuthDTO;
-import domain.dto.LoginDTO;
+import domain.dto.AccountDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import exception.RequestInputException;
@@ -30,7 +27,7 @@ public class AccountService implements IAccountService {
     @Autowired
     private IAuthService authService;
 
-    private BaseResponse reSignup(AccountRegisterDTO account) throws Exception {
+    private BaseResponse reSignup(AccountDTO account) throws Exception {
         /**
          * TODO MEMO: 맨 처음에 timestamp 비교하여 삭제 후 N일 가입 불가 기능 추가 가능
          * TODO: 삭제 시 따로 만들어서 저장해야 할 듯.
@@ -61,7 +58,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public BaseResponse signUp(AccountRegisterDTO account) throws Exception {
+    public BaseResponse signUp(AccountDTO account) throws Exception {
         // 이메일 중복체크
         if (accountMapper.isExistEmail(account.getEmail())) {
             if (accountMapper.getPasswordToEamil(account.getEmail()) == null)
@@ -94,13 +91,13 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public BaseResponse withdraw(AccountRegisterDTO account) throws Exception {
-        AuthDTO authVO = authService.authUser();
+    public BaseResponse withdraw(AccountDTO account) throws Exception {
+        AccountDTO servAccountDTO = authService.authUser();
 
-        if (authVO == null)
+        if (servAccountDTO == null)
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID);
 
-        AccountEntity accountDTO = accountMapper.getWithdrawInfoToUid(authVO.getUid());
+        AccountDTO accountDTO = accountMapper.getWithdrawInfoToUid(servAccountDTO.getUid());
 
         if (accountDTO == null)
             throw new RequestInputException(ErrorMessage.LOGIN_NOT_EXIST_EMAIL);
@@ -115,7 +112,7 @@ public class AccountService implements IAccountService {
         if (!BCrypt.checkpw(account.getPassword(), accountDTO.getPassword())) {
             throw new RequestInputException(ErrorMessage.LOGIN_NOT_PASSWORD);
         } else {
-            accountMapper.withdraw(authVO.getUid());
+            accountMapper.withdraw(servAccountDTO.getUid());
             return new BaseResponse("회원 탈퇴에 성공하였습니다.", HttpStatus.OK);
         }
     }
@@ -126,8 +123,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Map<String, String> login(LoginDTO account) throws Exception {
-        AccountEntity accountDTO = accountMapper.getLoginInfoToEmail(account.getEmail());
+    public Map<String, String> login(AccountDTO account) throws Exception {
+        AccountDTO accountDTO = accountMapper.getLoginInfoToEmail(account.getEmail());
         if (accountDTO == null)
             throw new RequestInputException(ErrorMessage.LOGIN_NOT_EXIST_EMAIL);
 
@@ -146,11 +143,11 @@ public class AccountService implements IAccountService {
 
     @Override
     public Map<String, String> refresh() throws Exception {
-        AuthDTO authVO = authService.authUser();
+        AccountDTO servAccountDTO = authService.authUser();
 
         Map<String, String> refresh_token = new HashMap<>();
         // 토큰 재발급
-        refresh_token.put("access_token", jwt.createToken(authVO.getUid(), accountMapper.getSaltToUid(authVO.getUid())));
+        refresh_token.put("access_token", jwt.createToken(servAccountDTO.getUid(), accountMapper.getSaltToUid(servAccountDTO.getUid())));
         return refresh_token;
     }
 }

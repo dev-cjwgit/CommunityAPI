@@ -8,7 +8,7 @@
         VALUES (#{board.title}, #{board.body}, #{uid});
     </insert>
 
-    <select id="searchSummaryBoardNickName" resultType="domain.entity.BoardSummaryEntity">
+    <select id="searchSummaryBoardNickName" resultType="domain.dto.BoardSummaryDTO">
         SELECT B.`uid`,
                B.`title`,
                A.`nickname`,
@@ -27,7 +27,7 @@
             LIMIT ${page}, ${range};
     </select>
 
-    <select id="searchSummaryBoardTitleBody" resultType="domain.entity.BoardSummaryEntity">
+    <select id="searchSummaryBoardTitleBody" resultType="domain.dto.BoardSummaryDTO">
         SELECT B.`uid`,
                 B.`title`,
                 A.`nickname`,
@@ -49,7 +49,7 @@
                 LIMIT ${page}, ${range};
     </select>
 
-    <select id="searchSummaryBoardCommentNickName" resultType="domain.entity.BoardSummaryEntity">
+    <select id="searchSummaryBoardCommentNickName" resultType="domain.dto.BoardSummaryDTO">
         SELECT DISTINCT B.`uid`,
                         B.`title`,
                         A.`nickname`,
@@ -73,7 +73,7 @@
             LIMIT ${page}, ${range};
     </select>
 
-    <select id="searchSummaryBoardTitle" resultType="domain.entity.BoardSummaryEntity">
+    <select id="searchSummaryBoardTitle" resultType="domain.dto.BoardSummaryDTO">
         SELECT B.`uid`,
                B.`title`,
                A.`nickname`,
@@ -92,7 +92,7 @@
             LIMIT ${page}, ${range};
     </select>
 
-    <select id="getSummaryBoardList" resultType="domain.entity.BoardSummaryEntity">
+    <select id="getSummaryBoardList" resultType="domain.dto.BoardSummaryDTO">
         SELECT B.`uid`,
                B.`title`,
                A.`nickname`,
@@ -115,7 +115,7 @@
         FROM board;
     </select>
 
-    <select id="getBoardInfo" resultType="domain.entity.BoardEntity">
+    <select id="getBoardInfo" resultType="domain.dto.BoardDTO">
         SELECT B.`uid`,
                B.`title`,
                B.`body`,
@@ -168,7 +168,7 @@
           AND `account_uid` = ${account_uid};
     </delete>
 
-    <select id="getBoardEmotion" resultType="domain.entity.BoardEmotionEntity">
+    <select id="getBoardEmotion" resultType="domain.dto.BoardEmotionDTO">
         SELECT BE.`account_uid`,
                A.`nickname`,
                BE.`status`

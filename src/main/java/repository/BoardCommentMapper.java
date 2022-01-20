@@ -1,7 +1,6 @@
 package repository;
 
-import domain.entity.BoardCommentEmotionEntity;
-import domain.entity.BoardCommentEntity;
+import domain.dto.BoardCommentEmotionDTO;
 import domain.dto.BoardCommentDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,7 @@ import java.util.List;
 public interface BoardCommentMapper {
     void createComment(@Param(value = "comment") BoardCommentDTO comment);
 
-    List<BoardCommentEntity> getComment(@Param(value = "board_uid") Long board_uid, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardCommentDTO> getComment(@Param(value = "board_uid") Long board_uid, @Param(value = "page") int page, @Param(value = "range") int range);
 
     void updateComment(@Param(value = "comment") BoardCommentDTO comment);
 
@@ -24,7 +23,7 @@ public interface BoardCommentMapper {
 
     void deleteBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_comment_uid, @Param(value = "account_uid") Long account_uid);
 
-    List<BoardCommentEmotionEntity> getBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_comment_uid);
+    List<BoardCommentEmotionDTO> getBoardCommentEmotion(@Param(value = "board_comment_uid") Long board_comment_uid);
 
     Boolean isBoardComment(@Param(value = "comment_uid")Long board_uid);
 }

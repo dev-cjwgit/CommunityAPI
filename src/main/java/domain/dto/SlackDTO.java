@@ -3,12 +3,12 @@ package domain.dto;
 public class SlackDTO {
     private String username;
     private String text;
-    private String icon_emoji;
+    private String iconEmoji;
 
-    public SlackDTO(String username, String text, String icon_emoji) {
+    public SlackDTO(String username, String text, String iconEmoji) {
         this.username = username;
         this.text = text;
-        this.icon_emoji = icon_emoji;
+        this.iconEmoji = iconEmoji;
     }
 
     public String getUsername() {
@@ -28,10 +28,10 @@ public class SlackDTO {
     }
 
     public String getIcon_emoji() {
-        return icon_emoji;
+        return iconEmoji;
     }
 
-    public void setIcon_emoji(String icon_emoji) {
-        this.icon_emoji = icon_emoji;
+    public void setIcon_emoji(String iconEmoji) {
+        this.iconEmoji = iconEmoji;
     }
 }

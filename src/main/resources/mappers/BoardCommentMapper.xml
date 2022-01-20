@@ -8,7 +8,7 @@
         VALUES (#{comment.board_uid}, #{comment.account_uid}, #{comment.body});
     </insert>
 
-    <select id="getComment" resultType="domain.entity.BoardCommentEntity">
+    <select id="getComment" resultType="domain.dto.BoardCommentDTO">
         SELECT BC.`uid`,
                BC.`account_uid`,
                A.`nickname`,
@@ -61,7 +61,7 @@
           AND `account_uid` = ${account_uid};
     </delete>
 
-    <select id="getBoardCommentEmotion" resultType="domain.entity.BoardCommentEmotionEntity">
+    <select id="getBoardCommentEmotion" resultType="domain.dto.BoardCommentEmotionDTO">
         SELECT BCE.`account_uid`,
                A.`nickname`,
                BCE.`status`

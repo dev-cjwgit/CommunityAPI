@@ -1,25 +1,10 @@
 package domain.dto;
 
-public class BoardDTO {
-    private Long uid;
-    private String title;
+import domain.dto.BoardSummaryDTO;
+
+public class BoardDTO extends BoardSummaryDTO {
     private String body;
-
-    public Long getUid() {
-        return uid;
-    }
-
-    public void setUid(Long uid) {
-        this.uid = uid;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    private Long accountUid;
 
     public String getBody() {
         return body;
@@ -29,4 +14,11 @@ public class BoardDTO {
         this.body = body;
     }
 
+    public Long getAccountUid() {
+        return accountUid;
+    }
+
+    public void setAccountUid(Long accountUid) {
+        this.accountUid = accountUid;
+    }
 }

@@ -1,6 +1,6 @@
 package service;
 
-import domain.dto.AuthDTO;
+import domain.dto.AccountDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class AuthService implements IAuthService {
     private Jwt jwt;
 
     @Override
-    public AuthDTO authUser() throws Exception {
+    public AccountDTO authUser() throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String token = request.getHeader("Authorization");
         if (token == null)
@@ -28,6 +28,6 @@ public class AuthService implements IAuthService {
         if (data == null)
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_NOT_LOAD);
 
-        return new AuthDTO(Long.parseLong(data.get("uid").toString()));
+        return new AccountDTO(Long.parseLong(data.get("uid").toString()));
     }
 }
