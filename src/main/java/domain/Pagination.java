@@ -2,10 +2,16 @@ package domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class Pagination {
-    @ApiParam(defaultValue = "1")
-    private Integer page = 1;
+    @ApiParam(defaultValue = "2")
+    private Integer page = 2;
     @ApiModelProperty(hidden = true)
     private Integer endPage;
     @ApiParam(defaultValue = "10")

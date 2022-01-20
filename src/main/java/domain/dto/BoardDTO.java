@@ -3,11 +3,18 @@ package domain.dto;
 import domain.Pagination;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
-public class BoardDTO extends Pagination {
+@Getter
+@Setter
+@AllArgsConstructor
+public class BoardDTO {
     @ApiModelProperty(hidden = true)
     private Long uid;
     private String title;
@@ -22,8 +29,11 @@ public class BoardDTO extends Pagination {
     @ApiModelProperty(hidden = true)
     private Integer emotionCount;
     @ApiModelProperty(hidden = true)
-    private List<AccountDTO> emotionList;
+    private Map<Short, AccountDTO> emotionList;
 
+    public BoardDTO() {
+
+    }
 
     public Long getUid() {
         return uid;
@@ -89,11 +99,11 @@ public class BoardDTO extends Pagination {
         this.emotionCount = emotionCount;
     }
 
-    public List<AccountDTO> getEmotionList() {
+    public Map<Short, AccountDTO> getEmotionList() {
         return emotionList;
     }
 
-    public void setEmotionList(List<AccountDTO> emotionList) {
+    public void setEmotionList(Map<Short, AccountDTO> emotionList) {
         this.emotionList = emotionList;
     }
 }

@@ -3,6 +3,7 @@ package service;
 import domain.dto.AccountDTO;
 import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
+import domain.param.BoardSearchModel;
 import enums.ErrorMessage;
 import exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,8 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardDTO> getSummaryBoardList(BoardDTO board) throws Exception {
-        return boardMapper.getSummaryBoardList(board);
+    public List<BoardDTO> getSummaryBoardList(BoardSearchModel board) throws Exception {
+        return boardMapper.getBoard(board);
     }
 
     @Override

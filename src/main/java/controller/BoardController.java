@@ -1,6 +1,7 @@
 package controller;
 
 import domain.dto.BoardDTO;
+import domain.param.BoardSearchModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class BoardController {
 
     @RequestMapping(value = "/summaryboard", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 목록 요약 보기", notes = "게시글 요약 목록을 보기 위한 API입니다.")
-    public ResponseEntity searchSummaryBoard(@ModelAttribute BoardDTO board) throws Exception {
+    public ResponseEntity searchSummaryBoard(@ModelAttribute(value = "board") BoardSearchModel board) throws Exception {
         return new ResponseEntity(boardService.getSummaryBoardList(board), HttpStatus.OK);
     }
 

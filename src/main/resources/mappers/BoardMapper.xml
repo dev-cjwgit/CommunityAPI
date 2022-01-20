@@ -111,12 +111,16 @@
         LIMIT ${page}, ${range};
     </select>
 
-    <select id="getSummaryBoardList" resultType="domain.dto.BoardDTO" resultMap="Board">
+    <select id="getBoard" resultType="domain.dto.BoardDTO" resultMap="Board">
         SELECT B.`uid`,
                B.`title`,
                A.`nickname`,
                B.`created_at`,
                B.`updated_at`,
+               <if test="board.detail">
+                   A.`uid` as accountUid,
+                   B.`body`,
+               </if>
                (SELECT count(*)
                 FROM board_emotion
                 WHERE board_uid = B.uid) as emotion_count
@@ -125,6 +129,20 @@
              account A
              ON
                  B.`account_uid` = A.`uid`
+        <where>
+            <choose>
+                <when test="board.uid == null">
+                    <if test="board.title != null">AND B.`title` LIKE "%${board.title}%"</if>
+                    <if test="board.body != null">AND B.`body` LIKE "%${board.body}%"</if>
+                    <if test="board.nickname != null">
+                        B.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%${board.nickname}%")
+                    </if>
+                </when>
+                <otherwise>
+                    AND B.`uid` = ${board.uid}
+                </otherwise>
+            </choose>
+        </where>
         ORDER BY B.`created_at` DESC
         LIMIT ${board.page}, ${board.range};
     </select>
@@ -132,25 +150,6 @@
     <select id="getBoardListCnt" resultType="Long">
         SELECT count(*)
         FROM board;
-    </select>
-
-    <select id="getBoardInfo" resultType="domain.dto.BoardDTO" resultMap="Board">
-        SELECT B.`uid`,
-               B.`title`,
-               B.`body`,
-               A.`nickname`,
-               B.`account_uid`,
-               B.`created_at`,
-               B.`updated_at`,
-               (SELECT count(*)
-                FROM board_emotion
-                WHERE `board_uid` = B.`uid`) as emotion
-        FROM board B
-                 LEFT OUTER JOIN
-             account A
-             ON
-                 B.`account_uid` = A.`uid`
-        WHERE B.`uid` = #{board_uid};
     </select>
 
     <update id="updateBoard">

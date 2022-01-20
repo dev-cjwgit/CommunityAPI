@@ -2,6 +2,7 @@ package repository;
 
 import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
+import domain.param.BoardSearchModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,7 @@ public interface BoardMapper {
 
     List<BoardDTO> searchSummaryBoardCommentNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
 
-    List<BoardDTO> getSummaryBoardList(@Param(value = "board") BoardDTO board);
+    List<BoardDTO> getBoard(@Param(value = "board") BoardSearchModel board);
 
     BoardDTO getBoardInfo(@Param(value = "board_uid") Long board_uid);
 

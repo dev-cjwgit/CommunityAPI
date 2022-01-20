@@ -2,6 +2,7 @@ package service.interfaces;
 
 import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
+import domain.param.BoardSearchModel;
 import response.BaseResponse;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface IBoardService {
     BaseResponse createBoard(BoardDTO board) throws Exception;
 
-    List<BoardDTO> getSummaryBoardList(BoardDTO board) throws Exception;
+    List<BoardDTO> getSummaryBoardList(BoardSearchModel board) throws Exception;
 
     List<BoardDTO> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception;
 
