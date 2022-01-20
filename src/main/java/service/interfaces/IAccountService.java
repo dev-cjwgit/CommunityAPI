@@ -6,7 +6,7 @@ import response.BaseResponse;
 import java.util.Map;
 
 public interface IAccountService {
-    BaseResponse signUp(AccountDTO account) throws Exception;
+    BaseResponse signup(AccountDTO account) throws Exception;
 
     BaseResponse withdraw(AccountDTO account) throws Exception;
 

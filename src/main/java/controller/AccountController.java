@@ -22,7 +22,7 @@ public class AccountController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ApiOperation(value = "회원가입", notes = "회원가입을 위한 API입니다. {이메일, 비밀번호, 실명, 닉네임}")
     public ResponseEntity signUp(@RequestBody @Validated(ValidationGroups.signup.class) AccountDTO account) throws Exception {
-        return new ResponseEntity(accountService.signUp(account), HttpStatus.OK);
+        return new ResponseEntity(accountService.signup(account), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/withdraw", method = RequestMethod.POST)

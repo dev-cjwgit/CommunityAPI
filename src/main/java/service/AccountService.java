@@ -58,7 +58,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public BaseResponse signUp(AccountDTO account) throws Exception {
+    public BaseResponse signup(AccountDTO account) throws Exception {
         // 이메일 중복체크
         if (accountMapper.isExistEmail(account.getEmail())) {
             if (accountMapper.getPasswordToEamil(account.getEmail()) == null)

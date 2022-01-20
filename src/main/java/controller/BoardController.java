@@ -52,8 +52,8 @@ public class BoardController {
 
     @RequestMapping(value = "/boardinfo", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 상세 보기", notes = "게시글을 상세하게 보기 위한 API입니다. {게시글 고유번호}")
-    public ResponseEntity getBoardInfo(Long board_uid) throws Exception {
-        return new ResponseEntity(boardService.getBoardInfo(board_uid), HttpStatus.OK);
+    public ResponseEntity getBoardInfo(Long boardUid) throws Exception {
+        return new ResponseEntity(boardService.getBoardInfo(boardUid), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/board", method = RequestMethod.PUT)
@@ -64,21 +64,21 @@ public class BoardController {
 
     @RequestMapping(value = "/board", method = RequestMethod.DELETE)
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제하기 위한 API입니다. {게시글 고유번호}")
-    public ResponseEntity deleteBoard(@RequestBody Long board_uid) throws Exception {
-        return new ResponseEntity(boardService.deleteBoard(board_uid), HttpStatus.OK);
+    public ResponseEntity deleteBoard(@RequestBody Long boardUid) throws Exception {
+        return new ResponseEntity(boardService.deleteBoard(boardUid), HttpStatus.OK);
     }
     //endregion
 
     @RequestMapping(value = "/board/emotion", method = RequestMethod.POST)
     @ApiOperation(value = "게시글 감정표현", notes = "게시글 감정표현을 달기 위한 API입니다. {게시판 고유번호, 공감상태}")
-    public ResponseEntity createBoardEmotion(@RequestBody Long board_uid, Integer status) throws Exception {
-        return new ResponseEntity(boardService.createBoardEmotion(board_uid, status), HttpStatus.OK);
+    public ResponseEntity createBoardEmotion(@RequestBody Long boardUid, Integer status) throws Exception {
+        return new ResponseEntity(boardService.createBoardEmotion(boardUid, status), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/board/emotion", method = RequestMethod.DELETE)
     @ApiOperation(value = "게시글 감정표현 취소", notes = "게시글 감정표현을 취소 위한 API입니다. {게시판 고유번호}")
-    public ResponseEntity deleteBoardEmotion(@RequestBody Long board_uid) throws Exception {
-        return new ResponseEntity(boardService.deleteBoardEmotion(board_uid), HttpStatus.OK);
+    public ResponseEntity deleteBoardEmotion(@RequestBody Long boardUid) throws Exception {
+        return new ResponseEntity(boardService.deleteBoardEmotion(boardUid), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/board/emotion", method = RequestMethod.GET)
