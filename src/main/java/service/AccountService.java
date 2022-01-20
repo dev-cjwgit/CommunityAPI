@@ -1,6 +1,7 @@
 package service;
 
 import domain.dto.AccountDTO;
+import domain.dto.AccountWithdrawDTO;
 import enums.ErrorMessage;
 import exception.BaseException;
 import exception.RequestInputException;
@@ -9,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import repository.AccountMapper;
+import repository.AccountWithdrawMapper;
 import response.BaseResponse;
 import service.interfaces.IAccountService;
 import service.interfaces.IAuthService;
 import util.Jwt;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -22,51 +25,32 @@ public class AccountService implements IAccountService {
     private AccountMapper accountMapper;
 
     @Autowired
+    private AccountWithdrawMapper accountWithdrawMapper;
+
+    @Autowired
     private Jwt jwt;
 
     @Autowired
     private IAuthService authService;
 
-    private BaseResponse reSignup(AccountDTO account) throws Exception {
-        /**
-         * TODO MEMO: 맨 처음에 timestamp 비교하여 삭제 후 N일 가입 불가 기능 추가 가능
-         * TODO: 삭제 시 따로 만들어서 저장해야 할 듯.
-         * 현재 mariadb의 외래키 사용으로 전부 지워지긴 한데 이는 uid가 지워져야 가능한 일임.
-         */
-
-        // 닉네임 중복체크
-        if (accountMapper.isExistNickName(account.getNickname()))
-            throw new BaseException(ErrorMessage.SIGNUP_EXIST_NICKNAME);
-
-        // 비밀번호 암호화
-        account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()));
-
-        // salt를 설정해주기위해 uid를 가져옴
-        Long uid = accountMapper.getUidToEmail(account.getEmail());
-
-        accountMapper.reSignup(uid, account);  // 재 회원 가입
-
-        // salt 생성을 위한 날짜
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        String salt = uid.toString() + calendar.getTime();
-
-        salt = (BCrypt.hashpw(salt, BCrypt.gensalt()));
-        accountMapper.setSalt(uid, salt);
-
-        return new BaseResponse("재 회원가입에 성공했습니다.", HttpStatus.OK);
-    }
 
     @Override
     public BaseResponse signup(AccountDTO account) throws Exception {
         // 이메일 중복체크
-        if (accountMapper.isExistEmail(account.getEmail())) {
-            if (accountMapper.getPasswordToEamil(account.getEmail()) == null)
-                return reSignup(account);
-
+        if (accountMapper.isExistEmail(account.getEmail()))
             throw new BaseException(ErrorMessage.SIGNUP_EXIST_EMAIL);
-        }
 
+        AccountWithdrawDTO accountWithdrawDTO = accountWithdrawMapper.getData(account.getEmail());
+
+        if (accountWithdrawDTO != null) {
+            Long datetime = System.currentTimeMillis();
+            Timestamp timestamp = new Timestamp(datetime);
+
+            if ((timestamp.getTime() - accountWithdrawDTO.getDeletedAt().getTime()) / 1000 / 60 / 60 < 24)
+                throw new BaseException(ErrorMessage.SIGNUP_NOT_TIMESTAMP);
+            else
+                accountWithdrawMapper.removeData(account.getEmail());
+        }
         // 닉네임 중복체크
         if (accountMapper.isExistNickName(account.getNickname()))
             throw new BaseException(ErrorMessage.SIGNUP_EXIST_NICKNAME);
@@ -112,6 +96,7 @@ public class AccountService implements IAccountService {
         if (!BCrypt.checkpw(account.getPassword(), accountDTO.getPassword())) {
             throw new RequestInputException(ErrorMessage.LOGIN_NOT_PASSWORD);
         } else {
+            accountWithdrawMapper.addData(account.getEmail());
             accountMapper.withdraw(servAccountDTO.getUid());
             return new BaseResponse("회원 탈퇴에 성공하였습니다.", HttpStatus.OK);
         }

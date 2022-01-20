@@ -1,10 +1,11 @@
 package domain.dto;
 
-import domain.dto.BoardSummaryDTO;
+import java.util.List;
 
 public class BoardDTO extends BoardSummaryDTO {
     private String body;
     private Long accountUid;
+    private List<AccountDTO> emotionList;
 
     public String getBody() {
         return body;

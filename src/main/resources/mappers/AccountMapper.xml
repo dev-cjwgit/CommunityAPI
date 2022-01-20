@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="repository.AccountMapper">
+    <resultMap id="Account" type="domain.dto.AccountDTO">
+        <result property="uid" column="uid"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="nickname" column="nickname"/>
+        <result property="point" column="point"/>
+        <result property="level" column="level"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="salt" column="salt"/>
+
+    </resultMap>
+
     <insert id="signup">
-        <!-- db 구조 -->
         INSERT INTO `account`(`email`, `password`, `name`, `nickname`)
         VALUES (#{account.email}, #{account.password}, #{account.name}, #{account.nickname})
     </insert>
 
     <update id="reSignup">
         UPDATE `account`
-        SET `password`   = #{account.password},
-            `name`       = #{account.name},
-            `nickname`   = #{account.nickname},
-            `point`      = 0,
-            `level`      = 0,
-            `deleted_at` = NULL
+        SET `password` = #{account.password},
+            `name`     = #{account.name},
+            `nickname` = #{account.nickname},
+            `point`    = 0,
+            `level`    = 0
         WHERE `uid` = #{uid}
     </update>
 
@@ -72,15 +84,9 @@
         WHERE `uid` = #{uid}
     </select>
 
-    <update id="withdraw">
-        UPDATE `account`
-        SET `password`   = NULL,
-            `name`       = NULL,
-            `nickname`   = NULL,
-            `point`      = NULL,
-            `level`      = NULL,
-            `deleted_at` = current_timestamp(),
-            `salt`       = NULL
+    <delete id="withdraw">
+        DELETE
+        FROM `account`
         WHERE `uid` = #{uid}
-    </update>
+    </delete>
 </mapper>

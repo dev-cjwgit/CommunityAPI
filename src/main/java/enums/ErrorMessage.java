@@ -19,6 +19,7 @@ public enum ErrorMessage {
 
     SIGNUP_EXIST_NICKNAME(200, "이미 존재하는 닉네임입니다.", HttpStatus.BAD_REQUEST),
     SIGNUP_EXIST_EMAIL(201, "이미 가입된 이메일입니다.", HttpStatus.BAD_REQUEST),
+    SIGNUP_NOT_TIMESTAMP(205, "탈퇴 후 재 가입은 24시간이 넘어서 가능합니다.", HttpStatus.BAD_REQUEST),
 
     NOT_EXIST_BOARD(300, "존재하지 않는 게시글입니다.", HttpStatus.BAD_REQUEST),
     SEARCH_WORD_LENGTH(320, "검색은 2글자 이상으로 입력해야 합니다.", HttpStatus.BAD_REQUEST),

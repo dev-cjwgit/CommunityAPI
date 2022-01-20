@@ -38,13 +38,10 @@ public class AccountDTO {
     private Integer level;
 
     @ApiModelProperty(hidden = true)
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
-
-    @ApiModelProperty(hidden = true)
-    private Timestamp deletedAt;
 
     @ApiModelProperty(hidden = true)
     private String salt;
@@ -112,12 +109,12 @@ public class AccountDTO {
         this.level = level;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Timestamp getUpdatedAt() {
@@ -126,14 +123,6 @@ public class AccountDTO {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Timestamp getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Timestamp deletedAt) {
-        this.deletedAt = deletedAt;
     }
 
     public String getSalt() {
