@@ -39,9 +39,8 @@ public class BoardService implements IBoardService {
     }
 
     @Override
-    public List<BoardDTO> getSummaryBoardList(int page, int range) throws Exception {
-        page = (page - 1) * range;
-        return boardMapper.getSummaryBoardList(page, range);
+    public List<BoardDTO> getSummaryBoardList(BoardDTO board) throws Exception {
+        return boardMapper.getSummaryBoardList(board);
     }
 
     @Override

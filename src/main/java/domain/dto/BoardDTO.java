@@ -1,12 +1,13 @@
 package domain.dto;
 
+import domain.Pagination;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-public class BoardDTO {
+public class BoardDTO extends Pagination {
     @ApiModelProperty(hidden = true)
     private Long uid;
     private String title;
@@ -14,12 +15,15 @@ public class BoardDTO {
     private Long accountUid;
     private String nickname;
     private String body;
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
+    @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
     @ApiModelProperty(hidden = true)
     private Integer emotionCount;
     @ApiModelProperty(hidden = true)
     private List<AccountDTO> emotionList;
+
 
     public Long getUid() {
         return uid;
@@ -77,11 +81,11 @@ public class BoardDTO {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getEmotion() {
+    public Integer getEmotionCount() {
         return emotionCount;
     }
 
-    public void setEmotion(Integer emotionCount) {
+    public void setEmotionCount(Integer emotionCount) {
         this.emotionCount = emotionCount;
     }
 

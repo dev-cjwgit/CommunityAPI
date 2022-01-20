@@ -17,7 +17,7 @@ public interface BoardMapper {
 
     List<BoardDTO> searchSummaryBoardCommentNickName(@Param(value = "nickname") String nickname, @Param(value = "page") int page, @Param(value = "range") int range);
 
-    List<BoardDTO> getSummaryBoardList(@Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardDTO> getSummaryBoardList(@Param(value = "board") BoardDTO board);
 
     BoardDTO getBoardInfo(@Param(value = "board_uid") Long board_uid);
 

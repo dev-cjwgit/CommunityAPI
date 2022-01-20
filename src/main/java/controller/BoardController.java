@@ -13,7 +13,7 @@ import service.interfaces.IBoardService;
 @Controller
 public class BoardController {
     /**
-     *  TODO MEMO: 게시글 검색을 굳이 3개로 나눌 필요가 없음.
+     * TODO MEMO: 게시글 검색을 굳이 3개로 나눌 필요가 없음.
      *  서비스단, 맵퍼단에서 수정이 가능함.
      */
     @Autowired
@@ -22,32 +22,14 @@ public class BoardController {
     //region Board CRUD
     @RequestMapping(value = "/board", method = RequestMethod.POST)
     @ApiOperation(value = "게시글 생성", notes = "게시글을 생성하기 위한 API입니다. {제목, 내용}")
-    public ResponseEntity signUp(@RequestBody @Validated(BoardDTO.class) BoardDTO board) throws Exception {
+    public ResponseEntity createBoard(@RequestBody @Validated(BoardDTO.class) BoardDTO board) throws Exception {
         return new ResponseEntity(boardService.createBoard(board), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/summaryboard", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 목록 요약 보기", notes = "게시글 요약 목록을 보기 위한 API입니다.")
-    public ResponseEntity searchSummaryBoard(@RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
-        return new ResponseEntity(boardService.getSummaryBoardList(page, range), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/search/summaryboard/titlebody", method = RequestMethod.GET)
-    @ApiOperation(value = "게시글 제목, 내용 검색", notes = "게시글 제목 및 내용을 검색하기 위한 API입니다.")
-    public ResponseEntity getSummaryBoardListTitle(@RequestParam(required = false, defaultValue = "") String title, @RequestParam(required = false, defaultValue = "") String body, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
-        return new ResponseEntity(boardService.searchSummaryBoardTitleBody(title, body, page, range), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/search/summaryboard/nickname", method = RequestMethod.GET)
-    @ApiOperation(value = "게시글 제목, 내용 검색", notes = "게시글 제목 및 내용을 검색하기 위한 API입니다.")
-    public ResponseEntity getSummaryBoardListNickName(String nickname, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
-        return new ResponseEntity(boardService.searchSummaryBoardNickName(nickname, page, range), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/search/summaryboard/comment/nickname", method = RequestMethod.GET)
-    @ApiOperation(value = "게시글의 댓글 작성자 검색", notes = "게시글의 댓글 작성자를 검색하기 위한 API입니다.")
-    public ResponseEntity getSummaryBoardListCommentNickName(String nickname, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
-        return new ResponseEntity(boardService.searchSummaryBoardCommentNickName(nickname, page, range), HttpStatus.OK);
+    public ResponseEntity searchSummaryBoard(@ModelAttribute BoardDTO board) throws Exception {
+        return new ResponseEntity(boardService.getSummaryBoardList(board), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/boardinfo", method = RequestMethod.GET)

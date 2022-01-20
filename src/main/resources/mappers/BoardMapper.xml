@@ -126,7 +126,7 @@
              ON
                  B.`account_uid` = A.`uid`
         ORDER BY B.`created_at` DESC
-        LIMIT ${page}, ${range};
+        LIMIT ${board.page}, ${board.range};
     </select>
 
     <select id="getBoardListCnt" resultType="Long">

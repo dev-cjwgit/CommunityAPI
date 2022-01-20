@@ -9,7 +9,7 @@ import java.util.List;
 public interface IBoardService {
     BaseResponse createBoard(BoardDTO board) throws Exception;
 
-    List<BoardDTO> getSummaryBoardList(int page, int range) throws Exception;
+    List<BoardDTO> getSummaryBoardList(BoardDTO board) throws Exception;
 
     List<BoardDTO> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception;
 
