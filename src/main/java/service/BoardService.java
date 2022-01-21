@@ -46,6 +46,9 @@ public class BoardService implements IBoardService {
 
     @Override
     public BoardDTO getBoard(Long board_uid) throws Exception {
+        /**
+         * TODO MEMO: 추후 emotion list(mapper)와 기능 분리 필요.
+         */
         AccountDTO servAccountDTO = authService.authUser();
 
 //        long user_uid = Long.parseLong(data.get("uid").toString());

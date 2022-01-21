@@ -9,7 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="StartInitSpring" />
         <module name="MovieProjectSpring" />
-        <module name="StockAPI" />
+        <module name="CommunityAPI" />
       </profile>
     </annotationProcessing>
   </component>

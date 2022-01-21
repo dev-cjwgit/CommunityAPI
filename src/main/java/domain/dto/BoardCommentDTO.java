@@ -19,7 +19,7 @@ public class BoardCommentDTO {
     @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
     @ApiModelProperty(hidden = true)
-    private Integer emotion;
+    private Integer emotionCount;
 
 
     public Long getUid() {
@@ -78,11 +78,11 @@ public class BoardCommentDTO {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getEmotion() {
-        return emotion;
+    public Integer getEmotionCount() {
+        return emotionCount;
     }
 
-    public void setEmotion(Integer emotion) {
-        this.emotion = emotion;
+    public void setEmotionCount(Integer emotionCount) {
+        this.emotionCount = emotionCount;
     }
 }

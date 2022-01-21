@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="repository.BoardCommentMapper">
+    <resultMap id="BoardComment" type="domain.dto.BoardCommentDTO">
+        <result property="uid" column="uid"/>
+        <result property="boardUid" column="board_uid"/>
+        <result property="accountUid" column="account_uid"/>
+        <result property="body" column="body"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <collection property="emotionCount" column="{board_comment_uid=uid}" javaType="Integer"
+                    select="getBoardCommentEmotionCount"/>
+    </resultMap>
+
+    <select id="getBoardCommentEmotionCount" resultType="Integer">
+        SELECT count(*)
+        FROM `board_comment_emotion`
+        WHERE `board_comment_uid` = #{board_comment_uid}
+    </select>
     <!--    CRUD    -->
     <insert id="createComment">
         <!-- db 구조 -->
@@ -8,10 +24,11 @@
         VALUES (#{comment.boardUid}, #{comment.accountUid}, #{comment.body});
     </insert>
 
-    <select id="getComment" resultType="domain.dto.BoardCommentDTO">
+    <select id="getComment" resultType="domain.dto.BoardCommentDTO" resultMap="BoardComment">
         SELECT BC.`uid`,
                BC.`account_uid`,
                A.`nickname`,
+               BC.`board_uid`,
                BC.`body`,
                BC.`created_at`,
                BC.`updated_at`,
@@ -25,7 +42,7 @@
                  BC.`account_uid` = A.`uid`
         WHERE board_uid = #{board_uid}
         ORDER BY `created_at` ASC
-            LIMIT ${page}, ${range};
+        LIMIT ${page}, ${range};
     </select>
 
     <update id="updateComment">
