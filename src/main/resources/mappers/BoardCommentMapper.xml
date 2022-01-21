@@ -5,7 +5,7 @@
     <insert id="createComment">
         <!-- db 구조 -->
         INSERT INTO board_comment(`board_uid`, `account_uid`, `body`)
-        VALUES (#{comment.board_uid}, #{comment.account_uid}, #{comment.body});
+        VALUES (#{comment.boardUid}, #{comment.accountUid}, #{comment.body});
     </insert>
 
     <select id="getComment" resultType="domain.dto.BoardCommentDTO">

@@ -1,7 +1,11 @@
 package domain.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class BoardCommentEmotionDTO {
+    @ApiModelProperty(hidden = true)
     private Long accountUid;
+    @ApiModelProperty(hidden = true)
     private String nickname;
     private Short status;
 

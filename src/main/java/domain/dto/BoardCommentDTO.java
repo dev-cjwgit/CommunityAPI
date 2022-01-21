@@ -1,14 +1,26 @@
 package domain.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
 
 public class BoardCommentDTO {
+    @ApiModelProperty(hidden = true)
     private Long uid;
+
+    private Long boardUid;
+
+    @ApiModelProperty(hidden = true)
     private Long accountUid;
+    @ApiModelProperty(hidden = true)
     private String nickname;
+
     private String body;
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
+    @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
+    @ApiModelProperty(hidden = true)
     private Integer emotion;
 
 
@@ -26,6 +38,14 @@ public class BoardCommentDTO {
 
     public void setAccountUid(Long accountUid) {
         this.accountUid = accountUid;
+    }
+
+    public Long getBoardUid() {
+        return boardUid;
+    }
+
+    public void setBoardUid(Long boardUid) {
+        this.boardUid = boardUid;
     }
 
     public String getNickname() {

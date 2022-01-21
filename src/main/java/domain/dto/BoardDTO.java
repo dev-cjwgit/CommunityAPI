@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class BoardDTO {
-    @ApiModelProperty(hidden = true)
     private Long uid;
     private String title;
     @ApiModelProperty(hidden = true)
