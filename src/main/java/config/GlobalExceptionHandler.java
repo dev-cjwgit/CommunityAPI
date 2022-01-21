@@ -9,6 +9,7 @@ import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,11 +32,15 @@ public class GlobalExceptionHandler {
 
         if (e instanceof BaseException) {
             baseException = (BaseException) e;
-        } else if (e instanceof MethodArgumentNotValidException) {
+        } else if (e instanceof MethodArgumentNotValidException || e instanceof org.springframework.validation.BindingResult) {
             baseException = new BaseException(ErrorMessage.VALIDATION_FAIL_EXCEPTION);
 
             //validation error message에서 본인이 domain에 작성한 default message만 가져오도록 하는
-            List<ObjectError> messageList = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
+            List<ObjectError> messageList = null;
+            if (e instanceof MethodArgumentNotValidException)
+                messageList = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
+            else
+                messageList = ((org.springframework.validation.BindingResult) e).getAllErrors();
             for (int i = 0; i < messageList.size(); i++) {
                 String validationMessage = messageList.get(i).getDefaultMessage();
                 baseException.appendMsg(validationMessage);

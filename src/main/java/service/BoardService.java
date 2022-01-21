@@ -41,43 +41,11 @@ public class BoardService implements IBoardService {
 
     @Override
     public List<BoardDTO> getSummaryBoardList(BoardSearchModel board) throws Exception {
-        return boardMapper.getBoard(board);
+        return boardMapper.getBoardSummaryList(board);
     }
 
     @Override
-    public List<BoardDTO> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception {
-        if (title.length() < 2 && body.length() < 2)
-            throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
-
-        if (title.length() < 2)
-            title = null;
-        if (body.length() < 2)
-            body = null;
-
-        page = (page - 1) * range;
-        return boardMapper.searchSummaryBoardTitleBody(title, body, page, range);
-    }
-
-    @Override
-    public List<BoardDTO> searchSummaryBoardNickName(String nickname, int page, int range) throws Exception {
-        if (nickname.length() < 2)
-            throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
-
-        page = (page - 1) * range;
-        return boardMapper.searchSummaryBoardNickName(nickname, page, range);
-    }
-
-    @Override
-    public List<BoardDTO> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception {
-        if (nickname.length() < 2)
-            throw new BaseException(ErrorMessage.SEARCH_WORD_LENGTH);
-
-        page = (page - 1) * range;
-        return boardMapper.searchSummaryBoardCommentNickName(nickname, page, range);
-    }
-
-    @Override
-    public BoardDTO getBoardInfo(Long board_uid) throws Exception {
+    public BoardDTO getBoard(Long board_uid) throws Exception {
         AccountDTO servAccountDTO = authService.authUser();
 
 //        long user_uid = Long.parseLong(data.get("uid").toString());
@@ -86,7 +54,7 @@ public class BoardService implements IBoardService {
         if (board_onwer == null)
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
-        return boardMapper.getBoardInfo(board_uid);
+        return boardMapper.getBoard(board_uid);
     }
 
     @Override

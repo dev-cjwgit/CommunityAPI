@@ -12,13 +12,7 @@ public interface IBoardService {
 
     List<BoardDTO> getSummaryBoardList(BoardSearchModel board) throws Exception;
 
-    List<BoardDTO> searchSummaryBoardTitleBody(String title, String body, int page, int range) throws Exception;
-
-    List<BoardDTO> searchSummaryBoardNickName(String nickname, int page, int range) throws Exception;
-
-    List<BoardDTO> searchSummaryBoardCommentNickName(String nickname, int page, int range) throws Exception;
-
-    BoardDTO getBoardInfo(Long board_uid) throws Exception;
+    BoardDTO getBoard(Long board_uid) throws Exception;
 
     BaseResponse updateBoard(BoardDTO board) throws Exception;
 

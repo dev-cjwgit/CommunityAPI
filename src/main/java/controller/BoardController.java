@@ -1,5 +1,6 @@
 package controller;
 
+import annotation.ValidationGroups;
 import domain.dto.BoardDTO;
 import domain.param.BoardSearchModel;
 import io.swagger.annotations.ApiOperation;
@@ -29,14 +30,14 @@ public class BoardController {
 
     @RequestMapping(value = "/summaryboard", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 목록 요약 보기", notes = "게시글 요약 목록을 보기 위한 API입니다.")
-    public ResponseEntity searchSummaryBoard(@ModelAttribute(value = "board") BoardSearchModel board) throws Exception {
+    public ResponseEntity searchSummaryBoard(@ModelAttribute(value = "board") @Validated(ValidationGroups.searchBoard.class) BoardSearchModel board) throws Exception {
         return new ResponseEntity(boardService.getSummaryBoardList(board), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/boardinfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/board", method = RequestMethod.GET)
     @ApiOperation(value = "게시글 상세 보기", notes = "게시글을 상세하게 보기 위한 API입니다. {게시글 고유번호}")
-    public ResponseEntity getBoardInfo(Long boardUid) throws Exception {
-        return new ResponseEntity(boardService.getBoardInfo(boardUid), HttpStatus.OK);
+    public ResponseEntity getBoard(Long boardUid) throws Exception {
+        return new ResponseEntity(boardService.getBoard(boardUid), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/board", method = RequestMethod.PUT)

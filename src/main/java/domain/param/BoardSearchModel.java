@@ -1,21 +1,19 @@
 package domain.param;
 
+import annotation.ValidationGroups;
 import domain.Pagination;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
 public class BoardSearchModel extends Pagination {
-    private Long uid;
+    @Size(min = 2, groups = {ValidationGroups.searchBoard.class}, message = "제목은 최소 2글자 이상으로 검색해야 합니다.")
     private String title;
+    @Size(min = 2, groups = {ValidationGroups.searchBoard.class}, message = "닉네임은 최소 2글자 이상으로 검색해야 합니다.")
     private String nickname;
+    @Size(min = 2, groups = {ValidationGroups.searchBoard.class}, message = "글 내용은 최소 2글자 이상으로 검색해야 합니다.")
     private String body;
-    private Boolean detail;
 
-    public Long getUid() {
-        return uid;
-    }
-
-    public void setUid(Long uid) {
-        this.uid = uid;
-    }
 
     public String getTitle() {
         return title;
@@ -41,11 +39,4 @@ public class BoardSearchModel extends Pagination {
         this.body = body;
     }
 
-    public Boolean getDetail() {
-        return detail;
-    }
-
-    public void setDetail(Boolean detail) {
-        this.detail = detail;
-    }
 }

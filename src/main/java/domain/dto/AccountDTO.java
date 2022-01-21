@@ -27,7 +27,7 @@ public class AccountDTO {
     private String name;
 
     @NotNull(groups = {ValidationGroups.signup.class}, message = "별명은 공백일 수 없습니다.")
-    @Size(min = 1, max = 30, groups = {ValidationGroups.signup.class}, message = "별명은 1글자이상 30글자 이하입니다.")
+    @Size(min = 4, max = 30, groups = {ValidationGroups.signup.class}, message = "별명은 4글자이상 30글자 이하입니다.")
     @Pattern(regexp = "^[a-zA-Z가-힣0-9]{1,20}$", groups = {ValidationGroups.signup.class}, message = "별명은 특수문자와 초성은 사용불가능합니다")
     private String nickname;
 

@@ -15,6 +15,15 @@
                     ofType="domain.dto.BoardEmotionDTO" select="getBoardEmotion"/>
     </resultMap>
 
+    <resultMap id="BoardSummary" type="domain.dto.BoardDTO">
+        <result property="uid" column="uid"/>
+        <result property="title" column="title"/>
+        <result property="nickname" column="nickname"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <collection property="emotionCount" column="{board_uid=uid}" javaType="Integer" select="getBoardEmotionCount"/>
+    </resultMap>
+
     <resultMap id="BoardEmotion" type="domain.dto.BoardEmotionDTO">
         <result property="boardUid" column="board_uid"/>
         <result property="accountUid" column="account_uid"/>
@@ -130,17 +139,12 @@
         WHERE board_uid = #{board_uid}
     </select>
 
-    <select id="getBoard" resultType="domain.dto.BoardDTO" resultMap="Board">
+    <select id="getBoardSummaryList" resultType="domain.dto.BoardDTO" resultMap="BoardSummary">
         SELECT B.`uid`,
         B.`title`,
         A.`nickname`,
         B.`created_at`,
-        <if test="board.detail">
-            A.`uid` as accountUid,
-            B.`body`,
-        </if>
         B.`updated_at`
-
 
         FROM board B
         LEFT OUTER JOIN
@@ -148,21 +152,31 @@
         ON
         B.`account_uid` = A.`uid`
         <where>
-            <choose>
-                <when test="board.uid == null">
-                    <if test="board.title != null">AND B.`title` LIKE "%${board.title}%"</if>
-                    <if test="board.body != null">AND B.`body` LIKE "%${board.body}%"</if>
-                    <if test="board.nickname != null">
-                        B.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%${board.nickname}%")
-                    </if>
-                </when>
-                <otherwise>
-                    AND B.`uid` = ${board.uid}
-                </otherwise>
-            </choose>
+
+            <if test="board.title != null">AND B.`title` LIKE "%${board.title}%"</if>
+            <if test="board.body != null">AND B.`body` LIKE "%${board.body}%"</if>
+            <if test="board.nickname != null">
+               AND B.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%${board.nickname}%")
+            </if>
         </where>
         ORDER BY B.`created_at` DESC
         LIMIT ${board.page}, ${board.range};
+    </select>
+
+    <select id="getBoard" resultType="domain.dto.BoardDTO" resultMap="Board">
+        SELECT B.`uid`,
+               B.`title`,
+               A.`nickname`,
+               A.`uid` as account_uid,
+               B.`body`,
+               B.`created_at`,
+               B.`updated_at`
+        FROM board B
+                 LEFT OUTER JOIN
+             account A
+             ON
+                 B.`account_uid` = A.`uid`
+        WHERE B.`uid` = ${board_uid};
     </select>
 
     <select id="getBoardListCnt" resultType="Long">

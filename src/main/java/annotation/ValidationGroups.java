@@ -11,4 +11,6 @@ public class ValidationGroups {
     public interface login extends Default {};
 
     public interface withdraw extends Default{};
+
+    public interface searchBoard extends Default{};
 }
