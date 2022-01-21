@@ -37,7 +37,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Stock API Document")
+                .title("Community API Document")
                 .description("API 설명")
                 .version("1.0.0")
                 .build();
