@@ -5,9 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.sql.Timestamp;
 
 public class BoardCommentDTO {
-    @ApiModelProperty(hidden = true)
     private Long uid;
-
     private Long boardUid;
 
     @ApiModelProperty(hidden = true)

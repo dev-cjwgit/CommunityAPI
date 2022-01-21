@@ -36,7 +36,7 @@ public class BoardCommentService implements IBoardCommentService {
     public BaseResponse createComment(BoardCommentDTO comment) throws Exception {
         AccountDTO servAccountDTO = authService.authUser();
 
-        BoardDTO board = boardMapper.getBoardInfo(comment.getUid());
+        BoardDTO board = boardMapper.getBoard(comment.getBoardUid());
 
         if (board == null)
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
@@ -55,7 +55,7 @@ public class BoardCommentService implements IBoardCommentService {
     public List<BoardCommentDTO> getComment(Long board_uid, int page, int range) throws Exception {
         AccountDTO servAccountDTO = authService.authUser();
 
-        BoardDTO board = boardMapper.getBoardInfo(board_uid);
+        BoardDTO board = boardMapper.getBoard(board_uid);
 
         if (board == null)
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
