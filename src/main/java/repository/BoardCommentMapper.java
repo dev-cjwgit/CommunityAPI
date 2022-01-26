@@ -1,5 +1,6 @@
 package repository;
 
+import domain.Pagination;
 import domain.dto.BoardCommentEmotionDTO;
 import domain.dto.BoardCommentDTO;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface BoardCommentMapper {
     void createComment(@Param(value = "comment") BoardCommentDTO comment);
 
-    List<BoardCommentDTO> getComment(@Param(value = "board_uid") Long board_uid, @Param(value = "page") int page, @Param(value = "range") int range);
+    List<BoardCommentDTO> getComment(@Param(value = "board_uid") Long board_uid, @Param(value = "page") Pagination page);
 
     void updateComment(@Param(value = "comment") BoardCommentDTO comment);
 

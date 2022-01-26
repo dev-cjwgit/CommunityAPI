@@ -1,5 +1,6 @@
 package controller;
 
+import domain.Pagination;
 import domain.dto.BoardCommentDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import service.interfaces.IBoardCommentService;
 @Controller
 public class BoardCommentController {
     /**
+     *
      */
     @Autowired
     private IBoardCommentService boardCommentService;
@@ -25,8 +27,8 @@ public class BoardCommentController {
 
     @RequestMapping(value = "/board/comment", method = RequestMethod.GET)
     @ApiOperation(value = "댓글 불러오기", notes = "게시글에 댓글을 불러오기 위한 API입니다. {게시글 고유번호}")
-    public ResponseEntity getComment(Long boardUid, @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false, defaultValue = "10") int range) throws Exception {
-        return new ResponseEntity(boardCommentService.getComment(boardUid, page, range), HttpStatus.OK);
+    public ResponseEntity getComment(Long boardUid, @ModelAttribute(value = "page") Pagination page) throws Exception {
+        return new ResponseEntity(boardCommentService.getComment(boardUid, page), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/board/comment", method = RequestMethod.PUT)

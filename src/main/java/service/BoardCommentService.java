@@ -1,5 +1,6 @@
 package service;
 
+import domain.Pagination;
 import domain.dto.AccountDTO;
 import domain.dto.BoardCommentEmotionDTO;
 import domain.dto.BoardCommentDTO;
@@ -52,7 +53,7 @@ public class BoardCommentService implements IBoardCommentService {
     }
 
     @Override
-    public List<BoardCommentDTO> getComment(Long board_uid, int page, int range) throws Exception {
+    public List<BoardCommentDTO> getComment(Long board_uid, Pagination page) throws Exception {
         AccountDTO servAccountDTO = authService.authUser();
 
         BoardDTO board = boardMapper.getBoard(board_uid);
@@ -60,8 +61,7 @@ public class BoardCommentService implements IBoardCommentService {
         if (board == null)
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
 
-        page = (page - 1) * range;
-        return boardCommentMapper.getComment(board_uid, page, range);
+        return boardCommentMapper.getComment(board_uid, page);
     }
 
     @Override

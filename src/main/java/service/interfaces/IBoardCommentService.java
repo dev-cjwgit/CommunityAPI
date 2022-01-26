@@ -1,5 +1,6 @@
 package service.interfaces;
 
+import domain.Pagination;
 import domain.dto.BoardCommentEmotionDTO;
 import domain.dto.BoardCommentDTO;
 import response.BaseResponse;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface IBoardCommentService {
     BaseResponse createComment(BoardCommentDTO comment) throws Exception;
 
-    List<BoardCommentDTO> getComment(Long board_uid, int page, int range) throws Exception;
+    List<BoardCommentDTO> getComment(Long board_uid, Pagination page) throws Exception;
 
     BaseResponse updateComment(BoardCommentDTO comment) throws Exception;
 

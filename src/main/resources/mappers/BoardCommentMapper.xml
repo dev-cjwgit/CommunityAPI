@@ -12,6 +12,13 @@
                     select="getBoardCommentEmotionCount"/>
     </resultMap>
 
+    <resultMap id="BoardCommentEmotion" type="domain.dto.BoardCommentEmotionDTO">
+        <result property="boardUid" column="board_uid"/>
+        <result property="accountUid" column="account_uid"/>
+        <result property="nickname" column="nickname"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
     <select id="getBoardCommentEmotionCount" resultType="Integer">
         SELECT count(*)
         FROM `board_comment_emotion`
@@ -42,7 +49,7 @@
                  BC.`account_uid` = A.`uid`
         WHERE board_uid = #{board_uid}
         ORDER BY `created_at` ASC
-        LIMIT ${page}, ${range};
+        LIMIT ${page.page}, ${page.range};
     </select>
 
     <update id="updateComment">
@@ -78,7 +85,7 @@
           AND `account_uid` = ${account_uid};
     </delete>
 
-    <select id="getBoardCommentEmotion" resultType="domain.dto.BoardCommentEmotionDTO">
+    <select id="getBoardCommentEmotion" resultType="domain.dto.BoardCommentEmotionDTO" resultMap="BoardCommentEmotion">
         SELECT BCE.`account_uid`,
                A.`nickname`,
                BCE.`status`
