@@ -29,7 +29,7 @@ public class BoardDTO {
     private ArrayList<BoardEmotionDTO> emotionList;
 
     @ApiModelProperty(hidden = true)
-    private Integer views;
+    private Integer views = 0;
 
     public BoardDTO() {
 
