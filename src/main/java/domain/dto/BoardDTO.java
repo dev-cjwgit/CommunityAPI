@@ -28,6 +28,9 @@ public class BoardDTO {
     @ApiModelProperty(hidden = true)
     private ArrayList<BoardEmotionDTO> emotionList;
 
+    @ApiModelProperty(hidden = true)
+    private Integer views;
+
     public BoardDTO() {
 
     }
@@ -102,5 +105,13 @@ public class BoardDTO {
 
     public void setEmotionList(ArrayList<BoardEmotionDTO> emotionList) {
         this.emotionList = emotionList;
+    }
+
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
     }
 }

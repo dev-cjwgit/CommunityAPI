@@ -13,6 +13,7 @@
         <collection property="emotionCount" column="{board_uid=uid}" javaType="Integer" select="getBoardEmotionCount"/>
         <collection property="emotionList" column="{board_uid=uid}" javaType="java.util.ArrayList"
                     ofType="domain.dto.BoardEmotionDTO" select="getBoardEmotion"/>
+        <collection property="views" column="{board_uid=uid}" javaType="Integer" ofType="Long" select="getBoardViews"/>
     </resultMap>
 
     <resultMap id="BoardSummary" type="domain.dto.BoardDTO">
@@ -22,6 +23,7 @@
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
         <collection property="emotionCount" column="{board_uid=uid}" javaType="Integer" select="getBoardEmotionCount"/>
+        <collection property="views" column="{board_uid=uid}" javaType="Integer" ofType="Long" select="getBoardViews"/>
     </resultMap>
 
     <resultMap id="BoardEmotion" type="domain.dto.BoardEmotionDTO">
@@ -29,6 +31,13 @@
         <result property="accountUid" column="account_uid"/>
         <result property="nickname" column="nickname"/>
         <result property="status" column="status"/>
+    </resultMap>
+
+    <resultMap id="BoardView" type="domain.dto.BoardViewDTO">
+        <result property="boardUid" column="board_uid"/>
+        <result property="accountUid" column="account_uid"/>
+        <result property="view" column="view"/>
+        <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
     <select id="getBoardEmotion" resultType="domain.dto.BoardEmotionDTO" resultMap="BoardEmotion">
@@ -55,6 +64,31 @@
         WHERE board_uid = #{board_uid}
     </select>
 
+    <select id="getBoardViews" resultType="Integer">
+        SELECT sum(view)
+        FROM board_views
+        WHERE board_uid = #{board_uid}
+    </select>
+
+    <select id="getBoardView" resultType="domain.dto.BoardViewDTO" resultMap="BoardView">
+        SELECT `updated_at`
+        FROM `board_views`
+        WHERE `board_uid` = #{board_uid}
+          AND `account_uid` = #{account_uid}
+    </select>
+
+    <update id="updateView">
+        UPDATE `board_views`
+        SET `view` = `view` + 1
+        WHERE `board_uid` = #{board_uid}
+          AND `account_uid` = #{account_uid}
+    </update>
+
+    <insert id="appendView">
+        INSERT INTO `board_views`(`board_uid`, `account_uid`)
+        VALUES (#{board_uid}, #{account_uid})
+    </insert>
+
     <select id="getBoardSummaryList" resultType="domain.dto.BoardDTO" resultMap="BoardSummary">
         SELECT B.`uid`,
         B.`title`,
@@ -72,7 +106,7 @@
             <if test="board.title != null">AND B.`title` LIKE "%${board.title}%"</if>
             <if test="board.body != null">AND B.`body` LIKE "%${board.body}%"</if>
             <if test="board.nickname != null">
-               AND B.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%${board.nickname}%")
+                AND B.`account_uid` IN (SELECT uid FROM account WHERE nickname LIKE "%${board.nickname}%")
             </if>
         </where>
         ORDER BY B.`created_at` DESC

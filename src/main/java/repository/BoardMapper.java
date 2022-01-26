@@ -1,7 +1,9 @@
 package repository;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
+import domain.dto.BoardViewDTO;
 import domain.param.BoardSearchModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,12 @@ public interface BoardMapper {
     BoardDTO getBoard(@Param(value = "board_uid") Long board_uid);
 
     List<BoardDTO> getBoardSummaryList(@Param(value = "board") BoardSearchModel board);
+
+    BoardViewDTO getBoardView(@Param(value = "board_uid") Long board_uid, @Param(value = "account_uid") Long account_uid);
+
+    void updateView(@Param(value = "board_uid") Long board_uid, @Param(value = "account_uid") Long account_uid);
+
+    void appendView(@Param(value = "board_uid") Long board_uid, @Param(value = "account_uid") Long account_uid);
 
     void updateBoard(@Param(value = "board") BoardDTO board);
 

@@ -3,6 +3,7 @@ package service;
 import domain.dto.AccountDTO;
 import domain.dto.BoardEmotionDTO;
 import domain.dto.BoardDTO;
+import domain.dto.BoardViewDTO;
 import domain.param.BoardSearchModel;
 import enums.ErrorMessage;
 import exception.BaseException;
@@ -14,6 +15,7 @@ import response.BaseResponse;
 import service.interfaces.IAuthService;
 import service.interfaces.IBoardService;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -56,8 +58,19 @@ public class BoardService implements IBoardService {
 
         if (board_onwer == null)
             throw new BaseException(ErrorMessage.NOT_EXIST_BOARD);
+        BoardDTO boardDTO = boardMapper.getBoard(board_uid);
+        BoardViewDTO boardViewDTO = boardMapper.getBoardView(board_uid, servAccountDTO.getUid());
+        if (boardViewDTO == null) {
+            boardMapper.appendView(board_uid, servAccountDTO.getUid());
+        } else {
+            Long datetime = System.currentTimeMillis();
+            Timestamp timestamp = new Timestamp(datetime);
+            if ((timestamp.getTime() - boardViewDTO.getUpdatedAt().getTime()) / 1000 / 60 / 30 > 0) {
+                boardMapper.updateView(board_uid, servAccountDTO.getUid());
+            }
+        }
 
-        return boardMapper.getBoard(board_uid);
+        return boardDTO;
     }
 
     @Override
